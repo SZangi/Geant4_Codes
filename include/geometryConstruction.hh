@@ -22,6 +22,9 @@ public:
   G4Material *mixScintillator();
   G4Material *mixAir();
   G4Material *mixTritium();
+  G4Material *Boron();
+  G4Material *Hydrogen();
+  G4Material *mixHelium3();
 };
 
 #endif

@@ -33,6 +33,9 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   G4Material *scintillator = mixScintillator();
   G4Material *air = mixAir();
   G4Material *tritium = mixTritium();
+  G4Material *boron = Boron();
+  G4Material *hydrogen = Hydrogen();
+  G4Material *helium3 = mixHelium3();
     
   // Create the top-level volume in the geometry hierarchy, known as
   // the world volume.  Note that the world volume is almost always a
@@ -110,9 +113,9 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   // Create the necessary volumes for the scintillator pieces, which
   // are modelled as thin, square tiles
 
-  G4double scintBoxX = 3.*cm;
+  G4double scintBoxX = 3.*cm; // remember all of these are half widths
   G4double scintBoxY = 3.*cm;
-  G4double scintBoxZ = 100*um;
+  G4double scintBoxZ = 0.5*um;
 
   // Create solid volume representing the shape of the tiles
   G4Box *scint_s = new G4Box("scint_s",scintBoxX,scintBoxY,scintBoxZ);
@@ -120,7 +123,7 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   // 2 different logical volumes created to two different colors 
   // can be applied...remember, its all about the style points.
   G4LogicalVolume *scint_l1 = new G4LogicalVolume(scint_s,
-						  tritium,
+						  boron,
 						  "scint_l1",
 						  0,
 						  0,
@@ -270,3 +273,53 @@ G4Material *geometryConstruction::mixTritium() {
   return Tritium;
 }
 
+G4Material *geometryConstruction::Boron() {
+  // Boron
+  G4double a;
+  G4double z;
+  G4double n;
+  G4double density = 2.46*g/cm3;
+  G4int nComp;
+
+  G4Isotope *B11 = new G4Isotope("Boron11", z= 5, n= 11, a= 11.009305 *g/mole);
+  G4Element *PureB11 = new G4Element("Elemental Boron 11", "B11", nComp = 1);
+  PureB11 -> AddIsotope(B11, 100. *perCent);
+  G4Material *Boron11 = new G4Material("MixBoron11", density, nComp);
+  Boron11 -> AddElement(PureB11, 100. *perCent);
+
+  return Boron11;
+}
+
+G4Material *geometryConstruction::Hydrogen() {
+  // Regular Hydrogen
+  G4double a;
+  G4double z;
+  G4double n;
+  G4double density = 0.0763*g/cm3;
+  G4int nComp;
+
+  G4Isotope *H1 = new G4Isotope("H1", z= 1, n= 1, a= 1.004 *g/mole);
+  G4Element *PureH1 = new G4Element("Elemental Hydrogen", "PureH1", nComp = 1);
+  PureH1 -> AddIsotope(H1, 100. *perCent);
+  G4Material *Hydrogen1 = new G4Material("Hydrogen1", density, nComp);
+  Hydrogen1 -> AddElement(PureH1, 100. *perCent);
+
+  return Hydrogen1;
+}
+
+G4Material *geometryConstruction::mixHelium3() {
+  // Helium 3
+  G4double a;
+  G4double z;
+  G4double n;
+  G4double density = 0.000689*g/cm3;
+  G4int nComp;
+
+  G4Isotope *He3 = new G4Isotope("IsoHe3", z= 2, n= 3, a= 3.016 *g/mole);
+  G4Element *PureHe3 = new G4Element("Elemental He3", "PureHe3", nComp = 1);
+  PureHe3 -> AddIsotope(He3, 100. *perCent);
+  G4Material *Helium3 = new G4Material("Helium3", density, nComp);
+  Helium3 -> AddElement(PureHe3, 100. *perCent);
+
+  return Helium3;
+}

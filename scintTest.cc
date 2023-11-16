@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
     UI -> ApplyCommand("/event/verbose 0");
     UI -> ApplyCommand("/hits/verbose 0");
     UI -> ApplyCommand("/tracking/verbose 0");
-    UI -> ApplyCommand("/tracking/storeTrajectory 1");
+    //UI -> ApplyCommand("/tracking/storeTrajectory 1");
     UI -> ApplyCommand("/vis/scene/add/trajectories");
 
     UIExecutive -> SessionStart();
