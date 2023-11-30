@@ -366,6 +366,30 @@ src/steppingAction.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/steppingAction.cc.s
 .PHONY : src/steppingAction.cc.s
 
+src/trackAction.o: src/trackAction.cc.o
+.PHONY : src/trackAction.o
+
+# target to build an object file
+src/trackAction.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/trackAction.cc.o
+.PHONY : src/trackAction.cc.o
+
+src/trackAction.i: src/trackAction.cc.i
+.PHONY : src/trackAction.i
+
+# target to preprocess a source file
+src/trackAction.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/trackAction.cc.i
+.PHONY : src/trackAction.cc.i
+
+src/trackAction.s: src/trackAction.cc.s
+.PHONY : src/trackAction.s
+
+# target to generate assembly for a file
+src/trackAction.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/trackAction.cc.s
+.PHONY : src/trackAction.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -403,6 +427,9 @@ help:
 	@echo "... src/steppingAction.o"
 	@echo "... src/steppingAction.i"
 	@echo "... src/steppingAction.s"
+	@echo "... src/trackAction.o"
+	@echo "... src/trackAction.i"
+	@echo "... src/trackAction.s"
 .PHONY : help
 
 

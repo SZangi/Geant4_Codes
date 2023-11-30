@@ -1,10 +1,9 @@
-#ifndef eventAction_hh
-#define eventAction_hh 1
+#ifndef trackAction_hh
+#define trackAction_hh 1
 
-#include "G4UserEventAction.hh"
-#include "G4Event.hh"
+#include "G4UserTrackingAction.hh"
+#include "G4Track.hh"
 
-#include "eventActionMessenger.hh"
 
 #include <fstream>
 
@@ -15,7 +14,7 @@
 // to data files, thus, it has user- controlled functions, which are
 // set through eventActionMessenger, which control data output
 
-class eventAction : public G4UserEventAction
+class trackingAction : public G4UserTrackingAction
 {
 
 public:
@@ -41,16 +40,6 @@ public:
     ParticleEnergy += PartEnergy;
   }
 
-  void GetMomentumDir(G4ThreeVector PartMomentumDir)
-  {
-    MomentumDirection = PartMomentumDir;
-  }
-
-  void GetPosition(G4ThreeVector PartPosition)
-  {
-    ParticlePosition = PartPosition;
-  }
-
   // The following two functions are called from eventActionMessenger
   // at runtime when the user desires to change something....
   void SetDataOutput(G4String onOff)
@@ -67,10 +56,6 @@ private:
   G4double ParticleEnergy;
 
   G4bool dataOutputSwitch;
-
-  G4ThreeVector MomentumDirection;
-
-  G4ThreeVector ParticlePosition;
   
   eventActionMessenger *eventMessenger;
   

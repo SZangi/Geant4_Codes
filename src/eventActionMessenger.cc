@@ -12,7 +12,6 @@ eventActionMessenger::eventActionMessenger(eventAction *eventAction)
   : EA(eventAction) //what is this?
 {
   // Creates a new directory where the commands will live
-  // sets up a new type of command? is the directory just in the vis window?
   outputDir = new G4UIdirectory("/scintTest/output/");
   outputDir -> SetGuidance("Data output control");
 

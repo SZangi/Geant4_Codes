@@ -25,6 +25,7 @@ public:
   G4Material *Boron();
   G4Material *Hydrogen();
   G4Material *mixHelium3();
+  G4Material *mixLithium();
 };
 
 #endif

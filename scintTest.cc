@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
   // Activate command-based scorer
   G4ScoringManager::GetScoringManager();
 
-  //activate analysis manager???????
+  //activate analysis manager
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
   // Activate command based histogramming??
@@ -114,8 +114,8 @@ int main(int argc, char *argv[])
     UI -> ApplyCommand("/event/verbose 0");
     UI -> ApplyCommand("/hits/verbose 0");
     UI -> ApplyCommand("/tracking/verbose 0");
-    //UI -> ApplyCommand("/tracking/storeTrajectory 1");
-    UI -> ApplyCommand("/vis/scene/add/trajectories");
+    UI -> ApplyCommand("/tracking/storeTrajectory 0");
+    //UI -> ApplyCommand("/vis/scene/add/trajectories");
 
     UIExecutive -> SessionStart();
 

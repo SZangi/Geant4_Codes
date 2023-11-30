@@ -16,6 +16,6 @@
 /vis/scene/endOfEventAction accumulate -1
 
 #Plot only neutrons
-/vis/filtering/trajectories/create/particleFilter
-/vis/filtering/trajectories/particleFilter-0/add neutron
-/vis/filtering/trajectories/particleFilter-0/add gamma
+#/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/particleFilter-0/add neutron
+#/vis/filtering/trajectories/particleFilter-0/add gamma

@@ -23,15 +23,23 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
 
   // Get the current particle track
   G4Track *currentTrack = currentStep -> GetTrack();
-   
+
   // Determine what volume the particle is currently in
   G4String currentVolumeName = currentTrack -> GetVolume() -> GetName();
+  G4String currentParticleType = currentTrack -> GetParticleDefinition() -> GetParticleName();
   
-  // If in scintillator tile 1, get the energy deposited...
-  G4double EDepTile1 = 0.;
-  if(currentVolumeName == "scint_p1")
-    EDepTile1 = currentStep -> GetTotalEnergyDeposit();
-  
+  // If in the scoring volume & a neutron, get a bunch of info about the particle...
+  G4double PartNrg = 0.;
+  G4ThreeVector PartMomentumD;
+  G4ThreeVector PartPosition;
+  if (currentParticleType == "neutron") 
+    if(currentVolumeName == "score_p")
+      // get energy of particle
+      PartNrg = currentTrack -> GetKineticEnergy();
+      PartMomentumD = currentTrack -> GetMomentumDirection();
+      PartPosition = currentTrack -> GetPosition();
+      
+
   // If in scintillator tile 2, get the energy deposited...
   //G4double EDepTile2 = 0.;
   //if(currentVolumeName == "scint_p2")
@@ -40,6 +48,10 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
   
   // Once the energy deposited per step has been collected, send it to 
   // eventAction, which stores the TOTAL energy per each event.  
-  evtAction -> AddEnergyDep(EDepTile1);
+  evtAction -> GetEnergy(PartNrg);
+  evtAction -> GetMomentumDir(PartMomentumD);
+  evtAction -> GetPosition(PartPosition);
+  
+  
 }
 

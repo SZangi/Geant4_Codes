@@ -14,7 +14,7 @@ eventAction::eventAction()
   eventMessenger = new eventActionMessenger(this);
   
   // This sets the name of the default MuSE output data file
-  eventOutput.open("defaultOutput.dat",std::ofstream::trunc);
+  eventOutput.open("defaultOutput.csv",std::ofstream::trunc);
   
   // This is a boolean 'on' or 'off' switch to control data ouput
   dataOutputSwitch = false;
@@ -35,6 +35,9 @@ void eventAction::BeginOfEventAction(const G4Event *)
   // Initialization per event.  We need to reset to the total energy
   // collected at the beginning of each event
   TotalEnergyDepTile1 = 0.;
+  ParticleEnergy = 0.;
+  ParticlePosition = G4ThreeVector(0., 0., 0.);
+  MomentumDirection = G4ThreeVector(0., 0., 0.);
 }
 
 
@@ -43,6 +46,6 @@ void eventAction::BeginOfEventAction(const G4Event *)
 void eventAction::EndOfEventAction(const G4Event *)
 {
   // If the user has turned data output 'on', then do this!
-  if(dataOutputSwitch and (TotalEnergyDepTile1 > 0))
-    eventOutput << TotalEnergyDepTile1/keV << std::endl;
+  if(dataOutputSwitch and (ParticleEnergy > 0))
+    eventOutput << ParticleEnergy/keV << "," << ParticlePosition/cm << "," << MomentumDirection << std::endl;
 }

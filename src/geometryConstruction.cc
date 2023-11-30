@@ -36,6 +36,7 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   G4Material *boron = Boron();
   G4Material *hydrogen = Hydrogen();
   G4Material *helium3 = mixHelium3();
+//  G4Material *lithium = mixLithium();
     
   // Create the top-level volume in the geometry hierarchy, known as
   // the world volume.  Note that the world volume is almost always a
@@ -123,7 +124,7 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   // 2 different logical volumes created to two different colors 
   // can be applied...remember, its all about the style points.
   G4LogicalVolume *scint_l1 = new G4LogicalVolume(scint_s,
-						  boron,
+						  tritium,
 						  "scint_l1",
 						  0,
 						  0,
@@ -264,7 +265,7 @@ G4Material *geometryConstruction::mixTritium() {
   G4double density = 0.257*g/cm3;
   G4int nComp;
 
-  G4Isotope *T = new G4Isotope("Tritium", z= 1, n= 3, a= 3.0161 *g/mole);
+  G4Isotope *T = new G4Isotope("Tritium", z= 1, n= 3, a= 3.014 *g/mole);
   G4Element *PureT = new G4Element("Pure Tritium", "T", nComp = 1);
   PureT -> AddIsotope(T, 100. *perCent);
   G4Material *Tritium = new G4Material("Tritium", density, nComp);
@@ -322,4 +323,19 @@ G4Material *geometryConstruction::mixHelium3() {
   Helium3 -> AddElement(PureHe3, 100. *perCent);
 
   return Helium3;
+}
+
+G4Material *geometryConstruction::mixLithium() {
+  // Natural Lithium
+  G4double a;
+  G4double z;
+  G4double n;
+  G4double density = 0.597*g/cm3;
+  G4int nComp;
+
+  G4Element *Lithium = new G4Element("Lithium", "Li", z=3., a = 6.491 *g/mole);
+  G4Material *NatLithium = new G4Material("NatLi", density, nComp);
+  NatLithium -> AddElement(Lithium, 100. *perCent);
+
+  return NatLithium;
 }
