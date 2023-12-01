@@ -40,12 +40,16 @@ void eventAction::BeginOfEventAction(const G4Event *)
   MomentumDirection = G4ThreeVector(0., 0., 0.);
 }
 
+void eventAction::PrintInfo(){
+  if(dataOutputSwitch and (ParticleEnergy > 0))
+  eventOutput << ParticleEnergy/keV << ";" << ParticlePosition/cm << ";" << MomentumDirection << ";" << ParticleID << std::endl;
+}
 
 // Anything included in this function is performed at the very end of
 // each event's lifetime.
 void eventAction::EndOfEventAction(const G4Event *)
 {
   // If the user has turned data output 'on', then do this!
-  if(dataOutputSwitch and (ParticleEnergy > 0))
-    eventOutput << ParticleEnergy/keV << "," << ParticlePosition/cm << "," << MomentumDirection << std::endl;
+  //if(dataOutputSwitch and (ParticleEnergy > 0))
+  //  eventOutput << ParticleEnergy/keV << "," << ParticlePosition/cm << "," << MomentumDirection << std::endl;
 }

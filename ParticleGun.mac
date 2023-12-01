@@ -20,7 +20,8 @@
 /gps/direction 0. 0. -1.
 #
 # set the energy definition
-/gps/ene/mono 100. keV
+#/gps/ene/mono 100. keV
+/gps/ene/mono 1.5 MeV
 # 
 # Throw some analysis in for fun, and for running fewer macros
 #

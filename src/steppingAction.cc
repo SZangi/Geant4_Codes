@@ -32,7 +32,7 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
   G4double PartNrg = 0.;
   G4ThreeVector PartMomentumD;
   G4ThreeVector PartPosition;
-  if (currentParticleType == "neutron") 
+  if (currentParticleType != "proton") 
     if(currentVolumeName == "score_p")
       // get energy of particle
       PartNrg = currentTrack -> GetKineticEnergy();
@@ -51,7 +51,10 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
   evtAction -> GetEnergy(PartNrg);
   evtAction -> GetMomentumDir(PartMomentumD);
   evtAction -> GetPosition(PartPosition);
-  
+  evtAction -> GetParticleID(currentParticleType);
+  if (currentParticleType != "proton") 
+    if(currentVolumeName == "score_p")
+      evtAction -> PrintInfo();
   
 }
 

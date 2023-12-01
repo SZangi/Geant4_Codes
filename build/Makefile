@@ -366,29 +366,29 @@ src/steppingAction.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/steppingAction.cc.s
 .PHONY : src/steppingAction.cc.s
 
-src/trackAction.o: src/trackAction.cc.o
-.PHONY : src/trackAction.o
+src/trackingAction.o: src/trackingAction.cc.o
+.PHONY : src/trackingAction.o
 
 # target to build an object file
-src/trackAction.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/trackAction.cc.o
-.PHONY : src/trackAction.cc.o
+src/trackingAction.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/trackingAction.cc.o
+.PHONY : src/trackingAction.cc.o
 
-src/trackAction.i: src/trackAction.cc.i
-.PHONY : src/trackAction.i
+src/trackingAction.i: src/trackingAction.cc.i
+.PHONY : src/trackingAction.i
 
 # target to preprocess a source file
-src/trackAction.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/trackAction.cc.i
-.PHONY : src/trackAction.cc.i
+src/trackingAction.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/trackingAction.cc.i
+.PHONY : src/trackingAction.cc.i
 
-src/trackAction.s: src/trackAction.cc.s
-.PHONY : src/trackAction.s
+src/trackingAction.s: src/trackingAction.cc.s
+.PHONY : src/trackingAction.s
 
 # target to generate assembly for a file
-src/trackAction.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/trackAction.cc.s
-.PHONY : src/trackAction.cc.s
+src/trackingAction.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/trackingAction.cc.s
+.PHONY : src/trackingAction.cc.s
 
 # Help Target
 help:
@@ -427,9 +427,9 @@ help:
 	@echo "... src/steppingAction.o"
 	@echo "... src/steppingAction.i"
 	@echo "... src/steppingAction.s"
-	@echo "... src/trackAction.o"
-	@echo "... src/trackAction.i"
-	@echo "... src/trackAction.s"
+	@echo "... src/trackingAction.o"
+	@echo "... src/trackingAction.i"
+	@echo "... src/trackingAction.s"
 .PHONY : help
 
 

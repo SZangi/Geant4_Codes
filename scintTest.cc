@@ -55,6 +55,7 @@ text file for simple post-processing.
 #include "PGA.hh"
 #include "steppingAction.hh"
 #include "eventAction.hh"
+//#include "trackingAction.hh"
 
 // This is the main program.  It will set up managers to run and
 // handle the operation of the program and open the user interface, as
@@ -115,7 +116,7 @@ int main(int argc, char *argv[])
     UI -> ApplyCommand("/hits/verbose 0");
     UI -> ApplyCommand("/tracking/verbose 0");
     UI -> ApplyCommand("/tracking/storeTrajectory 0");
-    //UI -> ApplyCommand("/vis/scene/add/trajectories");
+    UI -> ApplyCommand("/vis/scene/add/trajectories");
 
     UIExecutive -> SessionStart();
 

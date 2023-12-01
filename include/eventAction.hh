@@ -51,6 +51,13 @@ public:
     ParticlePosition = PartPosition;
   }
 
+  void GetParticleID(G4String PartID)
+  {
+    ParticleID = PartID;
+  }
+
+  void PrintInfo();
+
   // The following two functions are called from eventActionMessenger
   // at runtime when the user desires to change something....
   void SetDataOutput(G4String onOff)
@@ -71,6 +78,8 @@ private:
   G4ThreeVector MomentumDirection;
 
   G4ThreeVector ParticlePosition;
+
+  G4String ParticleID;
   
   eventActionMessenger *eventMessenger;
   

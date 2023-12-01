@@ -26,10 +26,12 @@ PGA::PGA()
   // do we have to also pick out all the daughter particles and define them here?
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
   G4ParticleDefinition* deuteron = particleTable -> FindParticle("deuteron");
+  G4ParticleDefinition* proton = particleTable -> FindParticle("proton");
   
   // Initialize the particle gun with some default values
-  particleSource -> SetParticleDefinition(deuteron);
-  
+  //particleSource -> SetParticleDefinition(deuteron);
+  particleSource -> SetParticleDefinition(proton);
+
   G4double Px = 0.;
   G4double Py = 0.;
   G4double Pz = -1.;
