@@ -30,7 +30,7 @@ PGA::PGA()
   
   // Initialize the particle gun with some default values
   //particleSource -> SetParticleDefinition(deuteron);
-  particleSource -> SetParticleDefinition(proton);
+  particleSource -> SetParticleDefinition(deuteron);
 
   G4double Px = 0.;
   G4double Py = 0.;

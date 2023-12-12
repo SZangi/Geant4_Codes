@@ -7,7 +7,7 @@
 /vis/scene/create
 
 # Create OpenGL scene handler for compatibility with Qt UI
-/vis/open OGL #TSG
+/vis/open TSG #OGL
 
 # Set an isometric view of the geometry
 /vis/viewer/set/viewpointThetaPhi 50 50 deg
@@ -17,5 +17,5 @@
 
 #Plot only neutrons
 /vis/filtering/trajectories/create/particleFilter
-#/vis/filtering/trajectories/particleFilter-0/add neutron
-/vis/filtering/trajectories/particleFilter-0/add alpha
+/vis/filtering/trajectories/particleFilter-0/add neutron
+#/vis/filtering/trajectories/particleFilter-0/add gamma

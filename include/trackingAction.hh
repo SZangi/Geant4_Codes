@@ -1,5 +1,5 @@
-#ifndef trackingAction_hh
-#define trackingAction_hh 1
+#ifndef trackingAction_h
+#define trackingAction_h 1
 
 #include "G4UserTrackingAction.hh"
 #include "G4Track.hh"

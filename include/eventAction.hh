@@ -7,6 +7,9 @@
 #include "eventActionMessenger.hh"
 
 #include <fstream>
+#include <list>
+
+class runAction;
 
 // eventAction class handles information about entire events.  More
 // specifically, it will receive energy deposited per step from
@@ -19,7 +22,7 @@ class eventAction : public G4UserEventAction
 {
 
 public:
-  eventAction();
+  eventAction(runAction* currentrun);
   ~eventAction();
 
   // These are virtual functions of G4UserEventAction that the user
@@ -35,6 +38,26 @@ public:
   void AddEnergyDep(G4double EDepTile1)  
   {TotalEnergyDepTile1 += EDepTile1;
   };
+
+  void ProcessAdd(G4String PartProcess)
+  { if(PartProcess == "biasWrapper(hIoni)")
+    {  IonizingCol ++;
+      G4String processType = "Ionizing";
+      }
+    if(PartProcess == "biasWrapper(hadElastic)")
+      {ElasticCol ++;
+        G4String processType = "Elastic";}
+    if (PartProcess == "biasWrapper(dInelastic)"){
+      InelasticCol ++;
+      G4String processType = "Inelastic";
+    }
+    if (PartProcess == "DT"){
+      DT ++;
+    }
+        
+  };
+
+  void Secondaries (G4double NumSecondaires);
 
   void GetEnergy(G4double PartEnergy)
   {
@@ -80,10 +103,22 @@ private:
   G4ThreeVector ParticlePosition;
 
   G4String ParticleID;
+
+  G4double InelasticCol;
+
+  G4double IonizingCol;
+
+  G4double ElasticCol;
+
+  G4double DT;
   
   eventActionMessenger *eventMessenger;
   
   std::ofstream eventOutput;
+
+  std::ofstream processOutput;
+
+  runAction* fRunAction = nullptr;
 };
     
 #endif

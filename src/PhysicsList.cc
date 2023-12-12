@@ -7,7 +7,26 @@
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
 
-#include "NeutronHighPrecision.hh"
+#include "G4NuclideTable.hh"
+
+#include "G4HadronElasticPhysicsHP.hh"
+#include "G4HadronElasticPhysicsXS.hh"
+
+#include "G4HadronInelasticQBBC.hh"
+#include "G4HadronPhysicsINCLXX.hh"
+#include "G4HadronPhysicsShielding.hh"
+
+#include "G4IonElasticPhysics.hh"
+#include "G4IonPhysicsXS.hh"
+#include "G4IonQMDPhysics.hh"
+#include "G4IonPhysicsPHP.hh"
+#include "G4IonINCLXXPhysics.hh"
+
+#include "G4EmStandardPhysics.hh"
+
+#include "G4RadioactiveDecayPhysics.hh"
+
+#include "G4GenericBiasingPhysics.hh"
 
 // particles
 
@@ -28,12 +47,33 @@ PhysicsList::PhysicsList()
   
   //add new units
   //
-  new G4UnitDefinition( "millielectronVolt", "meV", "Energy", 1.e-3*eV);   
   new G4UnitDefinition( "mm2/g",  "mm2/g", "Surface/Mass", mm2/g);
-  new G4UnitDefinition( "um2/mg", "um2/mg","Surface/Mass", um*um/mg);  
+  new G4UnitDefinition( "um2/mg", "um2/mg","Surface/Mass", um*um/mg);
     
-  // Neutron Physics
-  RegisterPhysics( new NeutronHPphysics("neutronHP"));  
+  // mandatory for G4NuclideTable
+  //
+  const G4double meanLife = 1*picosecond;  
+  G4NuclideTable::GetInstance()->SetMeanLifeThreshold(meanLife);  
+    
+  // Construct Specific Physics
+    RegisterPhysics( new G4HadronElasticPhysicsXS(1));  
+
+    RegisterPhysics( new G4HadronInelasticQBBC(1));
+
+    RegisterPhysics (new G4EmStandardPhysics(1));
+
+    RegisterPhysics( new G4IonElasticPhysics(1));
+
+    RegisterPhysics( new G4IonPhysicsXS(1));
+
+    RegisterPhysics(new G4RadioactiveDecayPhysics());
+
+  // Add Biasing Physics
+    G4GenericBiasingPhysics* biasingPhysics = new G4GenericBiasingPhysics();
+    biasingPhysics -> Bias("deuteron");
+    RegisterPhysics(biasingPhysics);
+
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

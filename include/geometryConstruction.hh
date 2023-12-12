@@ -3,6 +3,7 @@
 
 #include "G4VPhysicalVolume.hh"
 #include "G4VUserDetectorConstruction.hh"
+#include <G4Material.hh>
 
 // Define the geometryConstruction class where all the physical
 // aspects of the of the simulation will be built: geometry,
@@ -16,6 +17,7 @@ public:
   
   // Main function
   G4VPhysicalVolume *Construct();
+  virtual void     ConstructSDandField();
   
   // Define member functions to create materials
   G4Material *mixVacuum();

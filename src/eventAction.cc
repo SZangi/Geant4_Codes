@@ -6,15 +6,22 @@
 #include "G4PhysicalConstants.hh"
 
 #include "eventAction.hh"
+#include "runAction.hh"
 #include "eventActionMessenger.hh"
+#include "G4RunManager.hh"
 
-eventAction::eventAction()
+eventAction::eventAction(runAction* currentrun)
+: fRunAction(currentrun)
 {
   // Create a messenger to allow user commands 
   eventMessenger = new eventActionMessenger(this);
   
   // This sets the name of the default MuSE output data file
   eventOutput.open("defaultOutput.csv",std::ofstream::trunc);
+
+  // Add a second output file for the processes, so we don't
+  // clog up the data one
+  //processOutput.open("defaultProcessOutput.csv",std::ofstream::trunc);
   
   // This is a boolean 'on' or 'off' switch to control data ouput
   dataOutputSwitch = false;
@@ -24,6 +31,7 @@ eventAction::eventAction()
 eventAction::~eventAction()
 { 
   eventOutput.close();
+  //processOutput.close();
   delete eventMessenger;
 }
 
@@ -38,18 +46,33 @@ void eventAction::BeginOfEventAction(const G4Event *)
   ParticleEnergy = 0.;
   ParticlePosition = G4ThreeVector(0., 0., 0.);
   MomentumDirection = G4ThreeVector(0., 0., 0.);
+  InelasticCol = 0.;
+  ElasticCol = 0.;
+  IonizingCol = 0.;
+  DT = 0.;
+}
+
+void eventAction::Secondaries(G4double NumSecondaries){
+  fRunAction->AddSecondaries(NumSecondaries);
 }
 
 void eventAction::PrintInfo(){
   if(dataOutputSwitch and (ParticleEnergy > 0))
-  eventOutput << ParticleEnergy/keV << ";" << ParticlePosition/cm << ";" << MomentumDirection << ";" << ParticleID << std::endl;
+    eventOutput << ParticleEnergy/keV << ";" << ParticlePosition/cm << ";" << MomentumDirection << ";" << ParticleID << std::endl;
 }
 
 // Anything included in this function is performed at the very end of
 // each event's lifetime.
 void eventAction::EndOfEventAction(const G4Event *)
 {
+  fRunAction->AddProcess(InelasticCol,1);
+  fRunAction->AddProcess(ElasticCol,2);
+  fRunAction->AddProcess(IonizingCol,3);
+  fRunAction->AddProcess(DT,4);
   // If the user has turned data output 'on', then do this!
-  //if(dataOutputSwitch and (ParticleEnergy > 0))
-  //  eventOutput << ParticleEnergy/keV << "," << ParticlePosition/cm << "," << MomentumDirection << std::endl;
+  //if(dataOutputSwitch and (InelasticCol > 0))
+  //  {
+  //    processOutput << InelasticCol << ";" << IonizingCol << ";" << ElasticCol << std::endl;
+  //  }
+    
 }

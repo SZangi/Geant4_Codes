@@ -12,6 +12,8 @@
 #include "G4SystemOfUnits.hh"
 #include "G4PhysicalConstants.hh"
 #include "G4NistManager.hh"
+#include "GB01BOptrChangeCrossSection.hh"
+#include "G4LogicalVolumeStore.hh"
 
 #include "geometryConstruction.hh"
 
@@ -125,7 +127,7 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   // 2 different logical volumes created to two different colors 
   // can be applied...remember, its all about the style points.
   G4LogicalVolume *scint_l1 = new G4LogicalVolume(scint_s,
-						  carbon13,
+						  tritium,
 						  "scint_l1",
 						  0,
 						  0,
@@ -179,6 +181,22 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   
   // Return a pointer to the world volume
   return lab_p;
+}
+
+void geometryConstruction::ConstructSDandField()
+{
+  // -- Fetch volume for biasing:
+  G4LogicalVolume* logicTest = G4LogicalVolumeStore::GetInstance()->GetVolume("scint_l1");
+  
+  // ----------------------------------------------
+  // -- operator creation and attachment to volume:
+  // ----------------------------------------------
+  GB01BOptrChangeCrossSection* testMany = 
+    new GB01BOptrChangeCrossSection("deuteron");
+  testMany->AttachTo(logicTest);
+  G4cout << " Attaching biasing operator " << testMany->GetName()
+         << " to logical volume " << logicTest->GetName()
+         << G4endl;
 }
 
 

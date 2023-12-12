@@ -49,12 +49,15 @@ text file for simple post-processing.
 #include "QGSP_BIC.hh"
 #include "QGSP_BIC_AllHP.hh"
 #include "G4TrajectoryDrawByParticleID.hh"
+#include "G4GenericBiasingPhysics.hh"
 
 /// ...wherease these are user-defined header files.
 #include "geometryConstruction.hh"
 #include "PGA.hh"
 #include "steppingAction.hh"
 #include "eventAction.hh"
+#include "runAction.hh"
+#include "PhysicsList.hh"
 //#include "trackingAction.hh"
 
 // This is the main program.  It will set up managers to run and
@@ -73,18 +76,30 @@ int main(int argc, char *argv[])
   //activate analysis manager
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
-  // Activate command based histogramming??
+  // Activate command based histogramming
   auto histFiller = new G4TScoreHistFiller<G4AnalysisManager>;
 
   // Create new "mandatory defined" class objects and tell the
   // runManager to initialize them for use
   runManager -> SetUserInitialization(new geometryConstruction);
-  runManager -> SetUserInitialization(new QGSP_BIC_AllHP); // is there a table of all of these?
+  // new physics list with individual lists registered for different processes
+  // QGSP_BIC_AllHP* physicsList = new QGSP_BIC_AllHP;
+  PhysicsList *physicsList = new PhysicsList();
+
+ // biasing physics already added in class definition
+ // G4GenericBiasingPhysics* biasingPhysics = new G4GenericBiasingPhysics();
+ // biasingPhysics -> Bias("deuteron");
+ // physicsList -> RegisterPhysics(biasingPhysics);
+
+  runManager -> SetUserInitialization(physicsList);
+  
   runManager -> SetUserAction(new PGA);
   
   // Create new "user defined" class objects and tell the runManager
   // to initialize them for use
-  eventAction *evtAction = new eventAction;
+  runAction *rnAction = new runAction;
+  runManager -> SetUserAction(rnAction);
+  eventAction *evtAction = new eventAction(rnAction);
   runManager -> SetUserAction(evtAction);  
   runManager -> SetUserAction(new steppingAction(evtAction));
   
@@ -104,19 +119,19 @@ int main(int argc, char *argv[])
   {
     // Create a modern UI interface with embedded OpenGL graphics
     G4UIExecutive *UIExecutive = new G4UIExecutive(argc, argv, "Qt");
-    UI-> ApplyCommand("/control/execute scintTest.vis");
+    //UI-> ApplyCommand("/control/execute scintTest.vis");
     //UI-> ApplyCommand("/control/execute analysis.mac");
     
     // In Geant4 speak, verbose is the amount of information that the
     // simulation will output.  From 0 (silent) to some non-zero value
     // that is specific individual information (High number can output
     // an IMMENSE amount of information.
-    UI -> ApplyCommand("/run/verbose 0");
+    UI -> ApplyCommand("/run/verbose 1");
     UI -> ApplyCommand("/event/verbose 0");
     UI -> ApplyCommand("/hits/verbose 0");
     UI -> ApplyCommand("/tracking/verbose 0");
-    UI -> ApplyCommand("/tracking/storeTrajectory 0");
-    UI -> ApplyCommand("/vis/scene/add/trajectories");
+    //UI -> ApplyCommand("/tracking/storeTrajectory 0");
+    //UI -> ApplyCommand("/vis/scene/add/trajectories");
 
     UIExecutive -> SessionStart();
 
@@ -126,6 +141,7 @@ int main(int argc, char *argv[])
     delete UIExecutive;
     delete UI;
   }
+  delete histFiller;
   delete visManager;
   delete evtAction;
   delete runManager;
