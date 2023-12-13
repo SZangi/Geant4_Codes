@@ -22,7 +22,7 @@
 #include "G4IonPhysicsPHP.hh"
 #include "G4IonINCLXXPhysics.hh"
 
-#include "G4EmStandardPhysics.hh"
+#include "G4EmLowEPPhysics.hh"
 
 #include "G4RadioactiveDecayPhysics.hh"
 
@@ -56,17 +56,17 @@ PhysicsList::PhysicsList()
   G4NuclideTable::GetInstance()->SetMeanLifeThreshold(meanLife);  
     
   // Construct Specific Physics
-    RegisterPhysics( new G4HadronElasticPhysicsXS(1));  
+    // RegisterPhysics( new G4HadronElasticPhysicsXS(1));  
 
-    RegisterPhysics( new G4HadronInelasticQBBC(1));
+    // RegisterPhysics( new G4HadronInelasticQBBC(1));
 
-    RegisterPhysics (new G4EmStandardPhysics(1));
+    // RegisterPhysics (new G4EmLowEPPhysics(1));
 
-    RegisterPhysics( new G4IonElasticPhysics(1));
+    // RegisterPhysics( new G4IonElasticPhysics(1));
 
-    RegisterPhysics( new G4IonPhysicsXS(1));
+    // RegisterPhysics( new G4IonPhysicsXS(1));
 
-    RegisterPhysics(new G4RadioactiveDecayPhysics());
+    // RegisterPhysics(new G4RadioactiveDecayPhysics());
 
   // Add Biasing Physics
     G4GenericBiasingPhysics* biasingPhysics = new G4GenericBiasingPhysics();
@@ -108,6 +108,7 @@ void PhysicsList::ConstructParticle()
 void PhysicsList::SetCuts()
 {
   SetCutValue(0*mm, "proton");
+  SetCutValue(0*mm, "neutron");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

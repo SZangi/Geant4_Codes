@@ -57,13 +57,13 @@ void runAction::EndOfRunAction(const G4Run* run)
         processOutput << IonizingCol << std::endl;
         processOutput << DT << std::endl;
   }
-  if (ProcessList.size() > 0){
-   processOutput << "Secondaries Per Non-DT" << std::endl;
-    for (G4double secondary : ProcessList){
-      processOutput << secondary << std::endl;
-    }
+  //if (ProcessList.size() > 0){
+  // processOutput << "Secondaries Per Non-DT" << std::endl;
+  //  for (G4double secondary : ProcessList){
+  //    processOutput << secondary << std::endl;
+  //  }
     
-  }
+  // }
     
 }
 

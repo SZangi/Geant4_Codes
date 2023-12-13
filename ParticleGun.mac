@@ -25,29 +25,31 @@
 # 
 # Throw some analysis in for fun, and for running fewer macros
 #
-/score/create/realWorldLogVol score_l
-/score/quantity/volumeFlux volFlux 
-/score/filter/particle nFilter neutron
-/score/quantity/volumeFlux nFlux 
-/score/filter/particle gFilter gamma
-/score/quantity/volumeFlux proFlux
-/score/filter/particle proFilter e-
-/score/close
-/score/create/realWorldLogVol scint_l1
-/score/filter/particle nFilter deuteron
-/score/quantity/volumeFlux dFlux
+#/score/create/realWorldLogVol score_l
+#/score/quantity/volumeFlux volFlux 
+#/score/filter/particle nFilter neutron
+#/score/quantity/volumeFlux nFlux 
+#/score/filter/particle gFilter gamma
+#/score/quantity/volumeFlux proFlux
+#/score/filter/particle proFilter e-
+#/score/close
+#/score/create/realWorldLogVol scint_l1
+#/score/quantity/volumeFlux vol2Flux
+#/score/filter/particle nFilter deuteron
+#/score/quantity/volumeFlux dFlux
+#/score/close
 #
 # Create Histograms
-/analysis/h1/create volFlux ScoringShell_volFlux 100 0.00000001 18000. keV ! log
-/analysis/h1/create nFlux ScoringShell_neutron_volFlux 100 10 20 MeV ! log
-/analysis/h1/create dFlux Scintillator_deuteron_volFlux 1900 10 200 keV ! log
-/analysis/h1/create proFlux ScoringShell_proton_volFlux 1000 1 20. keV ! log
+#/analysis/h1/create volFlux ScoringShell_volFlux 100 0.00000001 18000. keV ! log
+#/analysis/h1/create nFlux ScoringShell_neutron_volFlux 100 10 20 MeV ! log
+#/analysis/h1/create dFlux Scintillator_deuteron_volFlux 1900 10 200 keV ! log
+#/analysis/h1/create proFlux ScoringShell_proton_volFlux 1000 1 20. keV ! log
 #
 # Fill histograms
-/score/fill1D 0 score_l volFlux
-/score/fill1D 1 score_l nFlux
-/score/fill1D 2 score_l gFlux
-/score/fill1D 3 score_l proFlux
+#/score/fill1D 0 score_l volFlux
+#/score/fill1D 1 score_l nFlux
+#/score/fill1D 2 scint_l1 dFlux
+#/score/fill1D 3 score_l proFlux
 #
 /scintTest/output/setDataOutput on
 /run/beamOn 10000000

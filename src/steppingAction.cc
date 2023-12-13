@@ -26,6 +26,7 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
   // Get the current particle track
   G4Track *currentTrack = currentStep -> GetTrack();
   G4StepPoint *postStepPoint = currentStep -> GetPostStepPoint();
+  G4StepPoint *preStepPoint = currentStep -> GetPreStepPoint();
   
 
   // Determine what volume the particle is currently in
@@ -38,7 +39,9 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
   G4ThreeVector PartPosition;
   G4String processName;
   G4double Secondaries = 0.;
+  G4double PreStepNrg = 0.;
   Secondaries = currentStep -> GetNumberOfSecondariesInCurrentStep();
+  PreStepNrg = preStepPoint -> GetKineticEnergy();
   if (currentParticleType == "neutron") // swap this out for the incident particle name
     if(currentVolumeName == "score_p") //"score_p" for shell, "scint_p1" for target
       // get energy of particle
@@ -55,8 +58,8 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
         if (processName != "CoupledTransportation" and processName.length() > 0)
             if (Secondaries == 2 and processName == "biasWrapper(dInelastic)")
               evtAction -> ProcessAdd("DT");
-            else
-              evtAction -> Secondaries(Secondaries);
+            //else
+            //  evtAction -> Secondaries(PreStepNrg);
           evtAction -> ProcessAdd(processName);
     
   
