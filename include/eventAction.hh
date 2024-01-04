@@ -64,7 +64,7 @@ public:
     ParticleEnergy += PartEnergy;
   }
 
-  void GetMomentumDir(G4ThreeVector PartMomentumDir)
+  void GetMomentumDir(G4double PartMomentumDir)
   {
     MomentumDirection = PartMomentumDir;
   }
@@ -98,7 +98,7 @@ private:
 
   G4bool dataOutputSwitch;
 
-  G4ThreeVector MomentumDirection;
+  G4double MomentumDirection;
 
   G4ThreeVector ParticlePosition;
 

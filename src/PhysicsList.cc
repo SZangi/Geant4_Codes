@@ -56,17 +56,17 @@ PhysicsList::PhysicsList()
   G4NuclideTable::GetInstance()->SetMeanLifeThreshold(meanLife);  
     
   // Construct Specific Physics
-    // RegisterPhysics( new G4HadronElasticPhysicsXS(1));  
+     RegisterPhysics( new G4HadronElasticPhysicsXS(0));  
 
-    // RegisterPhysics( new G4HadronInelasticQBBC(1));
+     RegisterPhysics( new G4HadronInelasticQBBC(0));
 
-    // RegisterPhysics (new G4EmLowEPPhysics(1));
+     RegisterPhysics (new G4EmLowEPPhysics(0));
 
-    // RegisterPhysics( new G4IonElasticPhysics(1));
+     RegisterPhysics( new G4IonElasticPhysics(0));
 
-    // RegisterPhysics( new G4IonPhysicsXS(1));
+     RegisterPhysics( new G4IonPhysicsXS(0));
 
-    // RegisterPhysics(new G4RadioactiveDecayPhysics());
+     RegisterPhysics(new G4RadioactiveDecayPhysics(0));
 
   // Add Biasing Physics
     G4GenericBiasingPhysics* biasingPhysics = new G4GenericBiasingPhysics();
@@ -109,6 +109,7 @@ void PhysicsList::SetCuts()
 {
   SetCutValue(0*mm, "proton");
   SetCutValue(0*mm, "neutron");
+  SetCutValue(0*mm, "deuteron");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

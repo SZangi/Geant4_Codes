@@ -48,6 +48,7 @@ text file for simple post-processing.
 #include "G4UItcsh.hh"
 #include "QGSP_BIC.hh"
 #include "QGSP_BIC_AllHP.hh"
+#include "QBBC.hh"
 #include "G4TrajectoryDrawByParticleID.hh"
 #include "G4GenericBiasingPhysics.hh"
 
@@ -83,12 +84,12 @@ int main(int argc, char *argv[])
   // runManager to initialize them for use
   runManager -> SetUserInitialization(new geometryConstruction);
   // new physics list with individual lists registered for different processes
-  // QGSP_BIC_AllHP* physicsList = new QGSP_BIC_AllHP;
-  PhysicsList *physicsList = new PhysicsList();
+  // QBBC* physicsList = new QBBC;
+   PhysicsList *physicsList = new PhysicsList();
 
  // biasing physics already added in class definition
  // G4GenericBiasingPhysics* biasingPhysics = new G4GenericBiasingPhysics();
- // biasingPhysics -> Bias("deuteron");
+ //  biasingPhysics -> Bias("deuteron");
  // physicsList -> RegisterPhysics(biasingPhysics);
 
   runManager -> SetUserInitialization(physicsList);
@@ -120,7 +121,6 @@ int main(int argc, char *argv[])
     // Create a modern UI interface with embedded OpenGL graphics
     G4UIExecutive *UIExecutive = new G4UIExecutive(argc, argv, "Qt");
     //UI-> ApplyCommand("/control/execute scintTest.vis");
-    //UI-> ApplyCommand("/control/execute analysis.mac");
     
     // In Geant4 speak, verbose is the amount of information that the
     // simulation will output.  From 0 (silent) to some non-zero value
@@ -135,6 +135,7 @@ int main(int argc, char *argv[])
 
     UIExecutive -> SessionStart();
 
+    //UI-> ApplyCommand("/control/execute ../ParticleGun.mac");
     // Make sure to "delete" anything that we have create above using
     // "new".  This is good memory management
 

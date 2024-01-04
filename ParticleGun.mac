@@ -1,3 +1,8 @@
+# name: ParticleGun.mac
+# date: 12/19/2023
+# author: Arthur Zangi
+# email: szangi@mit.edu
+#
 #Particle Gun Sources generally have to be defined by the user
 #through the command line interface, so we provide a macro here
 #to initialize it once to some default values which can be changed
@@ -11,28 +16,27 @@
 /gps/pos/type Plane
 /gps/pos/shape Square
 /gps/pos/centre 0. 0. 13. cm
-/gps/pos/halfx 1 cm
-/gps/pos/halfy 1 cm
+/gps/pos/halfx 0.1 cm
+/gps/pos/halfy 0.1 cm
 #
 #we'll set the momentum direction for now instead of setting a
 #specific angular distribution
 #
 /gps/direction 0. 0. -1.
 #
-# set the energy definition
-/gps/ene/mono 100. keV
+#/gps/particle proton
 #/gps/ene/mono 1.5 MeV
 # 
 # Throw some analysis in for fun, and for running fewer macros
 #
-#/score/create/realWorldLogVol score_l
-#/score/quantity/volumeFlux volFlux 
-#/score/filter/particle nFilter neutron
+/score/create/realWorldLogVol score_l
+/score/quantity/volumeFlux volFlux 
 #/score/quantity/volumeFlux nFlux 
-#/score/filter/particle gFilter gamma
-#/score/quantity/volumeFlux proFlux
-#/score/filter/particle proFilter e-
-#/score/close
+#/score/filter/particle nFilter neutron
+/score/quantity/volumeFlux gFlux
+/score/filter/particle gFilter gamma
+
+/score/close
 #/score/create/realWorldLogVol scint_l1
 #/score/quantity/volumeFlux vol2Flux
 #/score/filter/particle nFilter deuteron
@@ -43,27 +47,32 @@
 #/analysis/h1/create volFlux ScoringShell_volFlux 100 0.00000001 18000. keV ! log
 #/analysis/h1/create nFlux ScoringShell_neutron_volFlux 100 10 20 MeV ! log
 #/analysis/h1/create dFlux Scintillator_deuteron_volFlux 1900 10 200 keV ! log
-#/analysis/h1/create proFlux ScoringShell_proton_volFlux 1000 1 20. keV ! log
+/analysis/h1/create gFlux ScoringShell_gamma_volFlux 10000 0.001 20. MeV ! log
 #
 # Fill histograms
-#/score/fill1D 0 score_l volFlux
+/score/fill1D 0 score_l gFlux
 #/score/fill1D 1 score_l nFlux
 #/score/fill1D 2 scint_l1 dFlux
-#/score/fill1D 3 score_l proFlux
+#/score/fill1D 2 score_l gFlux
 #
+# set the energy definition
+/gps/ene/mono 60. keV
 /scintTest/output/setDataOutput on
-/run/beamOn 10000000
-#/run/beamOn 1000000000
-#/run/beamOn 1000000000
-#/run/beamOn 1000000000
-#/run/beamOn 1000000000
-#/run/beamOn 1000000000
-#/run/beamOn 1000000000
-#/run/beamOn 1000000000
-#/run/beamOn 1000000000
+/scintTest/output/setFileName DT_1e9_60keV_1219.csv
+/run/beamOn  1000000000
+/gps/ene/mono 70. keV
+/scintTest/output/setFileName DT_1e9_70keV_1219.csv
+/run/beamOn 1000000000
+/gps/ene/mono 80. keV
+/scintTest/output/setFileName DT_1e9_80keV_1219.csv
+/run/beamOn 1000000000
+/gps/ene/mono 90. keV
+/scintTest/output/setFileName DT_1e9_90keV_1219.csv
+/run/beamOn 1000000000
 #/run/beamOn 1000000000
 #
 #when done, open a TSG view and the plots
 #
-#/vis/open TSG
-#/vis/plot h1 1
+/vis/scene/create
+/vis/open TSG
+/vis/plot h1 0

@@ -45,7 +45,7 @@ void eventAction::BeginOfEventAction(const G4Event *)
   TotalEnergyDepTile1 = 0.;
   ParticleEnergy = 0.;
   ParticlePosition = G4ThreeVector(0., 0., 0.);
-  MomentumDirection = G4ThreeVector(0., 0., 0.);
+  MomentumDirection = 0.;
   InelasticCol = 0.;
   ElasticCol = 0.;
   IonizingCol = 0.;
