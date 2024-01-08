@@ -1,6 +1,4 @@
 #include "runAction.hh"
-// #include "PrimaryGeneratorAction.hh"
-// #include "DetectorConstruction.hh"
 
 #include "G4RunManager.hh"
 #include "G4Run.hh"
@@ -14,12 +12,6 @@
 
 runAction::runAction()
 {
-  // Register accumulable to the accumulable manager; approach taken from G4 example B1
-  //G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
-  //accumulableManager->RegisterAccumulable(fInelasticCol);
-  //accumulableManager->RegisterAccumulable(fElasticCol);
-  //accumulableManager->RegisterAccumulable(fIonizingCol);
-
   // open data output file
   processOutput.open("defaultProcessOutput.csv",std::ofstream::trunc);
 }
@@ -31,21 +23,11 @@ runAction::~runAction()
 
 void runAction::BeginOfRunAction(const G4Run*)
 {
-  // reset accumulables to their initial values
-  //G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
-  //accumulableManager->Reset();  
 
 }
 
 void runAction::EndOfRunAction(const G4Run* run)
 {
-  //G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
-  //accumulableManager->Merge();
-
-  //get values from the accumulables
-  //G4double InelasticCol = fInelasticCol.GetValue();
-  //G4double ElasticCol = fElasticCol.GetValue();
-  //G4double IoninzingCol = fIonizingCol.GetValue();
 
   // Print the data to the command line (and dump it to a file in case we want
   // to dump more things from runAction later)
@@ -57,6 +39,7 @@ void runAction::EndOfRunAction(const G4Run* run)
         processOutput << IonizingCol << std::endl;
         processOutput << DT << std::endl;
   }
+  // This prints number of secondaries per event to a list.
   //if (ProcessList.size() > 0){
   // processOutput << "Secondaries Per Non-DT" << std::endl;
   //  for (G4double secondary : ProcessList){

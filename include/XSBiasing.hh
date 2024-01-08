@@ -23,12 +23,11 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file GB01/include/GB01BOptrChangeCrossSection.hh
-/// \brief Definition of the GB01BOptrChangeCrossSection class
 //
 //---------------------------------------------------------------
 //
-// GB01BOptrChangeCrossSection
+// XSBiasing: Class definition taken from the GB01 extended
+//            example of cross-section biasing.
 //
 // Class Description:
 //        A G4VBiasingOperator concrete implementation example to
@@ -43,21 +42,21 @@
 //---------------------------------------------------------------
 //
 
-#ifndef GB01BOptrChangeCrossSection_hh
-#define GB01BOptrChangeCrossSection_hh 1
+#ifndef XSBiasing_hh
+#define XSBiasing_hh 1
 
 #include "G4VBiasingOperator.hh"
 class G4BOptnChangeCrossSection;
 class G4ParticleDefinition;
 #include <map>
 
-class GB01BOptrChangeCrossSection : public G4VBiasingOperator {
+class XSBiasing : public G4VBiasingOperator {
 public:
   // ------------------------------------------------------------
   // -- Constructor: takes the name of the particle type to bias:
   // ------------------------------------------------------------
-  GB01BOptrChangeCrossSection(G4String particleToBias, G4String name = "ChangeXS");
-  virtual ~GB01BOptrChangeCrossSection();
+  XSBiasing(G4String particleToBias, G4String name = "ChangeXS");
+  virtual ~XSBiasing();
   
   // -- method called at beginning of run:
   virtual void StartRun();

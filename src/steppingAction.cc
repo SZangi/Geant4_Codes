@@ -52,16 +52,19 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
       PartPosition = currentTrack -> GetPosition();
       
 
-  // If in scintillator tile 2, get the energy deposited...
-  //G4double EDepTile2 = 0.;
+  // If in the target and a deuteron, get us a bunch of information about the secondaries...
  // if(currentVolumeName == "scint_p1")
    // if (currentParticleType == "deuteron")
      // processName = postStepPoint -> GetProcessDefinedStep()->GetProcessName();
         // if (processName != "CoupledTransportation" and processName.length() > 0)
+          // // This is a rudamentary way of tallying specifically DT, by just tallying
+          // // every inelastic reaction that produces two secondaries.
            // if (Secondaries == 2 and processName == "biasWrapper(dInelastic)")
              // evtAction -> ProcessAdd("DT");
             //else
             //  evtAction -> Secondaries(PreStepNrg);
+          // // Pass that information to the eventAction, which will tally it pass it to 
+          // // the run action in the correct format.
           //evtAction -> ProcessAdd(processName);
     
   

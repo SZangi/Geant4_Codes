@@ -22,29 +22,31 @@ PGA::PGA()
   particleSource = new G4GeneralParticleSource();
   particleSource -> SetNumberOfParticles(n_particle);
 
-  // Get the definition of a deuteron from the internal particle table
-  // do we have to also pick out all the daughter particles and define them here?
+  // Get the definition of a deuteron & proton from the internal particle table
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
   G4ParticleDefinition* deuteron = particleTable -> FindParticle("deuteron");
   G4ParticleDefinition* proton = particleTable -> FindParticle("proton");
   
   // Initialize the particle gun with some default values
-  //particleSource -> SetParticleDefinition(deuteron);
   particleSource -> SetParticleDefinition(deuteron);
 
   G4double Px = 0.;
   G4double Py = 0.;
   G4double Pz = -1.;
   G4double Energy = 100*keV;
-  // Pass a unit vector (length=1) to define direction of particles; does it have to be a unit vector?
-  //particleGun -> SetParticleMomentumDirection(G4ThreeVector(Px,Py,Pz)); // when do we use momentumdirection vs momentum?
+  // This can be used to set the particle direction here, this code does it from 
+  // the command line or in a macro.
+  //particleGun -> SetParticleMomentumDirection(G4ThreeVector(Px,Py,Pz)); 
 
-  // Initial energy of particles
+  // Set initial energy of particles. This is done from the command line or in
+  // a macro for convenience.
   //particleSource -> SetParticleEnergy(Energy);
   
   G4double X = 0.*m;
   G4double Y = 0.*m;
   G4double Z = 13.*cm;
+  // Again, particle position can be set in the class definition like so, but
+  // we set it from a macro for more flexibility.
   //particleSource -> SetParticlePosition(G4ThreeVector(X,Y,Z));
 }
 

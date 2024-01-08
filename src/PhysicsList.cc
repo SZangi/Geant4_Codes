@@ -1,4 +1,4 @@
-// Physics List methods from Hadr04 high precision code
+// Physics List methods from Hadr03, xs verification example.
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -60,7 +60,8 @@ PhysicsList::PhysicsList()
 
      RegisterPhysics( new G4HadronInelasticQBBC(0));
 
-     RegisterPhysics (new G4EmLowEPPhysics(0));
+    // EM Physics should be removed to get xs to match exactly with recorded vales
+     RegisterPhysics (new G4EmLowEPPhysics(0)); 
 
      RegisterPhysics( new G4IonElasticPhysics(0));
 
@@ -107,8 +108,9 @@ void PhysicsList::ConstructParticle()
 
 void PhysicsList::SetCuts()
 {
-  SetCutValue(0*mm, "proton");
-  SetCutValue(0*mm, "neutron");
+//  SetCutValue(0*mm, "proton");
+// setting this value down will bring the neutron production closer to the expected
+// value but not quite there, still a little low.
   SetCutValue(0*mm, "deuteron");
 }
 

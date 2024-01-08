@@ -8,9 +8,11 @@
 
 #include <fstream>
 
+// ------ THIS CLASS HAS NOT BEEN IMPLEMENTED YET --------
+
 // trackingAction should just accumulate all the information we care about 
 // for one track. In our case, this grabs a neutrons energy, positon,
-// and momentum as it passes into the recording shell. 
+// and momentum as it passes into the recording shell.
 
 class trackingAction : public G4UserTrackingAction
 {

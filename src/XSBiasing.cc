@@ -31,10 +31,8 @@
 //  to increase the rate of occurance of DT fusion in the simulation. 
 //
 //
-/// \file GB01/src/GB01BOptrChangeCrossSection.cc
-/// \brief Implementation of the GB01BOptrChangeCrossSection class
 //
-#include "GB01BOptrChangeCrossSection.hh"
+#include "XSBiasing.hh"
 #include "G4BiasingProcessInterface.hh"
 #include "G4BOptnChangeCrossSection.hh"
 
@@ -48,19 +46,20 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-GB01BOptrChangeCrossSection::GB01BOptrChangeCrossSection(G4String particleName,
+XSBiasing::XSBiasing(G4String particleName,
                                                          G4String         name)
   : G4VBiasingOperator(name),
     fSetup(true)
 {
+  // Takes the name of the particle to bias, and makes sure the particle is real.
   fParticleToBias = G4ParticleTable::GetParticleTable()->FindParticle(particleName);
   
   if ( fParticleToBias == 0 )
     {
       G4ExceptionDescription ed;
       ed << "Particle `" << particleName << "' not found !" << G4endl;
-      G4Exception("GB01BOptrChangeCrossSection(...)",
-                  "exGB01.01",
+      G4Exception("XSBiasing(...)",
+                  "DTTest.01",
                   JustWarning,
                   ed);
     }
@@ -68,7 +67,7 @@ GB01BOptrChangeCrossSection::GB01BOptrChangeCrossSection(G4String particleName,
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-GB01BOptrChangeCrossSection::~GB01BOptrChangeCrossSection()
+XSBiasing::~XSBiasing()
 {
   for ( std::map< const G4BiasingProcessInterface*, G4BOptnChangeCrossSection* >::iterator 
           it = fChangeCrossSectionOperations.begin() ;
@@ -78,7 +77,7 @@ GB01BOptrChangeCrossSection::~GB01BOptrChangeCrossSection()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void GB01BOptrChangeCrossSection::StartRun()
+void XSBiasing::StartRun()
 {
   // --------------
   // -- Setup stage:
@@ -112,7 +111,7 @@ void GB01BOptrChangeCrossSection::StartRun()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 G4VBiasingOperation* 
-GB01BOptrChangeCrossSection::ProposeOccurenceBiasingOperation(const G4Track*            track, 
+XSBiasing::ProposeOccurenceBiasingOperation(const G4Track*            track, 
                                                               const G4BiasingProcessInterface*
                                                                                callingProcess)
 {
@@ -134,6 +133,8 @@ GB01BOptrChangeCrossSection::ProposeOccurenceBiasingOperation(const G4Track*    
 
   // -----------------------------------------------------------
   // -- Check if current interaction type is one we want to bias
+  // -- Later might be good to allow the user to set this in the 
+  // -- set up but so far it is just hard-coded here.
   // -----------------------------------------------------------
   if (callingProcess->GetWrappedProcess()->GetProcessName() != "dInelastic") return 0;
 
@@ -173,8 +174,8 @@ GB01BOptrChangeCrossSection::ProposeOccurenceBiasingOperation(const G4Track*    
           // -- should not happen !
           G4ExceptionDescription ed;
           ed << " Logic problem in operation handling !" << G4endl;
-          G4Exception("GB01BOptrChangeCrossSection::ProposeOccurenceBiasingOperation(...)",
-                      "exGB01.02",
+          G4Exception("XSBiasing::ProposeOccurenceBiasingOperation(...)",
+                      "DTTest.02",
                       JustWarning,
                       ed);
           return 0;
@@ -203,7 +204,7 @@ GB01BOptrChangeCrossSection::ProposeOccurenceBiasingOperation(const G4Track*    
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void GB01BOptrChangeCrossSection::
+void XSBiasing::
 OperationApplied(const G4BiasingProcessInterface*           callingProcess, 
                  G4BiasingAppliedCase,
                  G4VBiasingOperation*             occurenceOperationApplied,

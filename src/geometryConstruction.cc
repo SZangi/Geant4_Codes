@@ -12,7 +12,7 @@
 #include "G4SystemOfUnits.hh"
 #include "G4PhysicalConstants.hh"
 #include "G4NistManager.hh"
-#include "GB01BOptrChangeCrossSection.hh"
+#include "XSBiasing.hh"
 #include "G4LogicalVolumeStore.hh"
 
 #include "geometryConstruction.hh"
@@ -27,6 +27,8 @@ geometryConstruction::~geometryConstruction()
 // class.  It is called by the runManager automatically when the new
 // object of type geometryConstruction is initialized and passed to
 // the runManager in "scintTest.cc"
+// The general structure places the geometric construction, ie. 
+// volumes and placement, first, and the materials definition second.
 G4VPhysicalVolume *geometryConstruction::Construct()
 {
   // Call class member functions to mix desired materials.  Functions
@@ -183,6 +185,8 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   return lab_p;
 }
 
+// this section tells the code that we want to apply cross-section
+// biasing on a specific volume
 void geometryConstruction::ConstructSDandField()
 {
   // -- Fetch volume for biasing:
@@ -191,13 +195,19 @@ void geometryConstruction::ConstructSDandField()
   // ----------------------------------------------
   // -- operator creation and attachment to volume:
   // ----------------------------------------------
-  GB01BOptrChangeCrossSection* testMany = 
-    new GB01BOptrChangeCrossSection("deuteron");
-  testMany->AttachTo(logicTest);
+  XSBiasing* testMany = 
+    new XSBiasing("deuteron");  // select the particle we want to bias
+  testMany->AttachTo(logicTest); // attach to specific volume
   G4cout << " Attaching biasing operator " << testMany->GetName()
          << " to logical volume " << logicTest->GetName()
-         << G4endl;
+         << G4endl; // prints out what biasing we've done
 }
+
+// ------------------------
+// -- Material Definiton --
+// ------------------------
+// This starts the material definition section. Material details
+// must be defined here, if they are used in any material.
 
 
 G4Material *geometryConstruction::mixVacuum()
@@ -284,17 +294,22 @@ G4Material *geometryConstruction::mixTritium() {
   G4double density = 0.257*g/cm3;
   G4int nComp;
 
+  // Another way to create Isotopically pure materials, start from
+  // individual isotopes, and add them to an element
+  // create an isotope
   G4Isotope *T = new G4Isotope("Tritium", z= 1, n= 3, a= 3.014 *g/mole);
   G4Element *PureT = new G4Element("Pure Tritium", "T", nComp = 1);
+  // add the isotope to the element
   PureT -> AddIsotope(T, 100. *perCent);
   G4Material *Tritium = new G4Material("Tritium", density, nComp);
+  // add element to material
   Tritium -> AddElement(PureT, 100. *perCent);
 
   return Tritium;
 }
 
 G4Material *geometryConstruction::Boron() {
-  // Boron
+  // Boron11
   G4double a;
   G4double z;
   G4double n;
@@ -311,7 +326,7 @@ G4Material *geometryConstruction::Boron() {
 }
 
 G4Material *geometryConstruction::Hydrogen() {
-  // Regular Hydrogen
+  // Hydrogen1
   G4double a;
   G4double z;
   G4double n;

@@ -12,9 +12,11 @@ Zach Hartwig (hartwig@mit.edu)
 02 MAR 09 (original)
 03 APR 23 (updated for geant4-v11.1.1)
 
-I have written "scintTest" as an introductory simulation for beginning
+Zach wrote "scintTest" as an introductory simulation for beginning
 Geant4 users.  Each piece of code is explained in gory detail such
 that the novice may understand what the code does and why it's import.
+I added cross section biasing, and reworked parts to specialize the
+code for modelling the DT reaction with relatively high precision.
 The following basic Geant4 concepts are covered in this simulation:
 
 - Writing the main file
@@ -23,14 +25,18 @@ The following basic Geant4 concepts are covered in this simulation:
     - utilizing geometry volumes (solid,logical,physical)
 - Specifying the physics processes
 - Creating a source of particle
-- Sensitive Detector
+- Cross Section Biasing
+
   
-The program defines a long rectangular world volume and places 2
-pieces of St Gobain BC404 Scintillator.  A beam of electrons is fired
-at the scintillators and energy deposition information is
-collected. Options are provided for the user to enable outputtting the
-total energy deposited within each scintillator tile per event to a
-text file for simple post-processing.
+The program defines a long rectangular world volume and places 1
+thin target of tritium, as well as a spherical scoring shell around the
+target made of vacuum.  A beam of deuterons is fired
+at the tritium and information on the neutrons produced is collected.
+Options are provided for the user to enable outputting all the
+information collected per event to a csv file for simple post-processing.
+The user also has the option to collect information on the secondaries 
+produced in each reaction and output that to a second csv file, but this
+must be controlled through the code rather than the command line.
 
 ############################################################
 */
@@ -84,10 +90,11 @@ int main(int argc, char *argv[])
   // runManager to initialize them for use
   runManager -> SetUserInitialization(new geometryConstruction);
   // new physics list with individual lists registered for different processes
-  // QBBC* physicsList = new QBBC;
+  // QBBC* physicsList = new QBBC; //QBBC is the recommended list for thin target high precision modelling
    PhysicsList *physicsList = new PhysicsList();
 
- // biasing physics already added in class definition
+ // biasing physics already added in class definition, but if using a prepackaged list,
+ // it can be defined in the main function like so...
  // G4GenericBiasingPhysics* biasingPhysics = new G4GenericBiasingPhysics();
  //  biasingPhysics -> Bias("deuteron");
  // physicsList -> RegisterPhysics(biasingPhysics);

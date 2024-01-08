@@ -53,10 +53,14 @@ void eventAction::BeginOfEventAction(const G4Event *)
 }
 
 void eventAction::Secondaries(G4double NumSecondaries){
+  // Tallies the number of secondaries generated in this event
+  // into a larger list maintained by the RunAction.
   fRunAction->AddSecondaries(NumSecondaries);
 }
 
 void eventAction::PrintInfo(){
+  // This is our output function, it returns Energy, Position, 
+  // Direction (angle), and particle type
   if(dataOutputSwitch and (ParticleEnergy > 0))
     eventOutput << ParticleEnergy/keV << ";" << ParticlePosition/cm << ";" << MomentumDirection << ";" << ParticleID << std::endl;
 }
@@ -65,6 +69,9 @@ void eventAction::PrintInfo(){
 // each event's lifetime.
 void eventAction::EndOfEventAction(const G4Event *)
 {
+  // Each process type is given a number, for formatting in 
+  // RunAction. This is for tallying types of interaction in
+  // the target, seperate from Secondary generation.
   fRunAction->AddProcess(InelasticCol,1);
   fRunAction->AddProcess(ElasticCol,2);
   fRunAction->AddProcess(IonizingCol,3);
