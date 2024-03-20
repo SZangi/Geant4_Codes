@@ -1,1 +1,43 @@
 # Geant4_Codes
+## dtTest
+The dtTest code is meant as a simple platform for modelling DT fusion in a thin target. The code is structured similarly to many Geant4 platforms, with a main file in scintTest.cc, and various classes defined in the src and include folders. 
+
+### The Basics
+Similar to all Geant4 platforms, a primary generator action (PGA), physics list, and geometry or detector construction, are required. However, we don't just want to shoot some deuterons at a target, we want to know what happens, so additional classes are added for extra capabilities. In order to tally events occuring within the tritium target, and extract information from the simulation, we set up steppingAction, eventAction, and runAction classes, as well as an eventAction messenger class for passing information from the command line interface to the code, specifically to actions we take within eventAction. We also introduce a cross-section biasing class (XSBiasing), for increased statistics. This are all defined in seperate classes in dtTest, and we will go through how each is set up one at a time.
+
+#### The Primary Generator Action (PGA)
+dtTest uses a General Particle Source (GPS) as the particle source for it's flexibility and ease of use. All parameters, including type of particle, energy, source position, and direction, can be set from the command line, however, only a few, such as particle type and position can be initialized in the code itself. Thus the only default settings for a source in dtTest are 1 deuteron per event, located at (0.,0.,13.) cm. The macro script, "ParticleGun.mac" is provided as well, which gives examples of how to set particle energy, and direction, as well as source size.  
+
+The following lines are used in ParticleGun.mac to set up a 100 keV, 0.2 by 0.2 cm square particle source aimed in the -z direction at our target:
+~~~
+# 0.2x0.2 cm square plane source
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/centre 0. 0. 13. cm
+/gps/pos/halfx 0.1 cm
+/gps/pos/halfy 0.1 cm
+
+# -z momentum direction 
+/gps/direction 0. 0. -1.
+
+# 100 keV energy
+/gps/ene/mono 100. keV
+~~~
+
+Additional details may be added to the GPS from a macro or the command line, and more information on GPS options can be found on the Geant4 documentation page.
+
+#### The Physics List
+
+The physics list class is used to specify the specific packages we want to use to simulate particle transport. I've chosen the following specific packages for hadronic interactions, as they use the ParticleHP package for low energy (10 eV-20 MeV) interactions:
+- HadronElasticPhysicsXS
+- HadronInelasticQBBC
+
+QBBC uses slightly different de-excitation physics from QGSP, and the production list QBBC uses NeutronHP and ParticleHP, and is recommended for thin target and shielding simulations. 
+
+I chose EmLowEPPhysics for the EM Physics package, as it is supposed to be the best package for shielding and low energy physics modelling, but there may be a better option. 
+
+When working with the EM Physics packages, the production cuts in all EM physics packages on the de-excitation physics cause an underproduction of neutrons, even while the correct number of inelastic collisions occur. The production cuts for deuterons are set to 0mm by default in dtTest, which helps a small amount (~15% more neutrons produced), but does not fully fix the problem, and could create other issues if used with thicker targets. The exact percent the model underproduces by varies with deuteron energy, as shown below, so to accurately model neutorn production, a priliminary run must be done to determine the percent error. After this, EM physics can be turned off, or a factor should be introduced in xs biasing the DT reaction to account for the issue. A factor of 1.22 for 100 keV deuterons is suggested. 
+
+![incident particle energy, vs. neutron under production](images/underproduction.png)
+
+Cross-section (xs) biasing is also included in the physics list file. This is implemented in the XS Biasing class, which is mostly taken from the GB01 example in the extended biasing examples, which also has helpful documentation on this. As I understand it, the class wraps specified processes, termed 'Bias processes', for specified particles, and multiplies the process' xs by a value set the user. The wrapped process then updates the cross section and interaction length to the step, and the step takes it from there. The xs biasing in dtTest is setup to only bias hadron inelastic processes, and is only assigned to occur within the tritium volume, so it should only impact DT fusion. Because Geant4 does not discriminate in more detail than "hadron elastic," "hadron inelastic," or "hadron ionizing," in the type of reactions the deuteron can engage in, we cannot bias the process in more detail than that. The specific volume which the biasing occurs in is set in geometryConstruction, and the particle type is set in physics list or the main file.
