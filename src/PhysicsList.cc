@@ -79,7 +79,7 @@ PhysicsList::PhysicsList()
 
   // Add Biasing Physics
     G4GenericBiasingPhysics* biasingPhysics = new G4GenericBiasingPhysics();
-    biasingPhysics -> Bias("deuteron");
+    biasingPhysics -> Bias("alpha");
     RegisterPhysics(biasingPhysics);
 
 

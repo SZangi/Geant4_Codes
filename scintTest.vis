@@ -13,9 +13,19 @@
 /vis/viewer/set/viewpointThetaPhi 50 50 deg
 
 # Plot all accumulated events in a run
-/vis/scene/endOfEventAction accumulate -1
+#/vis/scene/endOfEventAction accumulate -1
+
+
 
 #Plot only neutrons
-/vis/filtering/trajectories/create/particleFilter
-/vis/filtering/trajectories/particleFilter-0/add neutron
+#/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/particleFilter-0/add neutron
+#/vis/filtering/trajectories/particleFilter-0/add proton
 #/vis/filtering/trajectories/particleFilter-0/add gamma
+#/vis/filtering/trajectories/particleFilter-0/add alpha
+#/vis/filtering/trajectories/particleFilter-0/add He3
+#/vis/filtering/trajectories/particleFilter-0/invert true
+
+/gui/addMenu run Run
+/gui/addButton run partGun "/control/execute ../ParticleGun.mac"
+

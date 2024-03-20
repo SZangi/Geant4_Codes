@@ -41,6 +41,10 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   G4Material *hydrogen = Hydrogen();
   G4Material *helium3 = mixHelium3();
   G4Material *carbon13 = IsoCarbon13();
+  G4Material *natSi = natSilicon();
+  G4Material *silicon29 = IsoSilicon29();
+  G4Material *dopedSi = dopeSilicon();
+  G4Material *SiO2 = SiDiO();
 //  G4Material *lithium = mixLithium();
     
   // Create the top-level volume in the geometry hierarchy, known as
@@ -122,18 +126,30 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   G4double scintBoxX = 3.*cm; // remember all of these are half widths
   G4double scintBoxY = 3.*cm;
   G4double scintBoxZ = 0.5*um;
+  G4double Si02Layer = 1*nm;
 
   // Create solid volume representing the shape of the tiles
   G4Box *scint_s = new G4Box("scint_s",scintBoxX,scintBoxY,scintBoxZ);
 
   // 2 different logical volumes created to two different colors 
   // can be applied...remember, its all about the style points.
+  
+  // Target layer
   G4LogicalVolume *scint_l1 = new G4LogicalVolume(scint_s,
-						  tritium,
+						  dopedSi,
 						  "scint_l1",
 						  0,
 						  0,
 						  0);
+
+  G4Box *sio2_s = new G4Box("si02_s",scintBoxX,scintBoxY,Si02Layer);
+  // SiO2 coating (directly in front of target)
+  G4LogicalVolume *sio2_l = new G4LogicalVolume(sio2_s,
+              SiO2,
+              "SiO2_Layer",
+              0,
+              0,
+              0);
 
   // We will place the 2 pieces inside the world volume.  Thus, the
   // world volume is the "mother" volume and the scintillators are
@@ -147,18 +163,18 @@ G4VPhysicalVolume *geometryConstruction::Construct()
 		      false,
 		      0);
 
-  // We'd like to seperate the tiles.  In Geant4, all volumes are
+  // We want to place the SiO2 layer directly in front of the wafer.  In Geant4, all volumes are
   // placed based on their exact center, so we need to account for this.
- // G4double space = 4*cm;
+ G4double space = scintBoxZ+Si02Layer;
 
-//  G4VPhysicalVolume *scint_p2 = 
- //   new G4PVPlacement(new G4RotationMatrix(),
-//		      G4ThreeVector(posX,posY,posZ-space),
-//		      scint_l2,
-//		      "scint_p2",
-//		      lab_l, // the lab is the mother volume
-//		      false,
-//		      0);
+ G4VPhysicalVolume *sio2_p = 
+   new G4PVPlacement(new G4RotationMatrix(),
+		      G4ThreeVector(posX,posY,posZ-space),
+		      sio2_l,
+		      "sio2_p",
+		      lab_l, // the lab is the mother volume
+		      false,
+		      0);
 
   // To visualize our geometry, we need to attach visAttributes to
   // each logical volume.
@@ -176,10 +192,10 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   ScoringShellVisAtt -> SetVisibility(1);
   score_l -> SetVisAttributes(ScoringShellVisAtt);
 
-//  G4VisAttributes *ScintBox2VisAtt = 
-//   new G4VisAttributes(G4Colour(1.0,1.0,0.0,1.0));
-//ScintBox2VisAtt -> SetForceSolid(1);
-// scint_l2 -> SetVisAttributes(ScintBox2VisAtt);
+  G4VisAttributes *SiO2VisAtt = 
+   new G4VisAttributes(G4Colour(1.0,1.0,0.0,1.0));
+ SiO2VisAtt -> SetForceSolid(1);
+ sio2_l -> SetVisAttributes(SiO2VisAtt);
   
   // Return a pointer to the world volume
   return lab_p;
@@ -191,15 +207,17 @@ void geometryConstruction::ConstructSDandField()
 {
   // -- Fetch volume for biasing:
   G4LogicalVolume* logicTest = G4LogicalVolumeStore::GetInstance()->GetVolume("scint_l1");
-  
+  G4LogicalVolume* logicTest1 = G4LogicalVolumeStore::GetInstance()->GetVolume("SiO2_Layer");
+
   // ----------------------------------------------
   // -- operator creation and attachment to volume:
   // ----------------------------------------------
   XSBiasing* testMany = 
-    new XSBiasing("deuteron");  // select the particle we want to bias
+    new XSBiasing("alpha");  // select the particle we want to bias
   testMany->AttachTo(logicTest); // attach to specific volume
+  testMany->AttachTo(logicTest1);
   G4cout << " Attaching biasing operator " << testMany->GetName()
-         << " to logical volume " << logicTest->GetName()
+         << " to logical volumes " << logicTest->GetName() << logicTest1->GetName()
          << G4endl; // prints out what biasing we've done
 }
 
@@ -368,7 +386,7 @@ G4Material *geometryConstruction::mixLithium() {
   G4int nComp;
 
   G4Element *Lithium = new G4Element("Lithium", "Li", z=3., a = 6.491 *g/mole);
-  G4Material *NatLithium = new G4Material("NatLi", density, nComp);
+  G4Material *NatLithium = new G4Material("NatLi", density, nComp = 1);
   NatLithium -> AddElement(Lithium, 100. *perCent);
 
   return NatLithium;
@@ -389,4 +407,92 @@ G4Material *geometryConstruction::IsoCarbon13() {
   Carbon13 -> AddElement(PureC13, 100. *perCent);
 
   return Carbon13;
+}
+
+G4Material *geometryConstruction::natSilicon(){
+  //natural abundance Silicon
+  G4double a;
+  G4double z;
+  G4double n;
+  G4double density = 2.329*g/cm3;
+  G4int nComp =1;
+
+  G4Element *Silicon = new G4Element("Silicon", "Si", z=14., a = 28.085 *g/mole);
+  G4Material *NatSilicon = new G4Material("NatSi", density, nComp);
+  NatSilicon -> AddElement(Silicon, 100. *perCent);
+
+  return NatSilicon;
+}
+
+G4Material *geometryConstruction::dopeSilicon(){
+  //natural abundance Silicon, with carbon, oxygen, and Boron dopant
+  G4double a;
+  G4double z;
+  G4double n;
+  G4double density = 2.329*g/cm3;
+  G4int nComp =4;
+
+  G4Element *Silicon = new G4Element("Silicon", "Si", z=14., a = 28.085 *g/mole);
+  G4Material *DopedSilicon = new G4Material("DopedSi", density, nComp);
+  DopedSilicon -> AddElement(Silicon, 99.99797 *perCent);
+
+  G4Element *Oxygen = new G4Element("Oxygen", "O", z =8., a = 15.999 *g/mole);
+  G4Element *Carbon = new G4Element("Carbon", "C", z =6., a = 12.0116 *g/mole);
+  G4Element *Boron = new G4Element("Boron", "B", z =5., a = 10.811 *g/mole);
+  G4Element *Phosphorus = new G4Element("Phosphorus", "P", z =15., a =30.974 *g/mole);
+
+  DopedSilicon -> AddElement(Oxygen, 0.002 *perCent);
+  DopedSilicon -> AddElement(Carbon, 2E-5 *perCent);
+  DopedSilicon -> AddElement(Boron, 1.35E-6 *perCent);
+
+  return DopedSilicon;
+}
+
+G4Material *geometryConstruction::IsoSilicon29(){
+  // Silicon29
+  G4double a = 28.976495 *g/mole;
+  G4double z = 14;
+  G4double n = 29;
+  G4double density = 2.329*g/cm3;
+  G4double nComp = 1;
+
+  G4Isotope *Si29 = new G4Isotope("Silicon-29", z, n, a);
+  G4Element *PureSi29 = new G4Element("Pure Silicon29", "Si", nComp);
+  PureSi29 -> AddIsotope(Si29, 100. *perCent);
+  G4Material *Silicon29 = new G4Material("Silicon29",density, nComp);
+  Silicon29 -> AddElement(PureSi29, 100. *perCent);
+
+  return Silicon29;
+}
+
+G4Material *geometryConstruction::SiDiO()
+{
+  // Saint Gobain BC404 specifications obtained from:
+  // http://www.detectors.saint-gobain.com/ -> search for "BC404"
+  G4double a;
+  G4double z;
+  G4double density;
+  G4int nComp;
+  G4int SiAtoms;
+  G4int OAtoms;
+  
+  a = 28.976495 *g/mole;
+  z = 14.;
+  G4Element *Si = new G4Element("Silicon", "Si", z,a);
+
+  a = 15.99 *g/mole;
+  z = 8.;
+  G4Element *O = new G4Element("Oxygen", "O", z,a);
+  
+  // Another way to create materials...specifying the number of atoms
+  // of each element...
+  density = 2.65 *g/cm3;
+  nComp = 2;
+  SiAtoms = 1;
+  OAtoms = 2;
+  G4Material *silicondioxide = new G4Material("SiO2", density, nComp);
+  silicondioxide -> AddElement(Si, SiAtoms);
+  silicondioxide -> AddElement(O, OAtoms);
+
+  return silicondioxide;
 }

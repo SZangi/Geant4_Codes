@@ -24,10 +24,10 @@
 #
 /gps/direction 0. 0. -1.
 #
-/gps/particle deuteron
+/gps/particle alpha     # particle definition
 #Gaussian Energy Definition
-#/gps/ene/type Gauss
-/gps/ene/mono 100 keV
+#/gps/ene/type Gauss 
+/gps/ene/mono 2.5 MeV   # mono-energetic energy definition
 #/gps/ene/sigma 5. MeV
 #/gps/ene/mono 1.5 MeV
 # 
@@ -51,7 +51,7 @@
 #
 # Create Histograms
 #/analysis/h1/create volFlux ScoringShell_volFlux 100 0.00000001 18000. keV ! log
-/analysis/h1/create nFlux ScoringShell_neutron_volFlux 300 1000 15000 keV ! linear
+/analysis/h1/create nFlux ScoringShell_neutron_volFlux 300 1 1500 keV ! linear
 #/analysis/h1/create eFlux Scintillator_electron_volFlux 10000 0.1 10. MeV ! log
 /analysis/h1/create gFlux ScoringShell_gamma_volFlux 1000 1 5000 keV ! linear
 #
