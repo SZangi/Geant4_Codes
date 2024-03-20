@@ -5,7 +5,19 @@ The dtTest code is meant as a simple platform for modelling DT fusion in a thin 
 ### The Basics
 Similar to all Geant4 platforms, a primary generator action (PGA), physics list, and geometry or detector construction, are required. However, we don't just want to shoot some deuterons at a target, we want to know what happens, so additional classes are added for extra capabilities. In order to tally events occuring within the tritium target, and extract information from the simulation, we set up steppingAction, eventAction, and runAction classes, as well as an eventAction messenger class for passing information from the command line interface to the code, specifically to actions we take within eventAction. We also introduce a cross-section biasing class (XSBiasing), for increased statistics. This are all defined in seperate classes in dtTest, and we will go through how each is set up one at a time.
 
-#### The Primary Generator Action (PGA)
+#### How To Run:
+
+Compile and build the code using cmake. I usually use vscode's built in build and compile features, but any cmake should work. You just need to have the environment variable $Geant4_DIR set to wherever your geant4 installation is. Mine is set to /usr/local/geant4/geant4/geant4-v11.1.2/lib/Geant4-11.1.2/ There's also some instructions on the Geant webiste about setting up the environment variables. 
+
+Once you've built the code, you can run it from the build directory in visualization mode by running ./scintTest This will open a visualization window, where you can then run the macro "ParticleGun.mac" for an example of multiple run with a variety of beam energies. If you look through the macro, you'll see that it currently runs at 60, 70, 80, and 90 keV, and the user can set the energy either from the command line, or through the macro. 
+
+When the macro finishes running, it will dump the collected data (energy, direction, and particle type) to a file, specified by /scintTest/output/setFileName The defaults in the ParticleGun macro are DT_(numParticles)_(Energy)_(Date).csv. In the visualization, a Geant generated histogram of neutron energy should also pop up.
+
+In your analysis of the results, be sure to check the cross-section biasing factor, as by default it's set to 1000. Setting it to 1 will use normal cross-sections, but, the code will take a very very long time to run to get a statistically significant result. See the cross-section biasing section for more details. 
+
+## 
+## Details on Specific Quirks of the Code
+### The Primary Generator Action (PGA)
 dtTest uses a General Particle Source (GPS) as the particle source for it's flexibility and ease of use. All parameters, including type of particle, energy, source position, and direction, can be set from the command line, however, only a few, such as particle type and position can be initialized in the code itself. Thus the only default settings for a source in dtTest are 1 deuteron per event, located at (0.,0.,13.) cm. The macro script, "ParticleGun.mac" is provided as well, which gives examples of how to set particle energy, and direction, as well as source size.  
 
 The following lines are used in ParticleGun.mac to set up a 100 keV, 0.2 by 0.2 cm square particle source aimed in the -z direction at our target:
