@@ -25,63 +25,82 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
 
   // Get the current particle track
   G4Track *currentTrack = currentStep -> GetTrack();
-  //G4StepPoint *postStepPoint = currentStep -> GetPostStepPoint();
-  //G4StepPoint *preStepPoint = currentStep -> GetPreStepPoint();
+  G4StepPoint *postStepPoint = currentStep -> GetPostStepPoint();
+  G4StepPoint *preStepPoint = currentStep -> GetPreStepPoint();
   
 
   // Determine what volume the particle is currently in
   G4String currentVolumeName = currentTrack -> GetVolume() -> GetName();
   G4String currentParticleType = currentTrack -> GetParticleDefinition() -> GetParticleName();
-  
+  G4double PartWeight = currentTrack -> GetWeight();
+
   // If in the scoring volume & a neutron, get a bunch of info about the particle...
   G4double PartNrg = 0.;
   G4ThreeVector PartMomentumD;
+  //G4ThreeVector PartMomentumM;
+  //G4double Partmass = 0.;
+  //G4double Derived_E = 0.;
   G4ThreeVector PartPosition;
   G4String processName;
   G4ThreeVector BeamDir = G4ThreeVector(0.,0.,-1.);
-  //G4double Secondaries = 0.;
+  G4double Secondaries = 0.;
+  G4double currentTime = 0.;
+  G4int currentStepNumber = 0;
+  currentStepNumber = currentTrack -> GetCurrentStepNumber();
   //G4double PreStepNrg = 0.;
   //Secondaries = currentStep -> GetNumberOfSecondariesInCurrentStep();
   //PreStepNrg = preStepPoint -> GetKineticEnergy();
   if (currentParticleType == "neutron") // swap this out for the incident particle name
-    if(currentVolumeName == "score_p") //"score_p" for shell, "scint_p1" for target
+    if(currentVolumeName == "scint_p1" & currentStepNumber == 0) //"score_p" for shell, "scint_p1" for target, also checking if first step for emission info
       // get energy of particle
-      PartNrg = currentTrack -> GetKineticEnergy();
+      PartNrg = 0.;
+      PartNrg += currentTrack -> GetKineticEnergy();
+      //PartMomentumM = currentTrack -> GetMomentum();
+      //Partmass = currentTrack -> GetParticleDefinition() -> GetAtomicMass();
+      //Derived_E = PartMomentumM.mag2() / (2 * Partmass);
+      //PartNrg = Derived_E;
       PartMomentumD = currentTrack -> GetMomentumDirection();
       PartMomentumA = PartMomentumD.angle(BeamDir);
       PartPosition = currentTrack -> GetPosition();
+      currentTime = currentTrack -> GetGlobalTime();
+      evtAction -> GetEnergy(PartNrg);
+      evtAction -> GetMomentumDir(PartMomentumA);
+      evtAction -> GetPosition(PartPosition);
+      evtAction -> GetTrackTime(currentTime);
       
 
   // If in the target and a deuteron, get us a bunch of information about the secondaries...
- // if(currentVolumeName == "scint_p1")
-   // if (currentParticleType == "deuteron")
-     // processName = postStepPoint -> GetProcessDefinedStep()->GetProcessName();
-        // if (processName != "CoupledTransportation" and processName.length() > 0)
+  if(currentVolumeName == "scint_p1")
+    if (currentParticleType == "He3")
+      processName = postStepPoint -> GetProcessDefinedStep()->GetProcessName();
+         if (processName != "CoupledTransportation" and processName.length() > 0)
           // // This is a rudamentary way of tallying specifically DT, by just tallying
           // // every inelastic reaction that produces two secondaries.
-           // if (Secondaries == 2 and processName == "biasWrapper(dInelastic)")
-             // evtAction -> ProcessAdd("DT");
+            //if (processName == "biasWrapper(dInelastic)")
+            //  evtAction -> ProcessAdd("Inelastic");
             //else
-            //  evtAction -> Secondaries(PreStepNrg);
+            Secondaries = currentStep -> GetNumberOfSecondariesInCurrentStep();
+            evtAction -> Secondaries(Secondaries);
           // // Pass that information to the eventAction, which will tally it pass it to 
           // // the run action in the correct format.
-          //evtAction -> ProcessAdd(processName);
+          evtAction -> ProcessAdd(processName);
     
   
   // Once we have the information we want about the generated particle, pass to 
   // eventAction, which stores that information and dumps it to the output file.  
-  evtAction -> GetEnergy(PartNrg);
-  evtAction -> GetMomentumDir(PartMomentumA);
-  evtAction -> GetPosition(PartPosition);
-  evtAction -> GetParticleID(currentParticleType);
+
 
   //if (Secondaries > 0){
   //  G4cout << Secondaries << G4endl;
   //}
+  //G4bool transmitted = (preStepPoint->GetStepStatus() <= fGeomBoundary);
 
   if (currentParticleType == "neutron") // this should be the incident particle name, or the particle of interest
-    if(currentVolumeName == "score_p") //"score_p" for shell, "scint_p1" for target
+    if(currentVolumeName == "scint_p1") //"score_p" for shell, "scint_p1" for target
       evtAction -> PrintInfo();
-  
+      //if (PartNrg > 0 & transmitted)
+      //  currentTrack -> SetTrackStatus(fKillTrackAndSecondaries);
+
 }
+
 

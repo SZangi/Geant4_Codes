@@ -62,7 +62,7 @@ void eventAction::PrintInfo(){
   // This is our output function, it returns Energy, Position, 
   // Direction (angle), and particle type
   if(dataOutputSwitch and (ParticleEnergy > 0))
-    eventOutput << ParticleEnergy/keV << ";" << ParticlePosition/cm << ";" << MomentumDirection << ";" << ParticleID << std::endl;
+    eventOutput << ParticleEnergy/keV << ";" << ParticlePosition/cm << ";" << MomentumDirection << ";" << ParticleTime/second << std::endl;
 }
 
 // Anything included in this function is performed at the very end of
@@ -76,10 +76,11 @@ void eventAction::EndOfEventAction(const G4Event *)
   fRunAction->AddProcess(ElasticCol,2);
   fRunAction->AddProcess(IonizingCol,3);
   fRunAction->AddProcess(DT,4);
+  G4bool Proccess_out = false;
   // If the user has turned data output 'on', then do this!
-  //if(dataOutputSwitch and (InelasticCol > 0))
-  //  {
-  //    processOutput << InelasticCol << ";" << IonizingCol << ";" << ElasticCol << std::endl;
-  //  }
+  if(Proccess_out and (InelasticCol > 0))
+    {
+      processOutput << InelasticCol << ";" << IonizingCol << ";" << ElasticCol << std::endl;
+    }
     
 }

@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
   {
     // Create a modern UI interface with embedded OpenGL graphics
     G4UIExecutive *UIExecutive = new G4UIExecutive(argc, argv, "Qt");
-    //UI-> ApplyCommand("/control/execute scintTest.vis");
+    UI-> ApplyCommand("/control/execute scintTest.vis");
     
     // In Geant4 speak, verbose is the amount of information that the
     // simulation will output.  From 0 (silent) to some non-zero value
@@ -137,20 +137,22 @@ int main(int argc, char *argv[])
     UI -> ApplyCommand("/event/verbose 0");
     UI -> ApplyCommand("/hits/verbose 0");
     UI -> ApplyCommand("/tracking/verbose 0");
-    //UI -> ApplyCommand("/tracking/storeTrajectory 0");
+    UI -> ApplyCommand("/tracking/storeTrajectory 0");
     //UI -> ApplyCommand("/vis/scene/add/trajectories");
 
     UIExecutive -> SessionStart();
 
-    //UI-> ApplyCommand("/control/execute ../ParticleGun.mac");
     // Make sure to "delete" anything that we have create above using
     // "new".  This is good memory management
 
     delete UIExecutive;
     delete UI;
   }
+  delete model;
+  delete physicsList;
   delete histFiller;
   delete visManager;
+  delete rnAction;
   delete evtAction;
   delete runManager;
   

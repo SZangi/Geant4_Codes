@@ -40,14 +40,14 @@ public:
   };
 
   void ProcessAdd(G4String PartProcess)
-  { if(PartProcess == "biasWrapper(hIoni)")
+  { if(PartProcess == "biasWrapper(ionIoni)")
     {  IonizingCol ++;
       G4String processType = "Ionizing";
       }
     if(PartProcess == "biasWrapper(hadElastic)")
       {ElasticCol ++;
         G4String processType = "Elastic";}
-    if (PartProcess == "biasWrapper(dInelastic)"){
+    if (PartProcess == "biasWrapper(alphaInelastic)"){
       InelasticCol ++;
       G4String processType = "Inelastic";
     }
@@ -61,6 +61,7 @@ public:
 
   void GetEnergy(G4double PartEnergy)
   {
+    ParticleEnergy = 0;
     ParticleEnergy += PartEnergy;
   }
 
@@ -77,6 +78,16 @@ public:
   void GetParticleID(G4String PartID)
   {
     ParticleID = PartID;
+  }
+
+  void GetTrackWeight(G4double Weight)
+  {
+    ParticleWeight = Weight;
+  }
+
+  void GetTrackTime(G4double Time)
+  {
+    ParticleTime = Time;
   }
 
   void PrintInfo();
@@ -96,6 +107,8 @@ private:
   
   G4double ParticleEnergy;
 
+  G4double ParticleWeight;
+
   G4bool dataOutputSwitch;
 
   G4double MomentumDirection;
@@ -111,6 +124,8 @@ private:
   G4double ElasticCol;
 
   G4double DT;
+
+  G4double ParticleTime;
   
   eventActionMessenger *eventMessenger;
   

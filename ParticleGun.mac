@@ -1,5 +1,5 @@
 # name: ParticleGun.mac
-# date: 12/19/2023
+# date: 3/20/2024
 # author: Arthur Zangi
 # email: szangi@mit.edu
 #
@@ -24,52 +24,69 @@
 #
 /gps/direction 0. 0. -1.
 #
-#/gps/particle proton
+/gps/particle deuteron
+#Gaussian Energy Definition
+#/gps/ene/type Gauss
+/gps/ene/mono 100 keV
+#/gps/ene/sigma 5. MeV
 #/gps/ene/mono 1.5 MeV
 # 
 # Throw some analysis in for fun, and for running fewer macros
 #
 /score/create/realWorldLogVol score_l
 /score/quantity/volumeFlux volFlux 
-#/score/quantity/volumeFlux nFlux 
-#/score/filter/particle nFilter neutron
+/score/quantity/volumeFlux nFlux 
+/score/filter/particle nFilter neutron
 /score/quantity/volumeFlux gFlux
 /score/filter/particle gFilter gamma
+#/score/quantity/volumeFlux eFlux
+#/score/filter/particle eFilter e-
 
 /score/close
-#/score/create/realWorldLogVol scint_l1
-#/score/quantity/volumeFlux vol2Flux
-#/score/filter/particle nFilter deuteron
+/score/create/realWorldLogVol scint_l1
+/score/quantity/volumeFlux eFlux
+/score/filter/particle eFilter e-
 #/score/quantity/volumeFlux dFlux
-#/score/close
+/score/close
 #
 # Create Histograms
 #/analysis/h1/create volFlux ScoringShell_volFlux 100 0.00000001 18000. keV ! log
-#/analysis/h1/create nFlux ScoringShell_neutron_volFlux 100 10 20 MeV ! log
-#/analysis/h1/create dFlux Scintillator_deuteron_volFlux 1900 10 200 keV ! log
-/analysis/h1/create gFlux ScoringShell_gamma_volFlux 10000 0.001 20. MeV ! log
+/analysis/h1/create nFlux ScoringShell_neutron_volFlux 300 1000 15000 keV ! linear
+#/analysis/h1/create eFlux Scintillator_electron_volFlux 10000 0.1 10. MeV ! log
+/analysis/h1/create gFlux ScoringShell_gamma_volFlux 1000 1 5000 keV ! linear
 #
 # Fill histograms
-/score/fill1D 0 score_l gFlux
-#/score/fill1D 1 score_l nFlux
+#/score/fill1D 0 score_l gFlux
+/score/fill1D 0 score_l nFlux
 #/score/fill1D 2 scint_l1 dFlux
-#/score/fill1D 2 score_l gFlux
+#/score/fill1D 1 scint_l1 eFlux
+/score/fill1D 1 score_l gFlux
 #
-# set the energy definition
-/gps/ene/mono 60. keV
+## set the energy definition
+#/gps/ene/mono 5 MeV
 /scintTest/output/setDataOutput on
-/scintTest/output/setFileName DT_1e9_60keV_1219.csv
-/run/beamOn  1000000000
-/gps/ene/mono 70. keV
-/scintTest/output/setFileName DT_1e9_70keV_1219.csv
-/run/beamOn 1000000000
-/gps/ene/mono 80. keV
-/scintTest/output/setFileName DT_1e9_80keV_1219.csv
-/run/beamOn 1000000000
-/gps/ene/mono 90. keV
-/scintTest/output/setFileName DT_1e9_90keV_1219.csv
-/run/beamOn 1000000000
-#/run/beamOn 1000000000
+/scintTest/output/setFileName DT_100kev_0320.csv
+/run/beamOn 1000000
+#/gps/ene/mono 2.1 MeV
+#/analysis/h1/create nFlux 2.1_MeV_nFlux 100 10 20 MeV ! log
+#/score/fill1D 1 score_l nFlux
+#/run/beamOn 100000000
+#/gps/ene/mono 2.2 MeV
+#/analysis/h1/create nFlux 2.2_MeV_nFlux 100 10 20 MeV ! log
+#/score/fill1D 2 score_l nFlux
+#/run/beamOn 100000000
+#/gps/ene/mono 2.3 MeV
+#/analysis/h1/create nFlux 2.3_MeV_nFlux 100 10 20 MeV ! log
+#/score/fill1D 3 score_l nFlux
+#/run/beamOn 100000000
+#/gps/ene/mono 2.4 MeV
+#/analysis/h1/create nFlux 2.4_MeV_nFlux 100 10 20 MeV ! log
+#/score/fill1D 4 score_l nFlux
+#/run/beamOn 100000000
+#/gps/ene/mono 2.5 MeV
+#/analysis/h1/create nFlux 2.5_MeV_nFlux 100 10 20 MeV ! log
+#/score/fill1D 5 score_l nFlux
+#/run/beamOn 100000000
 #
 #when done, open a TSG view and the plots
 #

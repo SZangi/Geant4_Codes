@@ -10,6 +10,7 @@
 #include "G4NuclideTable.hh"
 
 #include "G4HadronElasticPhysicsHP.hh"
+#include "G4HadronElasticPhysicsPHP.hh"
 #include "G4HadronElasticPhysicsXS.hh"
 
 #include "G4HadronInelasticQBBC.hh"
@@ -23,8 +24,10 @@
 #include "G4IonINCLXXPhysics.hh"
 
 #include "G4EmLowEPPhysics.hh"
+#include "G4EmStandardPhysics_option4.hh"
 
 #include "G4RadioactiveDecayPhysics.hh"
+#include "G4DecayPhysics.hh"
 
 #include "G4GenericBiasingPhysics.hh"
 
@@ -56,18 +59,23 @@ PhysicsList::PhysicsList()
   G4NuclideTable::GetInstance()->SetMeanLifeThreshold(meanLife);  
     
   // Construct Specific Physics
-     RegisterPhysics( new G4HadronElasticPhysicsXS(0));  
-
+    // Hadronic Physics
      RegisterPhysics( new G4HadronInelasticQBBC(0));
+     RegisterPhysics( new G4HadronElasticPhysicsHP(1));  
 
     // EM Physics should be removed to get xs to match exactly with recorded vales
-     RegisterPhysics (new G4EmLowEPPhysics(0)); 
+     //RegisterPhysics (new G4EmLowEPPhysics(0)); 
+     //RegisterPhysics(new G4EmStandardPhysics_option4 (0));
 
+    // Ion Physics
      RegisterPhysics( new G4IonElasticPhysics(0));
+     RegisterPhysics (new G4IonPhysicsPHP(1));
 
-     RegisterPhysics( new G4IonPhysicsXS(0));
-
+    // Decay Physics
+     RegisterPhysics(new G4DecayPhysics(0));
      RegisterPhysics(new G4RadioactiveDecayPhysics(0));
+
+     
 
   // Add Biasing Physics
     G4GenericBiasingPhysics* biasingPhysics = new G4GenericBiasingPhysics();
@@ -111,7 +119,6 @@ void PhysicsList::SetCuts()
 //  SetCutValue(0*mm, "proton");
 // setting this value down will bring the neutron production closer to the expected
 // value but not quite there, still a little low.
-  SetCutValue(0*mm, "deuteron");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

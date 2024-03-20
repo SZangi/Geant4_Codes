@@ -26,28 +26,19 @@ PGA::PGA()
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
   G4ParticleDefinition* deuteron = particleTable -> FindParticle("deuteron");
   G4ParticleDefinition* proton = particleTable -> FindParticle("proton");
+  G4ParticleDefinition* alpha = particleTable -> FindParticle("alpha");
+  G4ParticleDefinition* helium3 = particleTable -> FindParticle("He3");
+  G4ParticleDefinition* neutron = particleTable -> FindParticle("neutron");
   
   // Initialize the particle gun with some default values
-  particleSource -> SetParticleDefinition(deuteron);
+  particleSource -> SetParticleDefinition(alpha);
 
-  G4double Px = 0.;
-  G4double Py = 0.;
-  G4double Pz = -1.;
-  G4double Energy = 100*keV;
-  // This can be used to set the particle direction here, this code does it from 
-  // the command line or in a macro.
-  //particleGun -> SetParticleMomentumDirection(G4ThreeVector(Px,Py,Pz)); 
-
-  // Set initial energy of particles. This is done from the command line or in
-  // a macro for convenience.
-  //particleSource -> SetParticleEnergy(Energy);
-  
   G4double X = 0.*m;
   G4double Y = 0.*m;
   G4double Z = 13.*cm;
   // Again, particle position can be set in the class definition like so, but
   // we set it from a macro for more flexibility.
-  //particleSource -> SetParticlePosition(G4ThreeVector(X,Y,Z));
+  particleSource -> SetParticlePosition(G4ThreeVector(X,Y,Z));
 }
 
 
