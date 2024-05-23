@@ -15,21 +15,26 @@
 # 1x1 cm square plane source
 /gps/pos/type Plane
 /gps/pos/shape Square
-/gps/pos/centre 0. 0. 13. cm
+/gps/pos/centre 0. 0. -49. cm
 /gps/pos/halfx 0.1 cm
 /gps/pos/halfy 0.1 cm
 #
 #we'll set the momentum direction for now instead of setting a
 #specific angular distribution
 #
-/gps/direction 0. 0. -1.
+/gps/direction 0. 0. +1.
 #
-/gps/particle alpha     # particle definition
+# particle definition
+/gps/particle alpha     
+#
 #Gaussian Energy Definition
 #/gps/ene/type Gauss 
-/gps/ene/mono 2.5 MeV   # mono-energetic energy definition
 #/gps/ene/sigma 5. MeV
 #/gps/ene/mono 1.5 MeV
+#
+# mono-energetic energy definition
+/gps/ene/mono 2.5 MeV   
+#
 # 
 # Throw some analysis in for fun, and for running fewer macros
 #
@@ -50,10 +55,10 @@
 /score/close
 #
 # Create Histograms
-#/analysis/h1/create volFlux ScoringShell_volFlux 100 0.00000001 18000. keV ! log
-/analysis/h1/create nFlux ScoringShell_neutron_volFlux 300 1 1500 keV ! linear
+#/analysis/h1/create volFlux score_volFlux 100 0.00000001 18000. keV ! log
+/analysis/h1/create nFlux detector_neutron_volFlux 300 1 1500 keV ! linear
 #/analysis/h1/create eFlux Scintillator_electron_volFlux 10000 0.1 10. MeV ! log
-/analysis/h1/create gFlux ScoringShell_gamma_volFlux 1000 1 5000 keV ! linear
+/analysis/h1/create gFlux shell_gamma_volFlux 1000 1 5000 keV ! linear
 #
 # Fill histograms
 #/score/fill1D 0 score_l gFlux
@@ -65,8 +70,8 @@
 ## set the energy definition
 #/gps/ene/mono 5 MeV
 /scintTest/output/setDataOutput on
-/scintTest/output/setFileName DT_100kev_0320.csv
-/run/beamOn 1000000
+/scintTest/output/setFileName Si_1E8_2_5MeV_0523.csv
+/run/beamOn 10000
 #/gps/ene/mono 2.1 MeV
 #/analysis/h1/create nFlux 2.1_MeV_nFlux 100 10 20 MeV ! log
 #/score/fill1D 1 score_l nFlux

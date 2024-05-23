@@ -198,30 +198,6 @@ scintTest.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/scintTest.cc.s
 .PHONY : scintTest.cc.s
 
-src/GB01BOptrChangeCrossSection.o: src/GB01BOptrChangeCrossSection.cc.o
-.PHONY : src/GB01BOptrChangeCrossSection.o
-
-# target to build an object file
-src/GB01BOptrChangeCrossSection.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/GB01BOptrChangeCrossSection.cc.o
-.PHONY : src/GB01BOptrChangeCrossSection.cc.o
-
-src/GB01BOptrChangeCrossSection.i: src/GB01BOptrChangeCrossSection.cc.i
-.PHONY : src/GB01BOptrChangeCrossSection.i
-
-# target to preprocess a source file
-src/GB01BOptrChangeCrossSection.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/GB01BOptrChangeCrossSection.cc.i
-.PHONY : src/GB01BOptrChangeCrossSection.cc.i
-
-src/GB01BOptrChangeCrossSection.s: src/GB01BOptrChangeCrossSection.cc.s
-.PHONY : src/GB01BOptrChangeCrossSection.s
-
-# target to generate assembly for a file
-src/GB01BOptrChangeCrossSection.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/GB01BOptrChangeCrossSection.cc.s
-.PHONY : src/GB01BOptrChangeCrossSection.cc.s
-
 src/PGA.o: src/PGA.cc.o
 .PHONY : src/PGA.o
 
@@ -269,6 +245,30 @@ src/PhysicsList.s: src/PhysicsList.cc.s
 src/PhysicsList.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/PhysicsList.cc.s
 .PHONY : src/PhysicsList.cc.s
+
+src/XSBiasing.o: src/XSBiasing.cc.o
+.PHONY : src/XSBiasing.o
+
+# target to build an object file
+src/XSBiasing.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/XSBiasing.cc.o
+.PHONY : src/XSBiasing.cc.o
+
+src/XSBiasing.i: src/XSBiasing.cc.i
+.PHONY : src/XSBiasing.i
+
+# target to preprocess a source file
+src/XSBiasing.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/XSBiasing.cc.i
+.PHONY : src/XSBiasing.cc.i
+
+src/XSBiasing.s: src/XSBiasing.cc.s
+.PHONY : src/XSBiasing.s
+
+# target to generate assembly for a file
+src/XSBiasing.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/scintTest.dir/build.make CMakeFiles/scintTest.dir/src/XSBiasing.cc.s
+.PHONY : src/XSBiasing.cc.s
 
 src/eventAction.o: src/eventAction.cc.o
 .PHONY : src/eventAction.o
@@ -430,15 +430,15 @@ help:
 	@echo "... scintTest.o"
 	@echo "... scintTest.i"
 	@echo "... scintTest.s"
-	@echo "... src/GB01BOptrChangeCrossSection.o"
-	@echo "... src/GB01BOptrChangeCrossSection.i"
-	@echo "... src/GB01BOptrChangeCrossSection.s"
 	@echo "... src/PGA.o"
 	@echo "... src/PGA.i"
 	@echo "... src/PGA.s"
 	@echo "... src/PhysicsList.o"
 	@echo "... src/PhysicsList.i"
 	@echo "... src/PhysicsList.s"
+	@echo "... src/XSBiasing.o"
+	@echo "... src/XSBiasing.i"
+	@echo "... src/XSBiasing.s"
 	@echo "... src/eventAction.o"
 	@echo "... src/eventAction.i"
 	@echo "... src/eventAction.s"

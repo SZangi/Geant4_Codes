@@ -59,6 +59,8 @@ public:
 
   void Secondaries (G4double NumSecondaires);
 
+  void Detectors (G4double Energy);
+
   void GetEnergy(G4double PartEnergy)
   {
     ParticleEnergy = 0;
@@ -126,12 +128,16 @@ private:
   G4double DT;
 
   G4double ParticleTime;
+
+  G4double Detect_Energy;
   
   eventActionMessenger *eventMessenger;
   
   std::ofstream eventOutput;
 
   std::ofstream processOutput;
+
+  std::ofstream detectOutput;
 
   runAction* fRunAction = nullptr;
 };

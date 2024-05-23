@@ -61,15 +61,15 @@ PhysicsList::PhysicsList()
   // Construct Specific Physics
     // Hadronic Physics
      RegisterPhysics( new G4HadronInelasticQBBC(0));
-     RegisterPhysics( new G4HadronElasticPhysicsHP(1));  
+     RegisterPhysics( new G4HadronElasticPhysicsHP(0));  
 
     // EM Physics should be removed to get xs to match exactly with recorded vales
-     //RegisterPhysics (new G4EmLowEPPhysics(0)); 
+     RegisterPhysics (new G4EmLowEPPhysics(0)); 
      //RegisterPhysics(new G4EmStandardPhysics_option4 (0));
 
     // Ion Physics
      RegisterPhysics( new G4IonElasticPhysics(0));
-     RegisterPhysics (new G4IonPhysicsPHP(1));
+     RegisterPhysics (new G4IonPhysicsPHP(0));
 
     // Decay Physics
      RegisterPhysics(new G4DecayPhysics(0));

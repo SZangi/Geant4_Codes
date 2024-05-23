@@ -53,7 +53,7 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   // the following dimensions....
   G4double labX = 10*cm;
   G4double labY = 10*cm;
-  G4double labZ = 20*cm;
+  G4double labZ = 50*cm;
   
   // Create a "solid" volume pointer of type G4Box.  Solid volumes in
   // Geant4 define the shape of a given volume.
@@ -107,9 +107,9 @@ G4VPhysicalVolume *geometryConstruction::Construct()
                         0,
                         0);
   
-    G4double posX = 0.*m; // position the scoring shell at the center, 10 cm off the front of the world
+    G4double posX = 0.*m; // position the scoring shell at the center, -15 cm off the middle of the world
     G4double posY = 0.*m;
-    G4double posZ = -10*cm;
+    G4double posZ = -45*cm;
 
   G4VPhysicalVolume *score_p =
     new G4PVPlacement(new G4RotationMatrix(),
@@ -120,12 +120,45 @@ G4VPhysicalVolume *geometryConstruction::Construct()
                       false,
                       0);
 
+  // "Detector" volume, for generating a neutron source to pass to 
+  // scint eval. Generally we're using detectors are cylinders
+  // so we use a cylinder here.
+
+  G4double detector_rad = 2.54*1.5 *cm; 
+  G4double detector_depth = 1E-3 *cm; // this doesn't really matter as we only tally flux
+  G4double detector_dist = 87 *cm; // distance from detector to center of target
+  
+  G4Tubs *detect_vol =
+    new G4Tubs("detector_vol",
+              0.,             // Inner radius
+              detector_rad,   // Outer radius
+              detector_depth, // Height
+              0.,             // Starting phi angle
+              2*pi *rad);     // Length of phi angle
+
+  G4LogicalVolume *detect_log =
+    new G4LogicalVolume(detect_vol,
+                        vacuum,
+                        "detect_l",
+                        0,
+                        0,
+                        0);
+  
+  G4VPhysicalVolume *detect_p =
+    new G4PVPlacement(new G4RotationMatrix(),
+                      G4ThreeVector(posX, posY, posZ+detector_dist),
+                      detect_log,
+                      "detect_p",
+                      lab_l,
+                      false,
+                      0);
+
   // Create the necessary volumes for the scintillator pieces, which
   // are modelled as thin, square tiles
 
   G4double scintBoxX = 3.*cm; // remember all of these are half widths
   G4double scintBoxY = 3.*cm;
-  G4double scintBoxZ = 0.5*um;
+  G4double scintBoxZ = 100*um;
   G4double Si02Layer = 1*nm;
 
   // Create solid volume representing the shape of the tiles
@@ -215,9 +248,9 @@ void geometryConstruction::ConstructSDandField()
   XSBiasing* testMany = 
     new XSBiasing("alpha");  // select the particle we want to bias
   testMany->AttachTo(logicTest); // attach to specific volume
-  testMany->AttachTo(logicTest1);
+  //testMany->AttachTo(logicTest1);
   G4cout << " Attaching biasing operator " << testMany->GetName()
-         << " to logical volumes " << logicTest->GetName() << logicTest1->GetName()
+         << " to logical volumes " << logicTest->GetName() // << logicTest1->GetName()
          << G4endl; // prints out what biasing we've done
 }
 
@@ -467,8 +500,6 @@ G4Material *geometryConstruction::IsoSilicon29(){
 
 G4Material *geometryConstruction::SiDiO()
 {
-  // Saint Gobain BC404 specifications obtained from:
-  // http://www.detectors.saint-gobain.com/ -> search for "BC404"
   G4double a;
   G4double z;
   G4double density;

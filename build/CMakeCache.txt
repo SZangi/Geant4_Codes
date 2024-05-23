@@ -214,6 +214,24 @@ EXPAT_INCLUDE_DIR:PATH=/usr/include
 //Path to a library.
 EXPAT_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libexpat.so
 
+//Path to a file.
+FREETYPE_INCLUDE_DIR_freetype2:PATH=/usr/include/freetype2
+
+//Path to a file.
+FREETYPE_INCLUDE_DIR_ft2build:PATH=/usr/include/freetype2
+
+//Path to a library.
+FREETYPE_LIBRARY_DEBUG:FILEPATH=FREETYPE_LIBRARY_DEBUG-NOTFOUND
+
+//Path to a library.
+FREETYPE_LIBRARY_RELEASE:FILEPATH=/usr/lib/x86_64-linux-gnu/libfreetype.so
+
+//Path to a file.
+Fontconfig_INCLUDE_DIR:PATH=/usr/include
+
+//Path to a library.
+Fontconfig_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libfontconfig.so
+
 //The directory containing a CMake configuration file for Geant4.
 Geant4_DIR:PATH=/usr/local/geant4/geant4-v11.1.2/lib/cmake/Geant4
 
@@ -248,7 +266,7 @@ OPENGL_xmesa_INCLUDE_DIR:PATH=OPENGL_xmesa_INCLUDE_DIR-NOTFOUND
 PKG_CONFIG_ARGN:STRING=
 
 //pkg-config executable
-PKG_CONFIG_EXECUTABLE:FILEPATH=PKG_CONFIG_EXECUTABLE-NOTFOUND
+PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
 
 //The directory containing a CMake configuration file for PTL.
 PTL_DIR:PATH=/usr/local/geant4/geant4-v11.1.2/lib/cmake/Geant4/PTL
@@ -344,22 +362,22 @@ X11_Xaw_INCLUDE_PATH:PATH=X11_Xaw_INCLUDE_PATH-NOTFOUND
 X11_Xaw_LIB:FILEPATH=X11_Xaw_LIB-NOTFOUND
 
 //Path to a file.
-X11_Xcomposite_INCLUDE_PATH:PATH=X11_Xcomposite_INCLUDE_PATH-NOTFOUND
+X11_Xcomposite_INCLUDE_PATH:PATH=/usr/include
 
 //Path to a library.
-X11_Xcomposite_LIB:FILEPATH=X11_Xcomposite_LIB-NOTFOUND
+X11_Xcomposite_LIB:FILEPATH=/usr/lib/x86_64-linux-gnu/libXcomposite.so
 
 //Path to a file.
-X11_Xcursor_INCLUDE_PATH:PATH=X11_Xcursor_INCLUDE_PATH-NOTFOUND
+X11_Xcursor_INCLUDE_PATH:PATH=/usr/include
 
 //Path to a library.
-X11_Xcursor_LIB:FILEPATH=X11_Xcursor_LIB-NOTFOUND
+X11_Xcursor_LIB:FILEPATH=/usr/lib/x86_64-linux-gnu/libXcursor.so
 
 //Path to a file.
-X11_Xdamage_INCLUDE_PATH:PATH=X11_Xdamage_INCLUDE_PATH-NOTFOUND
+X11_Xdamage_INCLUDE_PATH:PATH=/usr/include
 
 //Path to a library.
-X11_Xdamage_LIB:FILEPATH=X11_Xdamage_LIB-NOTFOUND
+X11_Xdamage_LIB:FILEPATH=/usr/lib/x86_64-linux-gnu/libXdamage.so
 
 //Path to a file.
 X11_Xdmcp_INCLUDE_PATH:PATH=/usr/include
@@ -374,28 +392,28 @@ X11_Xext_INCLUDE_PATH:PATH=/usr/include
 X11_Xext_LIB:FILEPATH=/usr/lib/x86_64-linux-gnu/libXext.so
 
 //Path to a file.
-X11_Xfixes_INCLUDE_PATH:PATH=X11_Xfixes_INCLUDE_PATH-NOTFOUND
+X11_Xfixes_INCLUDE_PATH:PATH=/usr/include
 
 //Path to a library.
-X11_Xfixes_LIB:FILEPATH=X11_Xfixes_LIB-NOTFOUND
+X11_Xfixes_LIB:FILEPATH=/usr/lib/x86_64-linux-gnu/libXfixes.so
 
 //Path to a file.
-X11_Xft_INCLUDE_PATH:PATH=X11_Xft_INCLUDE_PATH-NOTFOUND
+X11_Xft_INCLUDE_PATH:PATH=/usr/include
 
 //Path to a library.
-X11_Xft_LIB:FILEPATH=X11_Xft_LIB-NOTFOUND
+X11_Xft_LIB:FILEPATH=/usr/lib/x86_64-linux-gnu/libXft.so
 
 //Path to a file.
-X11_Xi_INCLUDE_PATH:PATH=X11_Xi_INCLUDE_PATH-NOTFOUND
+X11_Xi_INCLUDE_PATH:PATH=/usr/include
 
 //Path to a library.
-X11_Xi_LIB:FILEPATH=X11_Xi_LIB-NOTFOUND
+X11_Xi_LIB:FILEPATH=/usr/lib/x86_64-linux-gnu/libXi.so
 
 //Path to a file.
-X11_Xinerama_INCLUDE_PATH:PATH=X11_Xinerama_INCLUDE_PATH-NOTFOUND
+X11_Xinerama_INCLUDE_PATH:PATH=/usr/include
 
 //Path to a library.
-X11_Xinerama_LIB:FILEPATH=X11_Xinerama_LIB-NOTFOUND
+X11_Xinerama_LIB:FILEPATH=/usr/lib/x86_64-linux-gnu/libXinerama.so
 
 //Path to a file.
 X11_Xkb_INCLUDE_PATH:PATH=/usr/include
@@ -419,16 +437,16 @@ X11_Xpm_INCLUDE_PATH:PATH=X11_Xpm_INCLUDE_PATH-NOTFOUND
 X11_Xpm_LIB:FILEPATH=X11_Xpm_LIB-NOTFOUND
 
 //Path to a file.
-X11_Xrandr_INCLUDE_PATH:PATH=X11_Xrandr_INCLUDE_PATH-NOTFOUND
+X11_Xrandr_INCLUDE_PATH:PATH=/usr/include
 
 //Path to a library.
-X11_Xrandr_LIB:FILEPATH=X11_Xrandr_LIB-NOTFOUND
+X11_Xrandr_LIB:FILEPATH=/usr/lib/x86_64-linux-gnu/libXrandr.so
 
 //Path to a file.
-X11_Xrender_INCLUDE_PATH:PATH=X11_Xrender_INCLUDE_PATH-NOTFOUND
+X11_Xrender_INCLUDE_PATH:PATH=/usr/include
 
 //Path to a library.
-X11_Xrender_LIB:FILEPATH=X11_Xrender_LIB-NOTFOUND
+X11_Xrender_LIB:FILEPATH=/usr/lib/x86_64-linux-gnu/libXrender.so
 
 //Path to a file.
 X11_Xshape_INCLUDE_PATH:PATH=/usr/include
@@ -528,6 +546,18 @@ XercesC_LIBRARY_DEBUG:FILEPATH=XercesC_LIBRARY_DEBUG-NOTFOUND
 
 //Xerces-C++ libraries (release)
 XercesC_LIBRARY_RELEASE:FILEPATH=/usr/local/lib/libxerces-c.so
+
+//Path to a library.
+pkgcfg_lib_PC_EXPAT_expat:FILEPATH=/usr/lib/x86_64-linux-gnu/libexpat.so
+
+//Path to a library.
+pkgcfg_lib_PC_EXPAT_m:FILEPATH=/usr/lib/x86_64-linux-gnu/libm.so
+
+//Path to a library.
+pkgcfg_lib_PKG_FONTCONFIG_fontconfig:FILEPATH=/usr/lib/x86_64-linux-gnu/libfontconfig.so
+
+//Path to a library.
+pkgcfg_lib_PKG_FONTCONFIG_freetype:FILEPATH=/usr/lib/x86_64-linux-gnu/libfreetype.so
 
 //Value Computed by CMake
 scintTest_BINARY_DIR:STATIC=/home/arthurz/Masters/code/dtTest/build
@@ -714,6 +744,18 @@ FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 FIND_PACKAGE_MESSAGE_DETAILS_X11:INTERNAL=[/usr/include][/usr/lib/x86_64-linux-gnu/libX11.so][c ][v()]
 //Details about finding XercesC
 FIND_PACKAGE_MESSAGE_DETAILS_XercesC:INTERNAL=[/usr/local/lib/libxerces-c.so][/usr/local/include][3.2.4][v3.2.4(3.2.4)]
+//ADVANCED property for variable: FREETYPE_INCLUDE_DIR_freetype2
+FREETYPE_INCLUDE_DIR_freetype2-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: FREETYPE_INCLUDE_DIR_ft2build
+FREETYPE_INCLUDE_DIR_ft2build-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: FREETYPE_LIBRARY_DEBUG
+FREETYPE_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: FREETYPE_LIBRARY_RELEASE
+FREETYPE_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Fontconfig_INCLUDE_DIR
+Fontconfig_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: Fontconfig_LIBRARY
+Fontconfig_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OPENGL_EGL_INCLUDE_DIR
 OPENGL_EGL_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OPENGL_GLX_INCLUDE_DIR
@@ -735,28 +777,77 @@ OPENGL_xmesa_INCLUDE_DIR-ADVANCED:INTERNAL=1
 PC_EXPAT_CFLAGS:INTERNAL=
 PC_EXPAT_CFLAGS_I:INTERNAL=
 PC_EXPAT_CFLAGS_OTHER:INTERNAL=
-PC_EXPAT_FOUND:INTERNAL=
-PC_EXPAT_INCLUDEDIR:INTERNAL=
-PC_EXPAT_LIBDIR:INTERNAL=
+PC_EXPAT_FOUND:INTERNAL=1
+PC_EXPAT_INCLUDEDIR:INTERNAL=/usr/include
+PC_EXPAT_INCLUDE_DIRS:INTERNAL=
+PC_EXPAT_LDFLAGS:INTERNAL=-L/usr/lib/x86_64-linux-gnu;-lexpat;-lm
+PC_EXPAT_LDFLAGS_OTHER:INTERNAL=
+PC_EXPAT_LIBDIR:INTERNAL=/usr/lib/x86_64-linux-gnu
+PC_EXPAT_LIBRARIES:INTERNAL=expat;m
+PC_EXPAT_LIBRARY_DIRS:INTERNAL=/usr/lib/x86_64-linux-gnu
 PC_EXPAT_LIBS:INTERNAL=
 PC_EXPAT_LIBS_L:INTERNAL=
 PC_EXPAT_LIBS_OTHER:INTERNAL=
 PC_EXPAT_LIBS_PATHS:INTERNAL=
-PC_EXPAT_MODULE_NAME:INTERNAL=
-PC_EXPAT_PREFIX:INTERNAL=
+PC_EXPAT_MODULE_NAME:INTERNAL=expat
+PC_EXPAT_PREFIX:INTERNAL=/usr
 PC_EXPAT_STATIC_CFLAGS:INTERNAL=
 PC_EXPAT_STATIC_CFLAGS_I:INTERNAL=
 PC_EXPAT_STATIC_CFLAGS_OTHER:INTERNAL=
+PC_EXPAT_STATIC_INCLUDE_DIRS:INTERNAL=
+PC_EXPAT_STATIC_LDFLAGS:INTERNAL=-L/usr/lib/x86_64-linux-gnu;-lexpat;-lm
+PC_EXPAT_STATIC_LDFLAGS_OTHER:INTERNAL=
 PC_EXPAT_STATIC_LIBDIR:INTERNAL=
+PC_EXPAT_STATIC_LIBRARIES:INTERNAL=expat;m
+PC_EXPAT_STATIC_LIBRARY_DIRS:INTERNAL=/usr/lib/x86_64-linux-gnu
 PC_EXPAT_STATIC_LIBS:INTERNAL=
 PC_EXPAT_STATIC_LIBS_L:INTERNAL=
 PC_EXPAT_STATIC_LIBS_OTHER:INTERNAL=
 PC_EXPAT_STATIC_LIBS_PATHS:INTERNAL=
-PC_EXPAT_VERSION:INTERNAL=
+PC_EXPAT_VERSION:INTERNAL=2.4.7
+PC_EXPAT_expat_INCLUDEDIR:INTERNAL=
+PC_EXPAT_expat_LIBDIR:INTERNAL=
+PC_EXPAT_expat_PREFIX:INTERNAL=
+PC_EXPAT_expat_VERSION:INTERNAL=
 //ADVANCED property for variable: PKG_CONFIG_ARGN
 PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
+PKG_FONTCONFIG_CFLAGS:INTERNAL=-I/usr/include/uuid;-I/usr/include/freetype2;-I/usr/include/libpng16
+PKG_FONTCONFIG_CFLAGS_I:INTERNAL=
+PKG_FONTCONFIG_CFLAGS_OTHER:INTERNAL=
+PKG_FONTCONFIG_FOUND:INTERNAL=1
+PKG_FONTCONFIG_INCLUDEDIR:INTERNAL=/usr/include
+PKG_FONTCONFIG_INCLUDE_DIRS:INTERNAL=/usr/include/uuid;/usr/include/freetype2;/usr/include/libpng16
+PKG_FONTCONFIG_LDFLAGS:INTERNAL=-L/usr/lib/x86_64-linux-gnu;-lfontconfig;-lfreetype
+PKG_FONTCONFIG_LDFLAGS_OTHER:INTERNAL=
+PKG_FONTCONFIG_LIBDIR:INTERNAL=/usr/lib/x86_64-linux-gnu
+PKG_FONTCONFIG_LIBRARIES:INTERNAL=fontconfig;freetype
+PKG_FONTCONFIG_LIBRARY_DIRS:INTERNAL=/usr/lib/x86_64-linux-gnu
+PKG_FONTCONFIG_LIBS:INTERNAL=
+PKG_FONTCONFIG_LIBS_L:INTERNAL=
+PKG_FONTCONFIG_LIBS_OTHER:INTERNAL=
+PKG_FONTCONFIG_LIBS_PATHS:INTERNAL=
+PKG_FONTCONFIG_MODULE_NAME:INTERNAL=fontconfig
+PKG_FONTCONFIG_PREFIX:INTERNAL=/usr
+PKG_FONTCONFIG_STATIC_CFLAGS:INTERNAL=-I/usr/include/uuid;-I/usr/include/freetype2;-I/usr/include/libpng16
+PKG_FONTCONFIG_STATIC_CFLAGS_I:INTERNAL=
+PKG_FONTCONFIG_STATIC_CFLAGS_OTHER:INTERNAL=
+PKG_FONTCONFIG_STATIC_INCLUDE_DIRS:INTERNAL=/usr/include/uuid;/usr/include/freetype2;/usr/include/libpng16
+PKG_FONTCONFIG_STATIC_LDFLAGS:INTERNAL=-L/usr/lib/x86_64-linux-gnu;-lfontconfig;-luuid;-lexpat;-lm;-lfreetype;-lpng16;-lm;-lz;-lm;-lz;-lbrotlidec;-lbrotlicommon
+PKG_FONTCONFIG_STATIC_LDFLAGS_OTHER:INTERNAL=
+PKG_FONTCONFIG_STATIC_LIBDIR:INTERNAL=
+PKG_FONTCONFIG_STATIC_LIBRARIES:INTERNAL=fontconfig;uuid;expat;m;freetype;png16;m;z;m;z;brotlidec;brotlicommon
+PKG_FONTCONFIG_STATIC_LIBRARY_DIRS:INTERNAL=/usr/lib/x86_64-linux-gnu
+PKG_FONTCONFIG_STATIC_LIBS:INTERNAL=
+PKG_FONTCONFIG_STATIC_LIBS_L:INTERNAL=
+PKG_FONTCONFIG_STATIC_LIBS_OTHER:INTERNAL=
+PKG_FONTCONFIG_STATIC_LIBS_PATHS:INTERNAL=
+PKG_FONTCONFIG_VERSION:INTERNAL=2.13.1
+PKG_FONTCONFIG_fontconfig_INCLUDEDIR:INTERNAL=
+PKG_FONTCONFIG_fontconfig_LIBDIR:INTERNAL=
+PKG_FONTCONFIG_fontconfig_PREFIX:INTERNAL=
+PKG_FONTCONFIG_fontconfig_VERSION:INTERNAL=
 //ADVANCED property for variable: X11_ICE_INCLUDE_PATH
 X11_ICE_INCLUDE_PATH-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: X11_ICE_LIB
@@ -919,5 +1010,17 @@ XercesC_INCLUDE_DIR-ADVANCED:INTERNAL=1
 XercesC_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: XercesC_LIBRARY_RELEASE
 XercesC_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
+__pkg_config_arguments_PC_EXPAT:INTERNAL=QUIET;expat
+__pkg_config_arguments_PKG_FONTCONFIG:INTERNAL=QUIET;fontconfig
 __pkg_config_checked_PC_EXPAT:INTERNAL=1
+__pkg_config_checked_PKG_FONTCONFIG:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_PC_EXPAT_expat
+pkgcfg_lib_PC_EXPAT_expat-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_PC_EXPAT_m
+pkgcfg_lib_PC_EXPAT_m-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_PKG_FONTCONFIG_fontconfig
+pkgcfg_lib_PKG_FONTCONFIG_fontconfig-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_PKG_FONTCONFIG_freetype
+pkgcfg_lib_PKG_FONTCONFIG_freetype-ADVANCED:INTERNAL=1
+prefix_result:INTERNAL=/usr/lib/x86_64-linux-gnu
 

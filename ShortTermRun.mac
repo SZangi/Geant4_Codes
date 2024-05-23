@@ -1,0 +1,30 @@
+/run/initialize
+#
+/gps/verbose 0
+#
+# 1x1 cm square plane source
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/centre 0. 0. -49. cm
+/gps/pos/halfx 0.1 cm
+/gps/pos/halfy 0.1 cm
+#
+#we'll set the momentum direction for now instead of setting a
+#specific angular distribution
+#
+/gps/direction 0. 0. +1.
+#
+# particle definition
+/gps/particle alpha     
+#
+#Gaussian Energy Definition
+#/gps/ene/type Gauss 
+#/gps/ene/sigma 5. MeV
+#/gps/ene/mono 1.5 MeV
+#
+# mono-energetic energy definition
+/gps/ene/mono 2.5 MeV   
+#
+/scintTest/output/setDataOutput on
+/scintTest/output/setFileName Si_1E4_2_5MeV_0523.csv
+/run/beamOn 10000
