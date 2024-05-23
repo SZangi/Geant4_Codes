@@ -124,6 +124,7 @@ int main(int argc, char *argv[])
   // Get the U(ser)I(interface) pointer to allow...*suspense*
   // ...user interface!
   G4UImanager* UI = G4UImanager::GetUIpointer();
+  if (argc == 1)
   {
     // Create a modern UI interface with embedded OpenGL graphics
     G4UIExecutive *UIExecutive = new G4UIExecutive(argc, argv, "Qt");
@@ -147,6 +148,13 @@ int main(int argc, char *argv[])
 
     delete UIExecutive;
     delete UI;
+  }
+  else{
+    G4cout << "\n\n \t *******  WELCOME TO THE DtTest SIMULATION  *******\n\n";
+    G4String command = "/control/execute ";
+    G4String fileName = argv[1];
+    UI->ApplyCommand(command+fileName);
+    G4cout <<"\n\n \t ******** Program Finished ********\n\n";
   }
   delete model;
   delete physicsList;
