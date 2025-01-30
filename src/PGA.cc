@@ -45,12 +45,14 @@ PGA::PGA()
 
   Hist_points.reserve(LegendreLength);
   // Set up the legendre histogram objects
-  for (G4int i; i<LegendreEnergy.size();i++){
+  for (G4int i=0; i<LegendreEnergy.size();i++){
     G4double * Hist_point = new G4double[LegendreBins];
-    for (G4int j; j<LegendreBins;j++){
+    for (G4int j=0; j<LegendreBins;j++){
       Hist_point[j] = LegendreHists[i][j];
     }
     Hist_points.emplace_back(Hist_point);
+    G4RandGeneral* leg_generator = new G4RandGeneral(Hist_point,LegendreBins);
+    Generators.push_back(leg_generator);
   }
 
   G4double X = 0.*m;
@@ -67,6 +69,7 @@ PGA::~PGA()
   delete alpha_generator;
   delete action_generator;
   for (G4int i = 0; i<Hist_points.size();i++) delete Hist_points[i];
+  for (G4int i = 0; i<Generators.size();i++) delete Generators[i];
   delete E_alpha_array; }
 
 
@@ -80,7 +83,7 @@ void PGA::GeneratePrimaries(G4Event* anEvent)
 
   Particle_info = GenerateCosE(E_incident,m_a,m_b,m_c,m_d,Q);
 
-  particleSource -> SetParticleEnergy(E_incident);
+  //particleSource -> SetParticleEnergy(E_incident);
 
   //G4cout << E_incident << G4endl;
 
@@ -95,7 +98,7 @@ void PGA::GeneratePrimaries(G4Event* anEvent)
   //G4cout<<Particle_info[0]<<G4endl;
 
   particleSource -> SetParticleMomentumDirection(G4ThreeVector(0,p_y,Particle_info[0]));
-
+  particleSource -> SetParticleEnergy(Particle_info[1]);
   particleSource -> GeneratePrimaryVertex(anEvent); } 
 
 
@@ -107,13 +110,14 @@ std::vector<G4double> PGA::GenerateCosE(G4double incident_E,G4double m_A, G4doub
     else
       break;
   }
-  action_generator = new G4RandGeneral(Hist_points[idx],LegendreBins);
-  G4double rand_num = action_generator->shoot(G4Random::getTheEngine());
+  //action_generator = new G4RandGeneral(Hist_points[idx],LegendreBins);
+  //action_generator = Generators[idx];
+  G4double rand_num = Generators[idx]->shoot(G4Random::getTheEngine());
   G4double part_cos = 2*rand_num-1;
   G4double part_E = CosToE(part_cos,m_A,m_B,m_C,m_D,incident_E,Q_value);
   
-  delete action_generator;
-  action_generator = nullptr;
+  //delete action_generator;
+  //action_generator = nullptr;
 
   return {part_cos,part_E};
 }

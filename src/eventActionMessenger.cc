@@ -9,7 +9,7 @@
 // variables from the scintTest command line.  
 
 eventActionMessenger::eventActionMessenger(eventAction *eventAction)
-  : EA(eventAction) //what is this?
+  : EA(eventAction) 
 {
   // Creates a new directory where the commands will live
   outputDir = new G4UIdirectory("/scintTest/output/");

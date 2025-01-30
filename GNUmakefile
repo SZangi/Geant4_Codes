@@ -3,7 +3,7 @@
 # GNUmakefile for examples module.  Gabriele Cosmo, 06/04/98.
 # --------------------------------------------------------------
 
-name := scintTest
+name := dtTest
 G4TARGET := $(name)
 G4EXLIB := true
 
@@ -35,4 +35,4 @@ CPPFLAGS += $(ROOTINCLUDES)
 LDLIBS += $(ROOTDISTLIBS)
 
 
-
+.PHONY:

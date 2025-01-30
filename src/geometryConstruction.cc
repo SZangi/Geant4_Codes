@@ -118,7 +118,7 @@ G4VPhysicalVolume *geometryConstruction::Construct()
 
   G4VPhysicalVolume *score_p =
     new G4PVPlacement(new G4RotationMatrix(),
-                      G4ThreeVector(posX, posY, posZ),
+                      G4ThreeVector(posX, posY, 0),
                       score_l,
                       "score_p",
                       lab_l,

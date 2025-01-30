@@ -8,6 +8,8 @@
 #include "steppingAction.hh"
 #include "eventAction.hh"
 
+#include <iostream>
+
 steppingAction::steppingAction(eventAction *currentEvent)
   : evtAction(currentEvent)
 {;}

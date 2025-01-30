@@ -4,6 +4,10 @@
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4ParticleGun.hh"
+#include "Randomize.hh"
+
+//#include "TFile.h"
+//#include "TH2.h"
 
 class G4GeneralParticleSource;
 class G4Event;
@@ -44,6 +48,7 @@ private:
   G4double E_max = 2230.35*keV;
 
   std::vector<G4double*> Hist_points;
+  std::vector<G4RandGeneral*> Generators;
 
   G4double A_masses;
   G4double A_energy;

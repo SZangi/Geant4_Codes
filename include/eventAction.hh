@@ -129,7 +129,7 @@ private:
 
   G4double DT;
 
-  G4double ParticleTime;
+  G4double ParticleTime=0;
 
   G4double Detect_Energy;
 
