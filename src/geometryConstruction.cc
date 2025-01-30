@@ -31,6 +31,8 @@ geometryConstruction::~geometryConstruction()
 // volumes and placement, first, and the materials definition second.
 G4VPhysicalVolume *geometryConstruction::Construct()
 {
+  G4NistManager *nist = G4NistManager::Instance();
+
   // Call class member functions to mix desired materials.  Functions
   // will return pointer of type G4Material
   G4Material *vacuum = mixVacuum();
@@ -45,6 +47,9 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   G4Material *silicon29 = IsoSilicon29();
   G4Material *dopedSi = dopeSilicon();
   G4Material *SiO2 = SiDiO();
+  G4Material *graphite = Graphite();
+  G4Material *aluminum = AluminumFoil();
+  G4Material *beryllium = nist->FindOrBuildMaterial("G4_Be");
 //  G4Material *lithium = mixLithium();
     
   // Create the top-level volume in the geometry hierarchy, known as
@@ -158,18 +163,44 @@ G4VPhysicalVolume *geometryConstruction::Construct()
 
   G4double scintBoxX = 3.*cm; // remember all of these are half widths
   G4double scintBoxY = 3.*cm;
-  G4double scintBoxZ = 100*um;
+  G4double scintBoxZ = 10*nm;
   G4double Si02Layer = 1*nm;
 
   // Create solid volume representing the shape of the tiles
   G4Box *scint_s = new G4Box("scint_s",scintBoxX,scintBoxY,scintBoxZ);
+
+  G4Box *graphite_s = new G4Box("graphite_s",scintBoxX+1*cm,scintBoxY,10*nm); // should be 1 cm wider on each side
+
+  G4LogicalVolume *graphite_l = new G4LogicalVolume(graphite_s, vacuum, "graphite_l", 0,0,0);
+
+  G4VPhysicalVolume *graphite_p = 
+  new G4PVPlacement(new  G4RotationMatrix(),
+                    G4ThreeVector(posX,posY,posZ+scintBoxZ+0.25*cm+0.01*cm),
+                    graphite_l,
+                    "graphite_p",
+                    lab_l,
+                    false,
+                    0);
+
+  G4Box *aluminum_s = new G4Box("al_s", scintBoxX+1*cm, scintBoxY, 10*um); // same dimensions as graphite but thinner
+
+  G4LogicalVolume *aluminum_l = new G4LogicalVolume(aluminum_s, vacuum, "al_l", 0,0,0);
+
+  G4VPhysicalVolume *aluminum_p = 
+  new G4PVPlacement(new G4RotationMatrix(),
+                    G4ThreeVector(posX,posY,posZ+scintBoxZ+0.005*cm),
+                    aluminum_l,
+                    "al_p",
+                    lab_l,
+                    false,
+                    0);
 
   // 2 different logical volumes created to two different colors 
   // can be applied...remember, its all about the style points.
   
   // Target layer
   G4LogicalVolume *scint_l1 = new G4LogicalVolume(scint_s,
-						  dopedSi,
+						  beryllium,
 						  "scint_l1",
 						  0,
 						  0,
@@ -178,7 +209,7 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   G4Box *sio2_s = new G4Box("si02_s",scintBoxX,scintBoxY,Si02Layer);
   // SiO2 coating (directly in front of target)
   G4LogicalVolume *sio2_l = new G4LogicalVolume(sio2_s,
-              SiO2,
+              vacuum,
               "SiO2_Layer",
               0,
               0,
@@ -216,7 +247,7 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   lab_l -> SetVisAttributes(LabVisAtt);
   
   G4VisAttributes *ScintBox1VisAtt = 
-    new G4VisAttributes(G4Colour(1.0,0.0,0.0,0.5));
+    new G4VisAttributes(G4Colour(0.0,0.0,0.0,0.5));
   ScintBox1VisAtt -> SetForceSolid(1);
   scint_l1 -> SetVisAttributes(ScintBox1VisAtt);
   
@@ -226,9 +257,14 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   score_l -> SetVisAttributes(ScoringShellVisAtt);
 
   G4VisAttributes *SiO2VisAtt = 
-   new G4VisAttributes(G4Colour(1.0,1.0,0.0,1.0));
+   new G4VisAttributes(G4Colour(0.0,0.0,0.0,1.0));
  SiO2VisAtt -> SetForceSolid(1);
  sio2_l -> SetVisAttributes(SiO2VisAtt);
+
+ G4VisAttributes *AluminumVisAtt = 
+  new G4VisAttributes(G4Colour(0.,0.,0.0,1.0));
+AluminumVisAtt -> SetForceSolid(1);
+aluminum_l -> SetVisAttributes(AluminumVisAtt);
   
   // Return a pointer to the world volume
   return lab_p;
@@ -241,6 +277,7 @@ void geometryConstruction::ConstructSDandField()
   // -- Fetch volume for biasing:
   G4LogicalVolume* logicTest = G4LogicalVolumeStore::GetInstance()->GetVolume("scint_l1");
   G4LogicalVolume* logicTest1 = G4LogicalVolumeStore::GetInstance()->GetVolume("SiO2_Layer");
+  G4LogicalVolume* logicGraphite = G4LogicalVolumeStore::GetInstance()->GetVolume("graphite_l");
 
   // ----------------------------------------------
   // -- operator creation and attachment to volume:
@@ -248,9 +285,9 @@ void geometryConstruction::ConstructSDandField()
   XSBiasing* testMany = 
     new XSBiasing("alpha");  // select the particle we want to bias
   testMany->AttachTo(logicTest); // attach to specific volume
-  //testMany->AttachTo(logicTest1);
+  testMany->AttachTo(logicGraphite);
   G4cout << " Attaching biasing operator " << testMany->GetName()
-         << " to logical volumes " << logicTest->GetName() // << logicTest1->GetName()
+         << " to logical volumes " << logicTest->GetName()  << logicGraphite->GetName()
          << G4endl; // prints out what biasing we've done
 }
 
@@ -365,15 +402,15 @@ G4Material *geometryConstruction::Boron() {
   G4double z;
   G4double n;
   G4double density = 2.46*g/cm3;
-  G4int nComp;
+  G4int nComp=1;
 
-  G4Isotope *B11 = new G4Isotope("Boron11", z= 5, n= 11, a= 11.009305 *g/mole);
-  G4Element *PureB11 = new G4Element("Elemental Boron 11", "B11", nComp = 1);
-  PureB11 -> AddIsotope(B11, 100. *perCent);
-  G4Material *Boron11 = new G4Material("MixBoron11", density, nComp);
-  Boron11 -> AddElement(PureB11, 100. *perCent);
+  //G4Isotope *B11 = new G4Isotope("Boron11", z= 5, n= 11, a= 11.009305 *g/mole);
+  G4Element *B = new G4Element("Boron", "B", z =5., a=10.81 *g/mole);
+  //PureB11 -> AddIsotope(B11, 100. *perCent);
+  G4Material *BoronEl = new G4Material("Boron", density, nComp);
+  BoronEl -> AddElement(B, 100. *perCent);
 
-  return Boron11;
+  return BoronEl;
 }
 
 G4Material *geometryConstruction::Hydrogen() {
@@ -526,4 +563,38 @@ G4Material *geometryConstruction::SiDiO()
   silicondioxide -> AddElement(O, OAtoms);
 
   return silicondioxide;
+}
+
+G4Material *geometryConstruction::Graphite()
+{
+  G4double a;
+  G4double z;
+  G4double density;
+
+  a = 12.01 *g/mole;
+  z = 6.;
+  density = 2.26 *g/cm3;
+
+  G4Element *C = new G4Element("Carbon", "C", z,a);
+  G4Material *graphite = new G4Material("Carb", density,1);
+  graphite -> AddElement(C, 100. *perCent);
+
+  return graphite;
+}
+
+G4Material *geometryConstruction::AluminumFoil()
+{
+  G4double a;
+  G4double z;
+  G4double density;
+
+  a = 26.981539 *g/mole;
+  z = 13.;
+  density = 2.71 *g/cm3;
+
+  G4Element *Al = new G4Element("Aluminum", "Al", z,a);
+  G4Material *aluminum = new G4Material("Al1", density,1);
+  aluminum -> AddElement(Al, 100. *perCent);
+
+  return aluminum;
 }

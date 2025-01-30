@@ -33,6 +33,8 @@ public:
   G4Material *dopeSilicon();
   G4Material *IsoSilicon29();
   G4Material *SiDiO();
+  G4Material *Graphite();
+  G4Material *AluminumFoil();
 
 };
 

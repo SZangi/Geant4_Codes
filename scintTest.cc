@@ -65,6 +65,8 @@ must be controlled through the code rather than the command line.
 #include "eventAction.hh"
 #include "runAction.hh"
 #include "PhysicsList.hh"
+
+#include <iostream>
 //#include "trackingAction.hh"
 
 // This is the main program.  It will set up managers to run and
@@ -138,8 +140,8 @@ int main(int argc, char *argv[])
     UI -> ApplyCommand("/event/verbose 0");
     UI -> ApplyCommand("/hits/verbose 0");
     UI -> ApplyCommand("/tracking/verbose 0");
-    UI -> ApplyCommand("/tracking/storeTrajectory 0");
-    //UI -> ApplyCommand("/vis/scene/add/trajectories");
+    UI -> ApplyCommand("/tracking/storeTrajectory 2");
+    UI -> ApplyCommand("/vis/scene/add/trajectories");
 
     UIExecutive -> SessionStart();
 
@@ -150,11 +152,12 @@ int main(int argc, char *argv[])
     delete UI;
   }
   else{
-    G4cout << "\n\n \t *******  WELCOME TO THE DtTest SIMULATION  *******\n\n";
+    G4cout << "\n\n \t *******  WELCOME TO THE DtTest SIMULATION  *******\n\n"<<G4endl;
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
     UI->ApplyCommand(command+fileName);
-    G4cout <<"\n\n \t ******** Program Finished ********\n\n";
+    G4cout << "\n\n \t ***  SIMULATION COMPLETE PRESS ANY KEY TO EXIT  ***\n\n"<<G4endl;
+    G4int go = std::cin.get();
   }
 
   delete model;

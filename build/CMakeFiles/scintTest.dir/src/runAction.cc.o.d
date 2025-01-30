@@ -515,4 +515,19 @@ CMakeFiles/scintTest.dir/src/runAction.cc.o: \
  /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4LogicalVolume.hh \
  /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4UnitsTable.hh \
  /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4UnitsTable.icc \
- /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4SystemOfUnits.hh
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4SystemOfUnits.hh \
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4GeneralParticleSource.hh \
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4SingleParticleSource.hh \
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4VPrimaryGenerator.hh \
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4SPSPosDistribution.hh \
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4SPSRandomGenerator.hh \
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4DataInterpolation.hh \
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4Cache.hh \
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4CacheDetails.hh \
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4SPSAngDistribution.hh \
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4SPSEneDistribution.hh \
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4GeneralParticleSourceMessenger.hh \
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4GeneralParticleSourceData.hh \
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4ParticleGun.hh \
+ /home/arthurz/Masters/code/dtTest/include/PGA.hh \
+ /usr/local/geant4/geant4-v11.1.2/include/Geant4/G4VUserPrimaryGeneratorAction.hh

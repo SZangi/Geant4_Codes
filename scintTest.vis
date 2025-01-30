@@ -13,7 +13,7 @@
 /vis/viewer/set/viewpointThetaPhi 50 50 deg
 
 # Plot all accumulated events in a run
-#/vis/scene/endOfEventAction accumulate -1
+/vis/scene/endOfEventAction accumulate
 
 
 
@@ -27,5 +27,5 @@
 #/vis/filtering/trajectories/particleFilter-0/invert true
 
 /gui/addMenu run Run
-/gui/addButton run partGun "/control/execute ../ParticleGun.mac"
+/gui/addButton run partGun "/control/execute ParticleGun.mac"
 

@@ -47,7 +47,7 @@ void eventActionMessenger::SetNewValue(G4UIcommand *command,
 {
   // if(true), then pass commands to eventAction.hh functions
   if(command == fileCommand)
-    EA -> SetOutputFileName(newCommand);
+    EA -> SetOutputFileName("Outputs/"+newCommand);
   
   if(command == dataCommand)
     EA -> SetDataOutput(newCommand);

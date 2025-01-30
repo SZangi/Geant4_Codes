@@ -4,11 +4,12 @@
 # email: szangi@mit.edu
 #
 #Particle Gun Sources generally have to be defined by the user
-#through the command line interface, so we provide a macro here
+#through the command line interface so we provide a macro here
 #to initialize it once to some default values which can be changed
 #from the command line later.
 #
 /run/initialize
+/run/verbose 1
 #
 /gps/verbose 0
 #
@@ -16,8 +17,8 @@
 /gps/pos/type Plane
 /gps/pos/shape Square
 /gps/pos/centre 0. 0. -49. cm
-/gps/pos/halfx 0.1 cm
-/gps/pos/halfy 0.1 cm
+/gps/pos/halfx 4 cm
+/gps/pos/halfy 4 cm
 #
 #we'll set the momentum direction for now instead of setting a
 #specific angular distribution
@@ -33,10 +34,10 @@
 #/gps/ene/mono 1.5 MeV
 #
 # mono-energetic energy definition
-/gps/ene/mono 2.5 MeV   
+#/gps/ene/mono 500 keV   
 #
 # 
-# Throw some analysis in for fun, and for running fewer macros
+# Throw some analysis in for fun and for running fewer macros
 #
 /score/create/realWorldLogVol score_l
 /score/quantity/volumeFlux volFlux 
@@ -55,46 +56,46 @@
 /score/close
 #
 # Create Histograms
-#/analysis/h1/create volFlux score_volFlux 100 0.00000001 18000. keV ! log
-/analysis/h1/create nFlux detector_neutron_volFlux 300 1 1500 keV ! linear
+/analysis/h1/create nFlux score_volFlux 100 1 6000. keV ! log
+#/analysis/h1/create nFlux detector_neutron_volFlux 100 1 6000 keV ! linear
 #/analysis/h1/create eFlux Scintillator_electron_volFlux 10000 0.1 10. MeV ! log
-/analysis/h1/create gFlux shell_gamma_volFlux 1000 1 5000 keV ! linear
+#/analysis/h1/create gFlux shell_gamma_volFlux 1000 1 5000 keV ! linear
 #
 # Fill histograms
 #/score/fill1D 0 score_l gFlux
 /score/fill1D 0 score_l nFlux
 #/score/fill1D 2 scint_l1 dFlux
 #/score/fill1D 1 scint_l1 eFlux
-/score/fill1D 1 score_l gFlux
+#/score/fill1D 1 score_l gFlux
 #
 ## set the energy definition
-#/gps/ene/mono 5 MeV
-/scintTest/output/setDataOutput on
-/scintTest/output/setFileName Si_1E8_2_5MeV_0523.csv
-/run/beamOn 10000
-#/gps/ene/mono 2.1 MeV
-#/analysis/h1/create nFlux 2.1_MeV_nFlux 100 10 20 MeV ! log
-#/score/fill1D 1 score_l nFlux
-#/run/beamOn 100000000
-#/gps/ene/mono 2.2 MeV
-#/analysis/h1/create nFlux 2.2_MeV_nFlux 100 10 20 MeV ! log
-#/score/fill1D 2 score_l nFlux
-#/run/beamOn 100000000
-#/gps/ene/mono 2.3 MeV
-#/analysis/h1/create nFlux 2.3_MeV_nFlux 100 10 20 MeV ! log
-#/score/fill1D 3 score_l nFlux
-#/run/beamOn 100000000
-#/gps/ene/mono 2.4 MeV
-#/analysis/h1/create nFlux 2.4_MeV_nFlux 100 10 20 MeV ! log
-#/score/fill1D 4 score_l nFlux
-#/run/beamOn 100000000
-#/gps/ene/mono 2.5 MeV
-#/analysis/h1/create nFlux 2.5_MeV_nFlux 100 10 20 MeV ! log
-#/score/fill1D 5 score_l nFlux
-#/run/beamOn 100000000
+#/gps/ene/mono 1.0116 MeV
+
+#/gps/ene/type Lin
+#/gps/ene/gradient 0
+#/gps/ene/intercept 1
+## set the energy range
+#/gps/ene/min 1.0 MeV
+#/gps/ene/max 1.7 MeV
+
+#/scintTest/output/setDataOutput on
+#/scintTest/output/setFileName C13_an_JENDL_FlatESpec_lowwE.csv
+#/run/beamOn 1000000
+# List of energies to run:
+
+# For 1.0-1.7 MeV Energies
+#/control/foreach RunUpdateE.mac iEnergy "1.01703, 1.0377838, 1.0422711, 1.0450756, 1.0467583, 1.0482541, 1.049002, 1.049002, 1.0519935"
+#/control/foreach RunUpdateE.mac iEnergy "1.01703, 1.0377838, 1.0422711, 1.0450756, 1.0467583, 1.0482541, 1.049002, 1.049002, 1.0519935, 1.0501238, 1.0529284, 1.0512456, 1.0527414, 1.0529284, 1.0534893, 1.0534893, 1.0534893, 1.0534893, 1.0534893, 1.0534893, 1.0546111, 1.0557329, 1.0557329, 1.0568548, 1.0568548, 1.0579766, 1.0590984, 1.0607811, 1.0641466, 1.0698679, 1.0762062, 1.0831054, 1.0910703, 1.0989231, 1.105654, 1.1118241, 1.1524901, 1.2132368, 1.294008, 1.321044, 1.3244094, 1.3260922, 1.3311404, 1.3283358, 1.3294576, 1.3305795, 1.3305795, 1.3305795, 1.3325426, 1.3317013, 1.3317013, 1.3317013, 1.3317013, 1.3328231, 1.3328231, 1.3328231, 1.3341693, 1.3328231, 1.3328231, 1.3328231, 1.3328231, 1.3353472, 1.3378713, 1.3350667, 1.3373104, 1.3373104, 1.3373104, 1.3384322, 1.3401149, 1.3429195, 1.3429195, 1.3476872, 1.3535768, 1.3704042, 1.3771351, 1.383866, 1.3877924, 1.4236907, 1.4779869, 1.5329562, 1.5541961, 1.5689667, 1.5756977, 1.5818677, 1.5891596, 1.5960027, 1.6022849, 1.6093524, 1.6538887, 1.7050438"
+# 
+# For 1.7-10 MeV Energies
+#/control/foreach RunUpdateE.mac iEnergy "1.7082182, 1.7431296, 1.7787909, 1.862505, 1.8866375, 1.9537095, 1.9717474, 2.0231064, 2.0455116, 2.079669, 2.1262383, 2.1617967, 2.1817391, 2.1978039, 2.2303509, 2.2718791, 2.3127655, 2.3571939, 2.4009522, 2.4367273, 2.4548604, 2.4731061, 2.4960763, 2.5378832, 2.5993345, 2.5920392, 2.5926769, 2.6428557, 2.6704941, 2.6667629, 2.6668545, 2.6669351, 2.6703161, 2.6769436, 2.7119688, 2.767116, 2.753681, 2.7848343, 2.784079, 2.7724202, 2.7973317, 2.7974163, 2.7975009, 2.7975854, 2.8082887, 2.8188858, 2.8524583, 2.9194563, 2.9682102, 2.9955924, 3.0176104, 3.0623062, 3.1308191, 3.1830685, 3.2124305, 3.2361001, 3.2659282, 3.3143738, 3.3823891, 3.4138564, 3.4266821, 3.4395134, 3.4523596, 3.4652656, 3.4781291, 3.4975608, 3.5235999, 3.5694952, 3.6048267, 3.6671695, 3.6791339, 3.7035052, 3.7020449, 3.7021568, 3.7022688, 3.7023807, 3.7024926, 3.7026045, 3.7027165, 3.7028284, 3.7029403, 3.7030523, 3.710035, 3.7101471, 3.7381054, 3.7937562, 3.8857501, 3.9433624, 3.9796712, 4.001575, 4.0162334, 4.0681828, 4.0680025, 4.070082, 4.0702871, 4.1591935, 4.2364357, 4.283379, 4.3069898, 4.3227611, 4.3705649, 4.3700649, 4.3703041, 4.3777249, 4.3751851, 4.3860882, 4.4194438, 4.476947, 4.4743835, 4.5767763, 4.5765373, 4.575723, 4.5673966, 4.58443, 4.5789654, 4.6016661, 4.6532229, 4.7221319, 4.7922431, 4.8633506, 4.8991478, 4.9169834, 4.9897835, 4.9712531, 5.063875, 5.1105584, 5.1767072, 5.3022219, 5.4107864, 5.4709004, 5.583088, 5.7289064, 5.8245398, 5.8673871, 5.8888398, 5.9613758, 5.9429257, 6.0317156, 6.1214998, 6.2514761, 6.3913358, 6.5415199, 6.6876787, 6.8370343, 6.989743, 7.1240353, 7.4552854, 7.5939398, 8.4039553, 8.6873951, 8.8816299, 9.0802074, 9.1980883, 10.0302026, 10.179156" 
 #
-#when done, open a TSG view and the plots
+# For even 0.5-30 MeV Steps
+/control/loop RunUpdateE.mac iEnergy 0.5 10 0.5
+
 #
-/vis/scene/create
-/vis/open TSG
-/vis/plot h1 0
+#when done open a TSG view and the plots
+#
+#/vis/scene/create
+#/vis/open TSG
+#/vis/plot h1 0
