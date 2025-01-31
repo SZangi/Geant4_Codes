@@ -22,6 +22,7 @@ public:
 private:
   eventAction *evtAction;
   G4double PartMomentumA;
+  G4double alphaE=0;
 };
 
 #endif

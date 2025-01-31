@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 data_file = input("Data Object Filename: ")
 file_type = input("Tally (t) or Histogram (h) Data? ")
 if file_type == 't':
-    energy_df = pd.read_csv(data_file,names=['Energy'])
+    energy_df = pd.read_csv(data_file,names=['Energy','Type','n','a'],delimiter=';')
     energies = energy_df ['Energy']
     energies.hist(bins = 50)
     E_hist, bin_edges = np.histogram(energies,bins=50)
@@ -59,7 +59,7 @@ for i in range(len(E_hist)):
     Output_GPS.write("/gps/hist/point    {} {}".format(str(round(bins[i],5)),str(round(E_hist[i],5))))
     Output_GPS.write('\n')
 Output_GPS.write('#\n')
-Output_GPS.write("/gps/hist/inter Spline")
+Output_GPS.write("/gps/hist/inter Lin")
 plt.title("Neutron Energy in Detector")
 plt.xlabel("Neutron Energy (keV)")
 plt.ylabel("Counts")

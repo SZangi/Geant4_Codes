@@ -9,7 +9,7 @@
 // variables from the scintTest command line.  
 
 eventActionMessenger::eventActionMessenger(eventAction *eventAction)
-  : EA(eventAction) //what is this?
+  : EA(eventAction) 
 {
   // Creates a new directory where the commands will live
   outputDir = new G4UIdirectory("/scintTest/output/");
@@ -47,7 +47,7 @@ void eventActionMessenger::SetNewValue(G4UIcommand *command,
 {
   // if(true), then pass commands to eventAction.hh functions
   if(command == fileCommand)
-    EA -> SetOutputFileName(newCommand);
+    EA -> SetOutputFileName("Outputs/"+newCommand);
   
   if(command == dataCommand)
     EA -> SetDataOutput(newCommand);

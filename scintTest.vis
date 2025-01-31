@@ -7,13 +7,13 @@
 /vis/scene/create
 
 # Create OpenGL scene handler for compatibility with Qt UI
-/vis/open TSG #OGL
+/vis/open OGL
 
 # Set an isometric view of the geometry
 /vis/viewer/set/viewpointThetaPhi 50 50 deg
 
 # Plot all accumulated events in a run
-#/vis/scene/endOfEventAction accumulate -1
+/vis/scene/endOfEventAction accumulate
 
 
 
@@ -27,5 +27,6 @@
 #/vis/filtering/trajectories/particleFilter-0/invert true
 
 /gui/addMenu run Run
-/gui/addButton run partGun "/control/execute ../ParticleGun.mac"
+/gui/addButton run partGun "/control/execute ParticleGun.mac"
+/gui/addButton run Ang_E "/control/execute angledtest.mac"
 

@@ -2,10 +2,13 @@
 #include "G4Step.hh"
 #include "G4StepPoint.hh"
 #include "G4UnitsTable.hh"
+#include "G4SystemOfUnits.hh"
 #include "G4VProcess.hh"
 
 #include "steppingAction.hh"
 #include "eventAction.hh"
+
+#include <iostream>
 
 steppingAction::steppingAction(eventAction *currentEvent)
   : evtAction(currentEvent)
@@ -43,31 +46,39 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
   G4double Secondaries = 0.;
   G4double currentTime = 0.;
   G4bool FirstVolStep;
+  alphaE = 0;
   FirstVolStep = currentStep -> IsFirstStepInVolume();
-  //Secondaries = currentStep -> GetNumberOfSecondariesInCurrentStep();
-  if (currentParticleType == "neutron"){ // swap this out for the incident particle name
+  Secondaries = currentStep -> GetNumberOfSecondariesInCurrentStep();
     if((currentVolumeName == "score_p") and FirstVolStep){ //"score_p" for shell, "scint_p1" for target, also checking if first step for emission info
-      // get energy of particle
-      PartNrg = 0.;
-      PartNrg += currentTrack -> GetKineticEnergy();
-      PartMomentumD = currentTrack -> GetMomentumDirection();
-      PartMomentumA = PartMomentumD.angle(BeamDir);
-      PartPosition = currentTrack -> GetPosition();
-      currentTime = currentTrack -> GetGlobalTime();
-      evtAction -> GetEnergy(PartNrg);
-      evtAction -> GetMomentumDir(PartMomentumA);
-      evtAction -> GetPosition(PartPosition);
-      evtAction -> GetTrackTime(currentTime);
-      evtAction -> PrintInfo();
+        PartNrg = 0.;       
+        PartNrg += currentTrack -> GetKineticEnergy();
+        if(currentParticleType == "alpha"){
+          alphaE = PartNrg;
+          evtAction -> GetTrackTime(alphaE);
+        }
+        if (currentParticleType == "neutron" && PartNrg > 0.){ // swap this out for the incident particle name
+          // get energy of particle
+          PartMomentumD = currentTrack -> GetMomentumDirection();
+          PartMomentumA = PartMomentumD.angle(BeamDir);
+          PartPosition = currentTrack -> GetPosition();
+          currentTime = currentTrack -> GetGlobalTime();
+          evtAction -> GetEnergy(PartNrg);
+          evtAction -> GetMomentumDir(PartMomentumA);
+          evtAction -> GetPosition(PartPosition);
+          evtAction -> GetTrackWeight(PartWeight);
+          evtAction -> PrintInfo();
+      }
     }
     // If in the detector volume, dump energy
-    else if((currentVolumeName == "detect_p") & FirstVolStep){
+    /*
+    else if((currentVolumeName == "detect_p" and currentParticleType == "neutron") & FirstVolStep){
       PartNrg = 0.;
       PartNrg += currentTrack -> GetKineticEnergy();
-      evtAction -> Detectors(PartNrg);
+      evtAction -> Detectors(PartNrg,currentParticleType);
       evtAction -> PrintInfo();
     }
-  }
+    */
+
       
 
       
@@ -99,14 +110,6 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
   //  G4cout << Secondaries << G4endl;
   //}
   //G4bool transmitted = (preStepPoint->GetStepStatus() <= fGeomBoundary);
-
-  if (currentParticleType == "neutron"){ // this should be the incident particle name, or the particle of interest
-    if(currentVolumeName == "scint_p1" or currentVolumeName == "detect_p"){ //"score_p" for shell, "scint_p1" for target
-      //evtAction -> PrintInfo();
-      //if (PartNrg > 0 & transmitted)
-      //  currentTrack -> SetTrackStatus(fKillTrackAndSecondaries);
-    }
-  }
 }
 
 

@@ -59,7 +59,7 @@ public:
 
   void Secondaries (G4double NumSecondaires);
 
-  void Detectors (G4double Energy);
+  void Detectors (G4double Energy, G4String Type);
 
   void GetEnergy(G4double PartEnergy)
   {
@@ -115,6 +115,8 @@ private:
 
   G4double MomentumDirection;
 
+  G4double Neutrons;
+
   G4ThreeVector ParticlePosition;
 
   G4String ParticleID;
@@ -127,9 +129,11 @@ private:
 
   G4double DT;
 
-  G4double ParticleTime;
+  G4double ParticleTime=0;
 
   G4double Detect_Energy;
+
+  G4String Detect_Type;
   
   eventActionMessenger *eventMessenger;
   

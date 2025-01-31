@@ -99,6 +99,9 @@ CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 //No help, variable specified on the command line.
 CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE
 
+//The directory containing a CMake configuration file for CMAKE_FIND_ROOT_PATH.
+CMAKE_FIND_ROOT_PATH_DIR:PATH=CMAKE_FIND_ROOT_PATH_DIR-NOTFOUND
+
 //Install path prefix, prepended onto install directories.
 CMAKE_INSTALL_PREFIX:PATH=/usr/local
 
@@ -151,6 +154,9 @@ CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
 
 //Path to a program.
 CMAKE_READELF:FILEPATH=/usr/bin/readelf
+
+//The directory containing a CMake configuration file for CMAKE_ROOT.
+CMAKE_ROOT_DIR:PATH=CMAKE_ROOT_DIR-NOTFOUND
 
 //Flags used by the linker during the creation of shared libraries
 // during all build types.
@@ -304,8 +310,14 @@ Qt5PrintSupport_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/Qt5PrintSupport
 //The directory containing a CMake configuration file for Qt5Widgets.
 Qt5Widgets_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets
 
+//The directory containing a CMake configuration file for ROOT.
+ROOT_DIR:PATH=ROOT_DIR-NOTFOUND
+
 //Build example with Geant4 UI and Vis drivers
 WITH_GEANT4_UIVIS:BOOL=ON
+
+//Build with ROOT directories
+WITH_ROOT_DIR:BOOL=ON
 
 //Path to a file.
 X11_ICE_INCLUDE_PATH:PATH=/usr/include
