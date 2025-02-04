@@ -22,9 +22,9 @@ public:
   PGA();
   ~PGA();
 
-  //G4GeneralParticleSource *GetSource() {return particleSource;}
+  G4GeneralParticleSource *GetSource() {return particleSource;}
 
-  G4ParticleGun *GetSource() {return particleSource;}
+  //G4ParticleGun *GetSource() {return particleSource;}
 
   void GeneratePrimaries(G4Event *);
 
@@ -36,8 +36,8 @@ private:
 
   G4RandGeneral* action_generator = 0;
 
-  //G4GeneralParticleSource* particleSource;
-  G4ParticleGun* particleSource;
+  G4GeneralParticleSource* particleSource;
+  //G4ParticleGun* particleSource;
   G4int E_alpha_size = 124;
   G4double* E_alpha_array = new G4double[E_alpha_size];
 
@@ -71,6 +71,8 @@ private:
   G4double m_c = 15.994915;
   G4double m_d = 1.008665;
   G4double Q = 2.216*MeV;
+
+  G4bool UseFancyStuff = false;
 
 };
 

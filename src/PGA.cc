@@ -23,36 +23,42 @@ PGA::PGA()
   G4int n_particle = 1;
 
   // Create the particle gun to fire n_particles
-  //particleSource = new G4GeneralParticleSource();
-  particleSource = new G4ParticleGun();
-  particleSource -> SetNumberOfParticles(n_particle);
+  particleSource = new G4GeneralParticleSource();
 
-  // Get the definition of a deuteron & proton from the internal particle table
-  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-  G4ParticleDefinition* deuteron = particleTable -> FindParticle("deuteron");
-  G4ParticleDefinition* proton = particleTable -> FindParticle("proton");
-  G4ParticleDefinition* alpha = particleTable -> FindParticle("alpha");
-  G4ParticleDefinition* helium3 = particleTable -> FindParticle("He3");
-  G4ParticleDefinition* neutron = particleTable -> FindParticle("neutron");
   
-  // Initialize the particle gun with some default values
-  particleSource -> SetParticleDefinition(neutron);
-  for (G4int i =0;i<E_alpha_size;i++){
-    E_alpha_array[i] = E_in_vec[i];
-  }
+    //particleSource = new G4ParticleGun();
+    particleSource -> SetNumberOfParticles(n_particle);
 
-  alpha_generator = new G4RandGeneral(E_alpha_array,E_alpha_size);
-
-  Hist_points.reserve(LegendreLength);
-  // Set up the legendre histogram objects
-  for (G4int i=0; i<LegendreEnergy.size();i++){
-    G4double * Hist_point = new G4double[LegendreBins];
-    for (G4int j=0; j<LegendreBins;j++){
-      Hist_point[j] = LegendreHists[i][j];
+    // Get the definition of a deuteron & proton from the internal particle table
+    G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+    G4ParticleDefinition* deuteron = particleTable -> FindParticle("deuteron");
+    G4ParticleDefinition* proton = particleTable -> FindParticle("proton");
+    G4ParticleDefinition* alpha = particleTable -> FindParticle("alpha");
+    G4ParticleDefinition* helium3 = particleTable -> FindParticle("He3");
+    G4ParticleDefinition* neutron = particleTable -> FindParticle("neutron");
+    
+    particleSource -> SetParticleDefinition(alpha);
+    if (UseFancyStuff){
+    // Initialize the particle gun with some default values
+    particleSource -> SetParticleDefinition(neutron);
+    
+    for (G4int i =0;i<E_alpha_size;i++){
+      E_alpha_array[i] = E_in_vec[i];
     }
-    Hist_points.emplace_back(Hist_point);
-    G4RandGeneral* leg_generator = new G4RandGeneral(Hist_point,LegendreBins);
-    Generators.push_back(leg_generator);
+
+    alpha_generator = new G4RandGeneral(E_alpha_array,E_alpha_size);
+
+    Hist_points.reserve(LegendreLength);
+    // Set up the legendre histogram objects
+    for (G4int i=0; i<LegendreEnergy.size();i++){
+      G4double * Hist_point = new G4double[LegendreBins];
+      for (G4int j=0; j<LegendreBins;j++){
+        Hist_point[j] = LegendreHists[i][j];
+      }
+      Hist_points.emplace_back(Hist_point);
+      G4RandGeneral* leg_generator = new G4RandGeneral(Hist_point,LegendreBins);
+      Generators.push_back(leg_generator);
+    }
   }
 
   G4double X = 0.*m;
@@ -66,11 +72,12 @@ PGA::PGA()
 
 PGA::~PGA()
 { delete particleSource;
+  if (UseFancyStuff){
   delete alpha_generator;
   delete action_generator;
   for (G4int i = 0; i<Hist_points.size();i++) delete Hist_points[i];
   for (G4int i = 0; i<Generators.size();i++) delete Generators[i];
-  delete E_alpha_array; }
+  delete E_alpha_array;} }
 
 
 void PGA::GeneratePrimaries(G4Event* anEvent)
@@ -79,26 +86,30 @@ void PGA::GeneratePrimaries(G4Event* anEvent)
   // 2. Use the GetRandom2() method to sample energy and direction
   // 3. Set the particleSource direction and energy to the random values
   // each time
-  E_incident = alpha_generator->shoot()*(E_max-E_min)+E_min;
+  
+  if (UseFancyStuff){
+    E_incident = alpha_generator->shoot()*(E_max-E_min)+E_min;
 
-  Particle_info = GenerateCosE(E_incident,m_a,m_b,m_c,m_d,Q);
+    Particle_info = GenerateCosE(E_incident,m_a,m_b,m_c,m_d,Q);
 
-  //particleSource -> SetParticleEnergy(E_incident);
+    //particleSource -> SetParticleEnergy(E_incident);
 
-  //G4cout << E_incident << G4endl;
+    //G4cout << E_incident << G4endl;
 
-  //G4double angle = (G4UniformRand()-0.5)*2*pi;
+    //G4double angle = (G4UniformRand()-0.5)*2*pi;
 
-  G4double radius = 1-pow(Particle_info[0],2);
+    G4double radius = 1-pow(Particle_info[0],2);
 
-  //G4double p_y = radius*sin(angle);
-  G4double p_y = radius;
-  //G4double p_z = radius*cos(angle);
+    //G4double p_y = radius*sin(angle);
+    G4double p_y = radius;
+    //G4double p_z = radius*cos(angle);
 
-  //G4cout<<Particle_info[0]<<G4endl;
+    //G4cout<<Particle_info[0]<<G4endl;
 
-  particleSource -> SetParticleMomentumDirection(G4ThreeVector(0,p_y,Particle_info[0]));
-  particleSource -> SetParticleEnergy(Particle_info[1]);
+    //particleSource -> SetParticleMomentumDirection(G4ThreeVector(0,p_y,Particle_info[0]));
+    //particleSource -> SetParticleEnergy(Particle_info[1]);
+  }
+
   particleSource -> GeneratePrimaryVertex(anEvent); } 
 
 

@@ -200,7 +200,7 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   
   // Target layer
   G4LogicalVolume *scint_l1 = new G4LogicalVolume(scint_s,
-						  beryllium,
+						  carbon13,
 						  "scint_l1",
 						  0,
 						  0,

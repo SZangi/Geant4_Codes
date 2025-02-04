@@ -35,7 +35,8 @@ void runAction::EndOfRunAction(const G4Run* run)
 {
   G4RunManager *runManager = G4RunManager::GetRunManager();
   PGA *thePGA = (PGA*) runManager->GetUserPrimaryGeneratorAction();
-  G4ParticleGun* GPS = thePGA->GetSource();
+  //G4ParticleGun* GPS = thePGA->GetSource();
+  G4GeneralParticleSource* GPS = thePGA->GetSource();
 
   // Print the data to the command line (and dump it to a file in case we want
   // to dump more things from runAction later)
