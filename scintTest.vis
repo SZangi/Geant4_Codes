@@ -18,11 +18,11 @@
 
 
 #Plot only neutrons
-#/vis/filtering/trajectories/create/particleFilter
-#/vis/filtering/trajectories/particleFilter-0/add neutron
+/vis/filtering/trajectories/create/particleFilter
+/vis/filtering/trajectories/particleFilter-0/add neutron
 #/vis/filtering/trajectories/particleFilter-0/add proton
 #/vis/filtering/trajectories/particleFilter-0/add gamma
-#/vis/filtering/trajectories/particleFilter-0/add alpha
+/vis/filtering/trajectories/particleFilter-0/add alpha
 #/vis/filtering/trajectories/particleFilter-0/add He3
 #/vis/filtering/trajectories/particleFilter-0/invert true
 

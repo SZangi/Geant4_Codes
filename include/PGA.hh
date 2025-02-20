@@ -28,7 +28,7 @@ public:
 
   void GeneratePrimaries(G4Event *);
 
-  std::vector<G4double> GenerateCosE(G4double incident_E, G4double m_A, G4double m_B,G4double m_C,G4double m_D,G4double Q_value);
+  //std::vector<G4double> GenerateCosE(G4double incident_E, G4double m_A, G4double m_B,G4double m_C,G4double m_D,G4double Q_value);
   G4double CosToE(G4double cos, G4double m_A, G4double m_B,G4double m_C,G4double m_D,G4double E_in,G4double Q_value);
   
 private:

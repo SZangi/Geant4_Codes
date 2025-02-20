@@ -2,6 +2,9 @@
 # --------------------------------------------------------------
 # GNUmakefile for examples module.  Gabriele Cosmo, 06/04/98.
 # --------------------------------------------------------------
+#
+# Adds functionality that allows us to link the Root libraries
+# during compilation, to use ROOT functionality in our program.
 
 name := dtTest
 G4TARGET := $(name)

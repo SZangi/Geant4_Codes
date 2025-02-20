@@ -5,13 +5,13 @@
 #include "G4ParticleDefinition.hh"
 #include "G4PhysicalConstants.hh"
 #include "Randomize.hh"
-#include "C13AngularData.hh"
+//#include "C13AngularData.hh"
 
 #include "PGA.hh"
 
 #include <iostream>
 
-using namespace C13;
+//using namespace C13;
 // PGA stands for Primary Generator Action.  This is the "source" of
 // particles.  PGA creates point sources of particles.  A far more
 // advanced particle source is the "G4GeneralParticleSource.cc/.hh"
@@ -26,7 +26,7 @@ PGA::PGA()
   particleSource = new G4GeneralParticleSource();
 
   
-    //particleSource = new G4ParticleGun();
+  //particleSource = new G4ParticleGun();
     particleSource -> SetNumberOfParticles(n_particle);
 
     // Get the definition of a deuteron & proton from the internal particle table
@@ -37,7 +37,8 @@ PGA::PGA()
     G4ParticleDefinition* helium3 = particleTable -> FindParticle("He3");
     G4ParticleDefinition* neutron = particleTable -> FindParticle("neutron");
     
-    particleSource -> SetParticleDefinition(alpha);
+    particleSource -> SetParticleDefinition(neutron);
+    /*
     if (UseFancyStuff){
     // Initialize the particle gun with some default values
     particleSource -> SetParticleDefinition(neutron);
@@ -59,7 +60,9 @@ PGA::PGA()
       G4RandGeneral* leg_generator = new G4RandGeneral(Hist_point,LegendreBins);
       Generators.push_back(leg_generator);
     }
+  
   }
+  */
 
   G4double X = 0.*m;
   G4double Y = 0.*m;
@@ -72,12 +75,13 @@ PGA::PGA()
 
 PGA::~PGA()
 { delete particleSource;
+  /*
   if (UseFancyStuff){
   delete alpha_generator;
   delete action_generator;
   for (G4int i = 0; i<Hist_points.size();i++) delete Hist_points[i];
   for (G4int i = 0; i<Generators.size();i++) delete Generators[i];
-  delete E_alpha_array;} }
+  delete E_alpha_array;}*/ }
 
 
 void PGA::GeneratePrimaries(G4Event* anEvent)
@@ -86,7 +90,7 @@ void PGA::GeneratePrimaries(G4Event* anEvent)
   // 2. Use the GetRandom2() method to sample energy and direction
   // 3. Set the particleSource direction and energy to the random values
   // each time
-  
+  /*
   if (UseFancyStuff){
     E_incident = alpha_generator->shoot()*(E_max-E_min)+E_min;
 
@@ -96,23 +100,24 @@ void PGA::GeneratePrimaries(G4Event* anEvent)
 
     //G4cout << E_incident << G4endl;
 
-    //G4double angle = (G4UniformRand()-0.5)*2*pi;
+    G4double angle = (G4UniformRand()-0.5)*2*pi;
 
     G4double radius = 1-pow(Particle_info[0],2);
 
-    //G4double p_y = radius*sin(angle);
-    G4double p_y = radius;
-    //G4double p_z = radius*cos(angle);
+    G4double p_y = radius*sin(angle);
+    //G4double p_y = radius;
+    G4double p_z = radius*cos(angle);
 
     //G4cout<<Particle_info[0]<<G4endl;
 
-    //particleSource -> SetParticleMomentumDirection(G4ThreeVector(0,p_y,Particle_info[0]));
-    //particleSource -> SetParticleEnergy(Particle_info[1]);
+    particleSource -> SetParticleMomentumDirection(G4ThreeVector(p_z,p_y,Particle_info[0]));
+    particleSource -> SetParticleEnergy(Particle_info[1]);
   }
+  */
 
   particleSource -> GeneratePrimaryVertex(anEvent); } 
 
-
+/*
 std::vector<G4double> PGA::GenerateCosE(G4double incident_E,G4double m_A, G4double m_B,G4double m_C,G4double m_D,G4double Q_value){
   G4int idx = 0;
   for (G4int i=0;i<LegendreEnergy.size();i++){
@@ -132,6 +137,7 @@ std::vector<G4double> PGA::GenerateCosE(G4double incident_E,G4double m_A, G4doub
 
   return {part_cos,part_E};
 }
+*/
 
 G4double PGA::CosToE(G4double cos, G4double m_A, G4double m_B,G4double m_C,G4double m_D,G4double E_in,G4double Q_value){
     A_masses = (m_B*m_C)/((m_B+m_A)*(m_D+m_C));

@@ -30,7 +30,6 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
   G4Track *currentTrack = currentStep -> GetTrack();
   G4StepPoint *postStepPoint = currentStep -> GetPostStepPoint();
   G4StepPoint *preStepPoint = currentStep -> GetPreStepPoint();
-  
 
   // Determine what volume the particle is currently in
   G4String currentVolumeName = currentTrack -> GetVolume() -> GetName();
@@ -42,7 +41,7 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
   G4ThreeVector PartMomentumD;
   G4ThreeVector PartPosition;
   G4String processName;
-  G4ThreeVector BeamDir = G4ThreeVector(0.,0.,-1.);
+  G4ThreeVector BeamDir = G4ThreeVector(0.,0.0,1);
   G4double Secondaries = 0.;
   G4double currentTime = 0.;
   G4bool FirstVolStep;

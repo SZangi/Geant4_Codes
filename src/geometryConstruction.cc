@@ -118,7 +118,7 @@ G4VPhysicalVolume *geometryConstruction::Construct()
 
   G4VPhysicalVolume *score_p =
     new G4PVPlacement(new G4RotationMatrix(),
-                      G4ThreeVector(posX, posY, 0),
+                      G4ThreeVector(posX, posY, posZ),
                       score_l,
                       "score_p",
                       lab_l,
@@ -163,7 +163,7 @@ G4VPhysicalVolume *geometryConstruction::Construct()
 
   G4double scintBoxX = 3.*cm; // remember all of these are half widths
   G4double scintBoxY = 3.*cm;
-  G4double scintBoxZ = 10*nm;
+  G4double scintBoxZ = 1*cm;
   G4double Si02Layer = 1*nm;
 
   // Create solid volume representing the shape of the tiles

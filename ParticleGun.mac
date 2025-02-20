@@ -23,7 +23,7 @@
 #we'll set the momentum direction for now instead of setting a
 #specific angular distribution
 #
-/gps/direction 0. 0. +1.
+/gps/direction 0. 0.3 +0.7
 #
 # particle definition
 /gps/particle alpha     
@@ -79,8 +79,8 @@
 #/gps/ene/max 1.7 MeV
 
 /scintTest/output/setDataOutput on
-/scintTest/output/setFileName NewPhysics_Test1.csv
-/run/beamOn 1
+/scintTest/output/setFileName RotatingFrame_3.csv
+/run/beamOn 100000
 # List of energies to run:
 
 # For 1.0-1.7 MeV Energies

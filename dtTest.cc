@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
     // "new".  This is good memory management
 
     delete UIExecutive;
-    delete UI;
+    //delete UI;
   }
   else{
     G4cout << "\n\n \t *******  WELCOME TO THE DtTest SIMULATION  *******\n\n"<<G4endl;
@@ -160,12 +160,12 @@ int main(int argc, char *argv[])
     G4int go = std::cin.get();
   }
 
-  delete model;
-  delete physicsList;
+  //delete model;
+  //delete physicsList;
   delete histFiller;
   delete visManager;
-  delete rnAction;
-  delete evtAction;
+  //delete rnAction;
+  //delete evtAction;
   delete runManager;
   
   return 0;

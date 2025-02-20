@@ -147,7 +147,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=scintTest
+CMAKE_PROJECT_NAME:STATIC=dtTest
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -558,6 +558,15 @@ XercesC_LIBRARY_DEBUG:FILEPATH=XercesC_LIBRARY_DEBUG-NOTFOUND
 
 //Xerces-C++ libraries (release)
 XercesC_LIBRARY_RELEASE:FILEPATH=/usr/local/lib/libxerces-c.so
+
+//Value Computed by CMake
+dtTest_BINARY_DIR:STATIC=/home/arthurz/Masters/code/dtTest/build
+
+//Value Computed by CMake
+dtTest_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+dtTest_SOURCE_DIR:STATIC=/home/arthurz/Masters/code/dtTest
 
 //Path to a library.
 pkgcfg_lib_PC_EXPAT_expat:FILEPATH=/usr/lib/x86_64-linux-gnu/libexpat.so
