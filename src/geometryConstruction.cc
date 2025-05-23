@@ -14,6 +14,7 @@
 #include "G4NistManager.hh"
 #include "XSBiasing.hh"
 #include "G4LogicalVolumeStore.hh"
+#include "G4UserLimits.hh"
 
 #include "geometryConstruction.hh"
 
@@ -130,8 +131,9 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   // so we use a cylinder here.
 
   G4double detector_rad = 2.54*1.5 *cm; 
-  G4double detector_depth = 1E-3 *cm; // this doesn't really matter as we only tally flux
-  G4double detector_dist = 87 *cm; // distance from detector to center of target
+  G4double detector_depth = 1 *cm; // this doesn't really matter as we only tally flux
+  G4double detector_dist = 5 *cm; // distance from detector to center of target
+  G4double x_offset = 0*cm;
   
   G4Tubs *detect_vol =
     new G4Tubs("detector_vol",
@@ -151,7 +153,7 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   
   G4VPhysicalVolume *detect_p =
     new G4PVPlacement(new G4RotationMatrix(),
-                      G4ThreeVector(posX, posY, posZ+detector_dist),
+                      G4ThreeVector(posX+x_offset, posY, posZ+detector_dist),
                       detect_log,
                       "detect_p",
                       lab_l,
@@ -163,15 +165,19 @@ G4VPhysicalVolume *geometryConstruction::Construct()
 
   G4double scintBoxX = 3.*cm; // remember all of these are half widths
   G4double scintBoxY = 3.*cm;
-  G4double scintBoxZ = 1*cm;
+  G4double scintBoxZ = 25*nm;
   G4double Si02Layer = 1*nm;
 
   // Create solid volume representing the shape of the tiles
   G4Box *scint_s = new G4Box("scint_s",scintBoxX,scintBoxY,scintBoxZ);
 
   G4Box *graphite_s = new G4Box("graphite_s",scintBoxX+1*cm,scintBoxY,10*nm); // should be 1 cm wider on each side
-
+  
+  G4double maxStep = 1*nm;
+  auto StepLimit = new G4UserLimits(maxStep);
+  
   G4LogicalVolume *graphite_l = new G4LogicalVolume(graphite_s, vacuum, "graphite_l", 0,0,0);
+  graphite_l->SetUserLimits(StepLimit);
 
   G4VPhysicalVolume *graphite_p = 
   new G4PVPlacement(new  G4RotationMatrix(),

@@ -28,8 +28,8 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
 
   // Get the current particle track
   G4Track *currentTrack = currentStep -> GetTrack();
-  G4StepPoint *postStepPoint = currentStep -> GetPostStepPoint();
-  G4StepPoint *preStepPoint = currentStep -> GetPreStepPoint();
+  //G4StepPoint *postStepPoint = currentStep -> GetPostStepPoint();
+  //G4StepPoint *preStepPoint = currentStep -> GetPreStepPoint();
 
   // Determine what volume the particle is currently in
   G4String currentVolumeName = currentTrack -> GetVolume() -> GetName();
@@ -69,14 +69,14 @@ void steppingAction::UserSteppingAction(const G4Step *currentStep)
       }
     }
     // If in the detector volume, dump energy
-    /*
+  
     else if((currentVolumeName == "detect_p" and currentParticleType == "neutron") & FirstVolStep){
       PartNrg = 0.;
       PartNrg += currentTrack -> GetKineticEnergy();
-      evtAction -> Detectors(PartNrg,currentParticleType);
+      evtAction -> Detectors(PartNrg,PartWeight);
       evtAction -> PrintInfo();
     }
-    */
+    
 
       
 

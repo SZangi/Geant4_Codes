@@ -69,7 +69,8 @@
 #/score/fill1D 1 score_l gFlux
 #
 ## set the energy definition
-/gps/ene/mono 2.2 MeV
+/gps/ene/mono 2.605 MeV
+#/gps/ene/mono 2.2 MeV
 
 #/gps/ene/type Lin
 #/gps/ene/gradient 0
@@ -79,8 +80,8 @@
 #/gps/ene/max 1.7 MeV
 
 /scintTest/output/setDataOutput on
-/scintTest/output/setFileName RotatingFrame_3.csv
-/run/beamOn 100000
+/scintTest/output/setFileName C13_an_Fancy_JENDL_ThinTarg_26.csv
+/run/beamOn 5000000
 # List of energies to run:
 
 # For 1.0-1.7 MeV Energies

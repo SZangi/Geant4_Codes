@@ -63,9 +63,10 @@ void eventAction::Secondaries(G4double NumSecondaries){
   fRunAction->AddSecondaries(NumSecondaries);
 }
 
-void eventAction::Detectors(G4double Energy, G4String Type){
+void eventAction::Detectors(G4double Energy, G4double Weight){
   Detect_Energy = Energy;
-  Detect_Type = Type;
+  //Detect_Type = Type;
+  Detect_Weight = Weight;
 }
 
 void eventAction::PrintInfo(){
@@ -75,7 +76,7 @@ void eventAction::PrintInfo(){
     eventOutput << ParticleEnergy/keV << ";" << ParticlePosition/cm << ";" << MomentumDirection << ";" << ParticleTime/keV << ";" << ParticleWeight << std::endl;
   }
   if(dataOutputSwitch and (Detect_Energy > 0)){
-    detectOutput << Detect_Energy/keV << ";" << Detect_Type << std::endl;
+    detectOutput << Detect_Energy/keV << ";" << Detect_Weight << std::endl;
   }
 }
 

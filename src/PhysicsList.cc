@@ -34,6 +34,8 @@
 #include "G4PhysicsListHelper.hh"
 #include "NeutronProduction.hh"
 
+#include "G4StepLimiterPhysics.hh"
+
 #include "FancyNeutronPhysics.hh"
 
 // particles
@@ -85,6 +87,8 @@ PhysicsList::PhysicsList()
     G4GenericBiasingPhysics* biasingPhysics = new G4GenericBiasingPhysics();
     biasingPhysics -> Bias("alpha");
     RegisterPhysics(biasingPhysics);
+
+    RegisterPhysics(new G4StepLimiterPhysics());
 
   // A scheme?
 

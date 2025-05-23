@@ -20,7 +20,7 @@ using namespace C13;
 NeutronProduction::NeutronProduction(const G4String& processName, G4ProcessType aType)
     : G4VDiscreteProcess(processName, aType)
 {
-    SetProcessSubType(USER_SPECIAL_CUTS);
+    SetProcessSubType(NEUTRON_KILLER);
     
     // Set up the random generators for secondary production
     Hist_points.reserve(LegendreLength);
@@ -34,7 +34,6 @@ NeutronProduction::NeutronProduction(const G4String& processName, G4ProcessType 
         // Fill the vector
         Hist_point[j] = LegendreHists[i][j];
       }
-      
       // Add the pointer to the vector that we've filled to the vector of pointers for later histogramming
       Hist_points.emplace_back(Hist_point);
       
@@ -86,12 +85,17 @@ G4VParticleChange* NeutronProduction::PostStepDoIt(const G4Track& aTrack, const 
                 // Use helper function to generate energy and primary direction (theta)
                 Particle_info = GenerateCosE(pEnergy,m_a,m_b,m_c,m_d,Q);
                 // Pick a secondary angle (phi)
-                G4double angle = (G4UniformRand()-0.5)*2*pi;
+                G4double angle = (G4UniformRand()*2)-1;
+                G4double sine = 0;
+                if(CLHEP::RandBit::shootBit())
+                  sine = -1*sqrt(1-pow(angle,2));
+                else
+                  sine = sqrt(1-pow(angle,2));
                 // Normalize the momentum vector to 1
                 G4double radius = sqrt(1-pow(Particle_info[0],2));
                 // Calculate the remaining two directions 
-                G4double p_y = radius*sin(angle);
-                G4double p_z = radius*cos(angle);
+                G4double p_y = radius*sine;
+                G4double p_z = radius*angle;
 
                 //G4double vector_length = pow(p_y,2)+pow(p_z,2)+pow(Particle_info[0],2);
                 /*Use the CLHEP rotateUz function to correct for difference between the lab

@@ -59,7 +59,7 @@ public:
 
   void Secondaries (G4double NumSecondaires);
 
-  void Detectors (G4double Energy, G4String Type);
+  void Detectors (G4double Energy, G4double Weight);
 
   void GetEnergy(G4double PartEnergy)
   {
@@ -134,6 +134,8 @@ private:
   G4double Detect_Energy;
 
   G4String Detect_Type;
+
+  G4double Detect_Weight;
   
   eventActionMessenger *eventMessenger;
   
