@@ -10,8 +10,8 @@
 #
 /run/initialize
 /run/verbose 1
-#
-/gps/verbose 0
+
+#/gps/verbose 0
 #
 # 1x1 cm square plane source
 /gps/pos/type Plane
@@ -69,7 +69,9 @@
 #/score/fill1D 1 score_l gFlux
 #
 ## set the energy definition
-/gps/ene/mono 2.605 MeV
+/gps/ene/type Gauss
+/gps/ene/mono 2.1 MeV
+/gps/ene/sigma 52.7 keV
 #/gps/ene/mono 2.2 MeV
 
 #/gps/ene/type Lin
@@ -80,8 +82,8 @@
 #/gps/ene/max 1.7 MeV
 
 /scintTest/output/setDataOutput on
-/scintTest/output/setFileName C13_an_Fancy_JENDL_ThinTarg_26.csv
-/run/beamOn 5000000
+/scintTest/output/setFileName B11_an_JENDL_ThinTarg_21.csv
+/run/beamOn 1000000
 # List of energies to run:
 
 # For 1.0-1.7 MeV Energies

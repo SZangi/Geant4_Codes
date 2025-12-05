@@ -92,7 +92,7 @@ PhysicsList::PhysicsList()
 
   // A scheme?
 
-   RegisterPhysics(new FancyNeutronPhysics());
+   //RegisterPhysics(new FancyNeutronPhysics());
 
 
 }

@@ -1,5 +1,6 @@
 #include "NeutronProduction.hh"
 #include "C13AngularData.hh"
+#include "B11AngularData.hh"
 
 #include "G4SystemOfUnits.hh"
 #include "G4TransportationProcessType.hh"
@@ -12,10 +13,13 @@
 #include "G4Neutron.hh"
 #include "G4StepPoint.hh"
 #include "G4PhysicalConstants.hh"
+#include "G4VProcess.hh"
+#include "G4HadronicProcess.hh"
+#include "G4BiasingProcessInterface.hh"
 
 #include <iostream>
 
-using namespace C13;
+//using namespace C13;
 
 NeutronProduction::NeutronProduction(const G4String& processName, G4ProcessType aType)
     : G4VDiscreteProcess(processName, aType)
@@ -23,23 +27,23 @@ NeutronProduction::NeutronProduction(const G4String& processName, G4ProcessType 
     SetProcessSubType(NEUTRON_KILLER);
     
     // Set up the random generators for secondary production
-    Hist_points.reserve(LegendreLength);
+    Hist_points.reserve(C13::LegendreLength);
     
     // Set up the legendre histogram objects
-    for (G4int i=0; i<LegendreEnergy.size();i++){
+    for (G4int i=0; i<C13::LegendreEnergy.size();i++){
       
       // Create and fill a vector from the C13 data for each energy point
-      G4double * Hist_point = new G4double[LegendreBins];
-      for (G4int j=0; j<LegendreBins;j++){
+      G4double * Hist_point = new G4double[C13::LegendreBins];
+      for (G4int j=0; j<C13::LegendreBins;j++){
         // Fill the vector
-        Hist_point[j] = LegendreHists[i][j];
+        Hist_point[j] = C13::LegendreHists[i][j];
       }
       // Add the pointer to the vector that we've filled to the vector of pointers for later histogramming
       Hist_points.emplace_back(Hist_point);
       
       // create a new generator object from the vector we just filled 
       // Is Hist_points vector necessary? To investigate later
-      G4RandGeneral* leg_generator = new G4RandGeneral(Hist_point,LegendreBins);
+      G4RandGeneral* leg_generator = new G4RandGeneral(Hist_point,C13::LegendreBins);
       
       // Add generator to list of generators
       Generators.push_back(leg_generator);
@@ -58,13 +62,48 @@ NeutronProduction::~NeutronProduction()
 G4VParticleChange* NeutronProduction::PostStepDoIt(const G4Track& aTrack, const G4Step& aStep)
 {
     aParticleChange.Initialize(aTrack);
-    if(aStep.GetNumberOfSecondariesInCurrentStep() > 0){        
+    if(aStep.GetNumberOfSecondariesInCurrentStep() > 0){
+      G4bool aNeutron = false;
+      for(G4int i = 0; i <aStep.GetNumberOfSecondariesInCurrentStep(); i++){
+        aNeutron = aNeutron || (aStep.GetSecondaryInCurrentStep()[0][i]->GetParticleDefinition()->GetParticleName() == "neutron");
+      }
+      if (aNeutron){
         // Get the current number of secondaries attached to the track
         G4int NumSecondaries = aStep.GetNumberOfSecondariesInCurrentStep();
+        G4StepPoint* post = aStep.GetPostStepPoint();
+        G4VProcess* process   = const_cast<G4VProcess*>(post->GetProcessDefinedStep());
+        G4BiasingProcessInterface* bprocess = dynamic_cast<G4BiasingProcessInterface*>(process);
+        //G4cout<<bprocess->GetWrappedProcess()->GetProcessName()<<G4endl;
+        G4HadronicProcess* hproc = NULL;
+        if (bprocess->GetWrappedProcess()->GetProcessName()=="alphaInelastic")
+          hproc = dynamic_cast<G4HadronicProcess*>(bprocess->GetWrappedProcess());
+        const G4Nucleus* target = NULL;
+        if (hproc) target = hproc->GetTargetNucleus();
+        //G4cout <<aStep.GetPostStepPoint()->GetKineticEnergy() - aStep.GetPreStepPoint()->GetKineticEnergy() <<G4endl;
+        G4int targetName = 0;  
+        if (target) targetName = target->GetN_asInt();
+        //if (targetName>0) G4cout<<targetName<<G4endl;
+        if (targetName == 5){
+          m_a = 10.012937;
+          m_c = 13.005739;	
+          Q = 1058.7*keV;
+        }
+        else if(targetName == 6){
+          m_a = 11.009305;
+          m_c = 14.003074;
+          Q = 0.157*MeV;
+        }
+        else if(targetName == 7){
+          m_a = 13.003355;
+          m_c = 15.994915;
+          Q = 2.216*MeV;
+        }
+
 
         G4ThreeVector pDirection = aTrack.GetMomentumDirection();
         
         G4double pEnergy = aStep.GetPreStepPoint()->GetKineticEnergy();
+
         // Set up a vector to store our *new* secondaries in
         std::vector<G4DynamicParticle*> neutronVector;
         const std::vector<const G4Track*>* secondary_vector= aStep.GetSecondaryInCurrentStep();
@@ -120,7 +159,10 @@ G4VParticleChange* NeutronProduction::PostStepDoIt(const G4Track& aTrack, const 
             }
         }
 
-        return G4VDiscreteProcess::PostStepDoIt(aTrack,aStep);}
+          return G4VDiscreteProcess::PostStepDoIt(aTrack,aStep);}
+        else
+            return G4VDiscreteProcess::PostStepDoIt(aTrack,aStep);
+      }
     else 
         return G4VDiscreteProcess::PostStepDoIt(aTrack,aStep);
 
@@ -128,15 +170,15 @@ G4VParticleChange* NeutronProduction::PostStepDoIt(const G4Track& aTrack, const 
 
 std::vector<G4double> NeutronProduction::GenerateCosE(G4double incident_E,G4double m_A, G4double m_B,G4double m_C,G4double m_D,G4double Q_value){
   G4int idx = 0;
-  for (G4int i=0;i<LegendreEnergy.size();i++){
-    if (incident_E > LegendreEnergy[i]*eV)
+  for (G4int i=0;i<C13::LegendreEnergy.size();i++){
+    if (incident_E > C13::LegendreEnergy[i]*eV)
       idx = i;
     else
       break;
   }
 
   G4double rand_num = Generators[idx]->shoot(G4Random::getTheEngine());
-  G4double part_cos = 2*rand_num-1;
+  G4double part_cos = (2*rand_num-1);
   G4double part_E = CosToE(part_cos,m_A,m_B,m_C,m_D,incident_E,Q_value);
   
   return {part_cos,part_E};

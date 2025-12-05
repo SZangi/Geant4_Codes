@@ -338,10 +338,10 @@ X11_X11_INCLUDE_PATH:PATH=/usr/include
 X11_X11_LIB:FILEPATH=/usr/lib/x86_64-linux-gnu/libX11.so
 
 //Path to a file.
-X11_X11_xcb_INCLUDE_PATH:PATH=X11_X11_xcb_INCLUDE_PATH-NOTFOUND
+X11_X11_xcb_INCLUDE_PATH:PATH=/home/arthurz/miniconda3/envs/rootpyenv/include
 
 //Path to a library.
-X11_X11_xcb_LIB:FILEPATH=X11_X11_xcb_LIB-NOTFOUND
+X11_X11_xcb_LIB:FILEPATH=/home/arthurz/miniconda3/envs/rootpyenv/lib/libX11-xcb.so
 
 //Path to a file.
 X11_XRes_INCLUDE_PATH:PATH=X11_XRes_INCLUDE_PATH-NOTFOUND
@@ -443,10 +443,10 @@ X11_Xmu_INCLUDE_PATH:PATH=/usr/include
 X11_Xmu_LIB:FILEPATH=/usr/lib/x86_64-linux-gnu/libXmu.so
 
 //Path to a file.
-X11_Xpm_INCLUDE_PATH:PATH=X11_Xpm_INCLUDE_PATH-NOTFOUND
+X11_Xpm_INCLUDE_PATH:PATH=/home/arthurz/miniconda3/envs/rootpyenv/include
 
 //Path to a library.
-X11_Xpm_LIB:FILEPATH=X11_Xpm_LIB-NOTFOUND
+X11_Xpm_LIB:FILEPATH=/home/arthurz/miniconda3/envs/rootpyenv/lib/libXpm.so
 
 //Path to a file.
 X11_Xrandr_INCLUDE_PATH:PATH=/usr/include
@@ -512,37 +512,37 @@ X11_xcb_INCLUDE_PATH:PATH=/usr/include
 X11_xcb_LIB:FILEPATH=/usr/lib/x86_64-linux-gnu/libxcb.so
 
 //Path to a file.
-X11_xcb_icccm_INCLUDE_PATH:PATH=X11_xcb_icccm_INCLUDE_PATH-NOTFOUND
+X11_xcb_icccm_INCLUDE_PATH:PATH=/home/arthurz/miniconda3/envs/rootpyenv/include
 
 //Path to a library.
-X11_xcb_icccm_LIB:FILEPATH=X11_xcb_icccm_LIB-NOTFOUND
+X11_xcb_icccm_LIB:FILEPATH=/home/arthurz/miniconda3/envs/rootpyenv/lib/libxcb-icccm.so
 
 //Path to a file.
-X11_xcb_util_INCLUDE_PATH:PATH=X11_xcb_util_INCLUDE_PATH-NOTFOUND
+X11_xcb_util_INCLUDE_PATH:PATH=/home/arthurz/miniconda3/envs/rootpyenv/include
 
 //Path to a library.
-X11_xcb_util_LIB:FILEPATH=X11_xcb_util_LIB-NOTFOUND
+X11_xcb_util_LIB:FILEPATH=/home/arthurz/miniconda3/envs/rootpyenv/lib/libxcb-util.so
 
 //Path to a file.
-X11_xcb_xfixes_INCLUDE_PATH:PATH=X11_xcb_xfixes_INCLUDE_PATH-NOTFOUND
+X11_xcb_xfixes_INCLUDE_PATH:PATH=/home/arthurz/miniconda3/envs/rootpyenv/include
 
 //Path to a library.
-X11_xcb_xfixes_LIB:FILEPATH=X11_xcb_xfixes_LIB-NOTFOUND
+X11_xcb_xfixes_LIB:FILEPATH=/home/arthurz/miniconda3/envs/rootpyenv/lib/libxcb-xfixes.so
 
 //Path to a library.
-X11_xcb_xkb_LIB:FILEPATH=X11_xcb_xkb_LIB-NOTFOUND
+X11_xcb_xkb_LIB:FILEPATH=/home/arthurz/miniconda3/envs/rootpyenv/lib/libxcb-xkb.so
 
 //Path to a file.
-X11_xkbcommon_INCLUDE_PATH:PATH=X11_xkbcommon_INCLUDE_PATH-NOTFOUND
+X11_xkbcommon_INCLUDE_PATH:PATH=/home/arthurz/miniconda3/envs/rootpyenv/include
 
 //Path to a library.
-X11_xkbcommon_LIB:FILEPATH=X11_xkbcommon_LIB-NOTFOUND
+X11_xkbcommon_LIB:FILEPATH=/home/arthurz/miniconda3/envs/rootpyenv/lib/libxkbcommon.so
 
 //Path to a file.
-X11_xkbcommon_X11_INCLUDE_PATH:PATH=X11_xkbcommon_X11_INCLUDE_PATH-NOTFOUND
+X11_xkbcommon_X11_INCLUDE_PATH:PATH=/home/arthurz/miniconda3/envs/rootpyenv/include
 
 //Path to a library.
-X11_xkbcommon_X11_LIB:FILEPATH=X11_xkbcommon_X11_LIB-NOTFOUND
+X11_xkbcommon_X11_LIB:FILEPATH=/home/arthurz/miniconda3/envs/rootpyenv/lib/libxkbcommon-x11.so
 
 //Path to a file.
 X11_xkbfile_INCLUDE_PATH:PATH=X11_xkbfile_INCLUDE_PATH-NOTFOUND

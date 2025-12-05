@@ -169,10 +169,10 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   G4double Si02Layer = 1*nm;
 
   // Create solid volume representing the shape of the tiles
-  G4Box *scint_s = new G4Box("scint_s",scintBoxX,scintBoxY,scintBoxZ);
+  G4Box *scint_s = new G4Box("scint_s",scintBoxX,scintBoxY,scintBoxZ/2);
 
   G4Box *graphite_s = new G4Box("graphite_s",scintBoxX+1*cm,scintBoxY,10*nm); // should be 1 cm wider on each side
-  
+ 
   G4double maxStep = 1*nm;
   auto StepLimit = new G4UserLimits(maxStep);
   
@@ -206,7 +206,7 @@ G4VPhysicalVolume *geometryConstruction::Construct()
   
   // Target layer
   G4LogicalVolume *scint_l1 = new G4LogicalVolume(scint_s,
-						  carbon13,
+						  boron,
 						  "scint_l1",
 						  0,
 						  0,
@@ -410,8 +410,11 @@ G4Material *geometryConstruction::Boron() {
   G4double density = 2.46*g/cm3;
   G4int nComp=1;
 
-  //G4Isotope *B11 = new G4Isotope("Boron11", z= 5, n= 11, a= 11.009305 *g/mole);
-  G4Element *B = new G4Element("Boron", "B", z =5., a=10.81 *g/mole);
+  G4Isotope *B11 = new G4Isotope("Boron11", z= 5, n= 11, a= 11.009305 *g/mole);
+  G4Isotope *B10 = new G4Isotope("Boron10", z= 5, n= 10, a= 10.012937	*g/mole);
+  G4Element *B = new G4Element("Boron", "B", 2); //a=10.81 *g/mole
+  B -> AddIsotope(B11, 80.1 *perCent);
+  B -> AddIsotope(B10, 19.9 *perCent);
   //PureB11 -> AddIsotope(B11, 100. *perCent);
   G4Material *BoronEl = new G4Material("Boron", density, nComp);
   BoronEl -> AddElement(B, 100. *perCent);

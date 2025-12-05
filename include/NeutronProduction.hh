@@ -33,11 +33,14 @@ class NeutronProduction : public G4VDiscreteProcess
         G4double CosToE(G4double cos, G4double m_A, G4double m_B,G4double m_C,G4double m_D,G4double E_in,G4double Q_value);
 
     private:
-        G4double m_a = 13.003355;
+        //G4double m_a = 13.003355;
+        G4double m_a = 11.009305;
         G4double m_b = 4.002603;
-        G4double m_c = 15.994915;
+        //G4double m_c = 15.994915;
+        G4double m_c = 14.003074;
         G4double m_d = 1.008665;
-        G4double Q = 2.216*MeV;
+        //G4double Q = 2.216*MeV;
+        G4double Q = 0.157*MeV;
 
         std::vector<G4double> Particle_info = {};
 
