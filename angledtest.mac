@@ -1,0 +1,4 @@
+/scintTest/output/setDataOutput on
+/scintTest/output/setFileName ThickTarg_AngledTest1.csv
+
+/run/beamOn 100

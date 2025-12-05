@@ -17,11 +17,14 @@ eventAction::eventAction(runAction* currentrun)
   eventMessenger = new eventActionMessenger(this);
   
   // This sets the name of the default MuSE output data file
-  eventOutput.open("defaultOutput.csv",std::ofstream::trunc);
+  eventOutput.open("Outputs/defaultOutput.csv",std::ofstream::trunc);
 
   // Add a second output file for the processes, so we don't
   // clog up the data one
   //processOutput.open("defaultProcessOutput.csv",std::ofstream::trunc);
+
+  // Setup detector tally file
+  detectOutput.open("Outputs/detectorOutput.csv",std::ofstream::trunc);
   
   // This is a boolean 'on' or 'off' switch to control data ouput
   dataOutputSwitch = false;
@@ -31,6 +34,7 @@ eventAction::eventAction(runAction* currentrun)
 eventAction::~eventAction()
 { 
   eventOutput.close();
+  detectOutput.close();
   //processOutput.close();
   delete eventMessenger;
 }
@@ -50,6 +54,7 @@ void eventAction::BeginOfEventAction(const G4Event *)
   ElasticCol = 0.;
   IonizingCol = 0.;
   DT = 0.;
+  Detect_Energy = 0;
 }
 
 void eventAction::Secondaries(G4double NumSecondaries){
@@ -58,11 +63,21 @@ void eventAction::Secondaries(G4double NumSecondaries){
   fRunAction->AddSecondaries(NumSecondaries);
 }
 
+void eventAction::Detectors(G4double Energy, G4double Weight){
+  Detect_Energy = Energy;
+  //Detect_Type = Type;
+  Detect_Weight = Weight;
+}
+
 void eventAction::PrintInfo(){
   // This is our output function, it returns Energy, Position, 
   // Direction (angle), and particle type
-  if(dataOutputSwitch and (ParticleEnergy > 0))
-    eventOutput << ParticleEnergy/keV << ";" << ParticlePosition/cm << ";" << MomentumDirection << ";" << ParticleTime/second << std::endl;
+  if(dataOutputSwitch and (ParticleEnergy > 0)){
+    eventOutput << ParticleEnergy/keV << ";" << ParticlePosition/cm << ";" << MomentumDirection << ";" << ParticleTime/keV << ";" << ParticleWeight << std::endl;
+  }
+  if(dataOutputSwitch and (Detect_Energy > 0)){
+    detectOutput << Detect_Energy/keV << ";" << Detect_Weight << std::endl;
+  }
 }
 
 // Anything included in this function is performed at the very end of
@@ -72,10 +87,15 @@ void eventAction::EndOfEventAction(const G4Event *)
   // Each process type is given a number, for formatting in 
   // RunAction. This is for tallying types of interaction in
   // the target, seperate from Secondary generation.
-  fRunAction->AddProcess(InelasticCol,1);
-  fRunAction->AddProcess(ElasticCol,2);
-  fRunAction->AddProcess(IonizingCol,3);
-  fRunAction->AddProcess(DT,4);
+  // fRunAction->AddProcess(InelasticCol,1);
+  // fRunAction->AddProcess(ElasticCol,2);
+  // fRunAction->AddProcess(IonizingCol,3);
+  // fRunAction->AddProcess(DT,4);
+  if (ParticleEnergy > 0){
+    fRunAction->AddNeutron(ParticleWeight);
+    //fRunAction->SetIncidentEnergy(ParticleTime/keV);
+  }
+
   G4bool Proccess_out = false;
   // If the user has turned data output 'on', then do this!
   if(Proccess_out and (InelasticCol > 0))

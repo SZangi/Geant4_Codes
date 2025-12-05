@@ -29,6 +29,10 @@ class runAction : public G4UserRunAction
 
     void AddSecondaries(G4double NumSecondaries);
 
+    void AddNeutron(G4double NumNeutrons);
+
+    void SetIncidentEnergy(G4double IncidentE) {IncidentEne = IncidentE;};
+
   private:
     G4double InelasticCol = 0.;
     G4double ElasticCol = 0.;
@@ -36,6 +40,8 @@ class runAction : public G4UserRunAction
     G4double IonizingCol = 0.;
     std::list<G4double> ProcessList = {};
     std::ofstream processOutput;
+    G4double Neutrons = 0.;
+    G4double IncidentEne = -1.;
 };
 
 

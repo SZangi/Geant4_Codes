@@ -1,0 +1,17 @@
+build/CMakeFiles/scintTest.dir/src/steppingAction.cc.o.d
+build/CMakeFiles/scintTest.dir/src/PhysicsList.cc.o.d
+build/CMakeFiles/scintTest.dir/src/PGA.cc.o.d
+build/CMakeFiles/scintTest.dir/src/NeutronHighPrecision.cc.o.d
+.vscode/settings.json
+To-Change.txt
+OutputRx.txt
+OutputRx.txt~
+PhysicsList.txt
+PhysicsParams.txt
+Outputs/
+Old_Outputs/
+images/
+build/
+*.csv
+
+*.gps

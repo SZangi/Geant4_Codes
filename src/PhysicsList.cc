@@ -31,9 +31,15 @@
 
 #include "G4GenericBiasingPhysics.hh"
 
+#include "G4PhysicsListHelper.hh"
+#include "NeutronProduction.hh"
+
+#include "G4StepLimiterPhysics.hh"
+
+#include "FancyNeutronPhysics.hh"
+
 // particles
 
-#include "G4BosonConstructor.hh"
 #include "G4LeptonConstructor.hh"
 #include "G4MesonConstructor.hh"
 #include "G4BosonConstructor.hh"
@@ -61,15 +67,15 @@ PhysicsList::PhysicsList()
   // Construct Specific Physics
     // Hadronic Physics
      RegisterPhysics( new G4HadronInelasticQBBC(0));
-     RegisterPhysics( new G4HadronElasticPhysicsHP(1));  
+     RegisterPhysics( new G4HadronElasticPhysicsHP(0));  
 
     // EM Physics should be removed to get xs to match exactly with recorded vales
-     //RegisterPhysics (new G4EmLowEPPhysics(0)); 
+     RegisterPhysics (new G4EmLowEPPhysics(0)); 
      //RegisterPhysics(new G4EmStandardPhysics_option4 (0));
 
     // Ion Physics
      RegisterPhysics( new G4IonElasticPhysics(0));
-     RegisterPhysics (new G4IonPhysicsPHP(1));
+     RegisterPhysics (new G4IonPhysicsPHP(0));
 
     // Decay Physics
      RegisterPhysics(new G4DecayPhysics(0));
@@ -79,8 +85,14 @@ PhysicsList::PhysicsList()
 
   // Add Biasing Physics
     G4GenericBiasingPhysics* biasingPhysics = new G4GenericBiasingPhysics();
-    biasingPhysics -> Bias("deuteron");
+    biasingPhysics -> Bias("alpha");
     RegisterPhysics(biasingPhysics);
+
+    RegisterPhysics(new G4StepLimiterPhysics());
+
+  // A scheme?
+
+   //RegisterPhysics(new FancyNeutronPhysics());
 
 
 }

@@ -7,13 +7,17 @@
 #include "G4LogicalVolume.hh"
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4GeneralParticleSource.hh"
+#include "G4ParticleGun.hh"
+#include "PGA.hh"
 
 #include <list>
+#include <iostream>
 
 runAction::runAction()
 {
   // open data output file
-  processOutput.open("defaultProcessOutput.csv",std::ofstream::trunc);
+  processOutput.open("Outputs/MonoEXSOut.csv",std::ofstream::trunc);
 }
 
 runAction::~runAction()
@@ -23,11 +27,16 @@ runAction::~runAction()
 
 void runAction::BeginOfRunAction(const G4Run*)
 {
-
+  IncidentEne = -1.;
+  Neutrons = 0;
 }
 
 void runAction::EndOfRunAction(const G4Run* run)
 {
+  G4RunManager *runManager = G4RunManager::GetRunManager();
+  PGA *thePGA = (PGA*) runManager->GetUserPrimaryGeneratorAction();
+  //G4ParticleGun* GPS = thePGA->GetSource();
+  G4GeneralParticleSource* GPS = thePGA->GetSource();
 
   // Print the data to the command line (and dump it to a file in case we want
   // to dump more things from runAction later)
@@ -39,6 +48,11 @@ void runAction::EndOfRunAction(const G4Run* run)
         processOutput << IonizingCol << std::endl;
         processOutput << DT << std::endl;
   }
+
+  if (Neutrons > 0){
+    SetIncidentEnergy(GPS->GetParticleEnergy()/keV);
+    processOutput << IncidentEne << "," << Neutrons << std::endl;
+  }
   // This prints number of secondaries per event to a list.
   //if (ProcessList.size() > 0){
   // processOutput << "Secondaries Per Non-DT" << std::endl;
@@ -47,7 +61,6 @@ void runAction::EndOfRunAction(const G4Run* run)
   //  }
     
   // }
-    
 }
 
 void runAction::AddProcess(G4double ProcessNum, int ProcessType)
@@ -70,4 +83,8 @@ void runAction::AddProcess(G4double ProcessNum, int ProcessType)
 
 void runAction::AddSecondaries(G4double NumSecondaries){
   ProcessList.push_back(NumSecondaries);
+}
+
+void runAction::AddNeutron(G4double Neutron){
+  Neutrons += Neutron;
 }

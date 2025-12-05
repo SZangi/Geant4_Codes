@@ -29,6 +29,13 @@ public:
   G4Material *mixHelium3();
   G4Material *mixLithium();
   G4Material *IsoCarbon13();
+  G4Material *natSilicon();
+  G4Material *dopeSilicon();
+  G4Material *IsoSilicon29();
+  G4Material *SiDiO();
+  G4Material *Graphite();
+  G4Material *AluminumFoil();
+
 };
 
 #endif

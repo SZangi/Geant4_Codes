@@ -17,6 +17,10 @@ public:
 public:
   virtual void ConstructParticle();
   virtual void SetCuts();
+  //virtual void ConstructProcess();
+
+protected:
+  //void ConstructGeneral();
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

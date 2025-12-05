@@ -136,7 +136,7 @@ XSBiasing::ProposeOccurenceBiasingOperation(const G4Track*            track,
   // -- Later might be good to allow the user to set this in the 
   // -- set up but so far it is just hard-coded here.
   // -----------------------------------------------------------
-  if (callingProcess->GetWrappedProcess()->GetProcessName() != "dInelastic") return 0;
+  if (callingProcess->GetWrappedProcess()->GetProcessName() != "alphaInelastic") return 0;
 
   // -- Analog cross-section is well-defined:
   G4double analogXS = 1./analogInteractionLength;
@@ -144,7 +144,7 @@ XSBiasing::ProposeOccurenceBiasingOperation(const G4Track*            track,
   // -- Choose a constant cross-section bias. But at this level, this factor can be made
   // -- direction dependent, like in the exponential transform MCNP case, or it
   // -- can be chosen differently, depending on the process, etc.
-  G4double XStransformation = 1000.0 ;
+  G4double XStransformation = 100000000.0 ;
   
   // -- fetch the operation associated to this callingProcess:
   G4BOptnChangeCrossSection*   operation = fChangeCrossSectionOperations[callingProcess];
